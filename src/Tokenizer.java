@@ -1,5 +1,8 @@
 import java.util.ArrayList;
+/**
+Takes a string and creates a list of tokens. 
 
+*/
 public class Tokenizer {
 	String input;
 	ArrayList<String> tokens;
