@@ -53,5 +53,39 @@ public class ReflectionPractice {
 			System.out.println(returnString);
 			//get the method parameters types
 		}
+		
+		// get constructor -------------------------------------------------------
+		Constructor[] constructors = c.getConstructors();	// get all public constructors 
+		System.out.println("\nConstructors: ");	// print all of the constructor constructor
+		for (int i = 0; i < constructors.length; i ++) {
+			System.out.print(constructors[i] + " ");
+		}
+		System.out.println("");
+		
+		
+		// invoke add method ------------------------------------------------------
+		try {
+			Object obj = c.newInstance();
+			
+		    Class[] parameterTypes = new Class[] {String.class}; //create a list of
+				// parameters that consists of only one parameter
+				// of type String
+			
+			Object[] arguments = new Object[] {"hello"};	// make argument
+			
+			
+			// get an object that represents the len method
+			Method lenMethod = c.getMethod("len", parameterTypes); 
+			
+			//  call the len method through he lenMethod object
+			int result = (int) lenMethod.invoke("len", arguments);
+			System.out.println("\nlen (\"hello\") = " + result);
+		} catch (InstantiationException e) {
+			
+			e.printStackTrace();
+		}
+		
+		
+		
 	}
 }
