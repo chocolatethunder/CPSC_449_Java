@@ -1,8 +1,5 @@
 import java.util.ArrayList;
-/**
-Takes a string and creates a list of tokens. 
 
-*/
 public class Tokenizer {
 	String input;
 	ArrayList<String> tokens;
@@ -54,7 +51,13 @@ public class Tokenizer {
 	
 	public static void main(String[] args) {
 	        
-			Tokenizer tokenizer = new Tokenizer( "(add (add 3 2) 2)" );
+			Tokenizer tokenizer = new Tokenizer( "(add (add 'three' 2) 2)" );
 	        System.out.println(tokenizer.getTokens());
+	        
+	        String str = "(add (add 'three' 2) 2)";
+	        String[] splitted = str.split("\\s+");
+	        for (int i = 0; i < splitted.length; i++ ){
+	        	System.out.println(splitted[i]);
+	        }
 	   }
 }
