@@ -10,16 +10,6 @@ public class Parser<T extends Comparable<T>> {
 	
 	/*
 	 * Adapted from Think like a computer scientist parser
-	 * 
-    1. 	If the current token is a '(', add a new node as the first child of the current node, 
-    	and descend to the first child.
-    2.	If the current token is an expression, set the root value of the current
-    	node to the expression represented by the current token. Add a new node as the right child 
-    	of the current node and descend to the right child.
-    3.	If the current token is a value, set the root value of the current node to the value 
-    	and return to the parent.
-    4.	If the current token is a ')', go to the parent of the current node.
-
 	 */
 	
 	public Node<String> createParseTree () {
@@ -108,7 +98,6 @@ public class Parser<T extends Comparable<T>> {
         System.out.println(tokenizer.getTokens());
         
         Parser parser = new Parser(tokenizer.getTokens());
-        //Node<String> parseTree = parser.createParseTree();
         parser.treeToString(parser.createParseTree());
         
    }
