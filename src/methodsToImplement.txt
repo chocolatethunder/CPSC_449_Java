@@ -1,0 +1,26 @@
+	/*	  
+	 * Step 1: make token list
+	 * Step 2: check right number of brackets
+	 * Step 3:
+	 * 		a) if no brackets -> check if it is a number or a string then print
+	 *		b) if wrong bracket format -> error message
+	 *		c) right number of brackets, send to parse tree
+                    i) check each item in the token list and add it appropriately to the parse tree
+
+
+
+Methods to implement
+
+- T getValueType ( String )
+- bool isMethod( String )
+- int getParamNumber( String )
+- T getReturnType( String )
+- checkBrackets ( String )
+- bool integerOutOfBounds( )
+- bool floatOutOfBounds( )
+- bool isInt( String )
+- bool isFloat( String)
+- bool isString( String )
+- T convert( String, valueType )
+- ...
+
