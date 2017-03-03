@@ -81,11 +81,11 @@ public class methods {
         
         for (int i = 0; i < s.length(); i++)
         {
-            if (s.charAt() == '(')
+            if (s.charAt(i) == '(')
             {
                 counter++;
             }
-            if (s.charAt() == ')')
+            if (s.charAt(i) == ')')
             {
                 counter--;
             }
