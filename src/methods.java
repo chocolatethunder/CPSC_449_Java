@@ -69,12 +69,22 @@ public class methods {
         return null; // if all false, prompt invalid input || exception. for now settle as null
     }
 
-    public boolean isMethod(String s){}
+    public boolean isMethod(String s)
+    {
+        //check and see if s is a valid method
+    }
     
-    public int getParamNumber(String s){}
+    public int getParamNumber(String s)
+    {
+        //get acceptable number of arguments
+    }
     
-    public T getReturnType(String s){}
+    public T getReturnType(String s)
+    {
+        //check the return type of method s
+    }
     
+    //DONE
     public boolean checkBrackets (String s)
     {
         int counter = 0;
@@ -101,9 +111,15 @@ public class methods {
         }
     }
     
-    public boolean integerOutOfBounds(String s){}
+    public boolean integerOutOfBounds(String s)
+    {
+        // TODO
+    }
     
-    public boolean floatOutOfBounds(String s){}
+    public boolean floatOutOfBounds(String s)
+    {
+        // TODO
+    }
     
     //DONE
     public boolean isInt(String s)
