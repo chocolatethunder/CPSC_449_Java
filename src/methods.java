@@ -75,7 +75,31 @@ public class methods {
     
     public T getReturnType(String s){}
     
-    public boolean checkBrackets (String s){}
+    public boolean checkBrackets (String s)
+    {
+        int counter = 0;
+        
+        for (int i = 0; i < s.length(); i++)
+        {
+            if (s.charAt() == '(')
+            {
+                counter++;
+            }
+            if (s.charAt() == ')')
+            {
+                counter--;
+            }
+        }
+        
+        if (counter == 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     
     public boolean integerOutOfBounds(String s){}
     
