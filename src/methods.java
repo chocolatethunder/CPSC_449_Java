@@ -43,7 +43,7 @@ public class methods {
 		}
 	}
     //DONE
-    public static <T> T getValueType(String s)
+    public <T> T getValueType(String s)
     {
         boolean isString = false;
         boolean isInt = false;
@@ -222,24 +222,31 @@ public class methods {
         }
     }
     
-    //In-progress
-    public T convert(String s, T valueType)
+    //DONE
+    public Object convert(String s, Type valueType)
     {
-        if (valueType.Class == s.Class)
+    	System.out.println("BP");
+        Type testSub = valueType;
+        
+        if (testSub == s.getClass())
         {
+        	System.out.println("BP str");
             String result = s.substring(1, s.length() - 2);
             return result;
         }
-        if (valueType.Class == int.Class)
+        if (testSub == int.class)
         {
-            int result = Integer.parseInt(s);
+        	System.out.println("BP int");
+            int result = (int) Integer.parseInt(s);
             return result;
         }
-        if (valueType.Class == float.Class)
+        if (testSub == float.class)
         {
+        	System.out.println("BP flt");
             float result = Float.parseFloat(s);
             return result;
         }
+        return null;
     }
 }
 
