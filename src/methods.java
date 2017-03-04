@@ -43,7 +43,8 @@ public class methods {
 		}
 	}
 	
-    //DONE
+    //DONE (Tested)
+	// The following method will return the type of the argument
     public Type getValueType(String s)
     {
         boolean isString = false;
@@ -59,28 +60,36 @@ public class methods {
         if(isFloat) { return float.class; }
         
         return null;
-        //return c; // if all false, prompt invalid input || exception. for now settle as null
+        //return c;
+        // if all false, prompt invalid input || exception.
+        //for now settle as null
     }
 
     //TODO
+	// The following method will check and see if user input method is valid
     public boolean isMethod(String s)
     {
-        return false;//check and see if s is a valid method
+    	//check and see if s is a valid method
+        return false;
     }
     
     //TODO
+	// The following method will check and
+    // see how many arguments can be accepted by the method
     public int getParamNumber(String s)
     {
         return 0;//get acceptable number of arguments
     }
     
     //TODO
+    // The following method will check the proper return type of method
     public Type getReturnType(String s)
     {
         return int.class;//check the return type of method s
     }
     
-    //DONE
+    //DONE (Tested)
+    // The following method will check if the # of '(' matches the # of ')'
     public boolean checkBrackets (String s)
     {
         int counter = 0;
@@ -95,8 +104,8 @@ public class methods {
         else { return false; }
     }
     
-    //DONE
-    public boolean integerOutOfBounds(String s)
+    //DONE - Method not neccessary, out of bound check done in Convert(), will comment out for now
+ /*   public boolean integerOutOfBounds(String s)
     {
         // TODO
     	try
@@ -110,10 +119,10 @@ public class methods {
     	{
     		return true;
     	}
-    }
+    }*/
     
-    //DONE
-    public boolean floatOutOfBounds(String s)
+    //DONE - Method not neccessary, out of bound check done in Convert(), will comment out for now
+/*    public boolean floatOutOfBounds(String s)
     {
     	try
     	{
@@ -126,9 +135,10 @@ public class methods {
     	{
     		return true;
     	}
-    }
+    }*/
     
-    //DONE
+    //DONE (Tested)
+    // The following method will check if the argument is an valid integer (int)
     public boolean isInt(String s)
     {
         char[] int_list = new char[]{'0','1','2','3','4','5','6','7','8','9'};
@@ -150,7 +160,8 @@ public class methods {
         return true;
     }
     
-    //DONE
+    //DONE (Tested)
+    // The following method will check if the argument is a valid float number
     public boolean isFloat(String s)
     {
         char[] int_list = new char[]{'0','1','2','3','4','5','6','7','8','9'};
@@ -171,7 +182,7 @@ public class methods {
             }
             if (!valid)
             {
-                if (s.charAt(i) == dot && !repeat)
+                if (s.charAt(i) == dot && !repeat && i != 0)
                 {
                     valid = true;
                     isFloat = true;
@@ -188,7 +199,8 @@ public class methods {
         else { return false; }
     }
     
-    //DONE
+    //DONE (Tested)
+    // The following method will check if the argument is a valid string
     public boolean isString(String s)
     {
         boolean valid_start = false;
@@ -209,6 +221,8 @@ public class methods {
     }
     
     //DONE
+    // The following method will take the argument
+    // and convert it into the desired type
     public Object convert(String s, Type valueType)
     {
         Type testSub = valueType;
@@ -220,13 +234,26 @@ public class methods {
         }
         if (testSub == int.class)
         {
-            int result = (int) Integer.parseInt(s);
-            return result;
+        	try{
+        		int result = (int) Integer.parseInt(s);
+        		return result;
+            }
+            catch (ArithmeticException e)
+        	{
+            	System.out.println("Int out of range!");
+            	System.exit(0);
+        	}
         }
         if (testSub == float.class)
         {
-            float result = Float.parseFloat(s);
-            return result;
+        	try {
+        		float result = Float.parseFloat(s);
+        		return result;
+        	}
+        	catch (ArithmeticException e) {
+        		System.out.println("Float out of range!");
+        		System.exit(0);
+        	}
         }
         return null;
     }
