@@ -1,7 +1,7 @@
 import java.util.*;
 import java.lang.*;
+import java.lang.reflect.Type;
 import java.net.*;
-import java.test.*;
 
 public class methods {
 	public static void main (String args[]){
@@ -42,8 +42,9 @@ public class methods {
 			}
 		}
 	}
+	
     //DONE
-    public <T> T getValueType(String s)
+    public Type getValueType(String s)
     {
         boolean isString = false;
         boolean isInt = false;
@@ -53,36 +54,30 @@ public class methods {
         isString = isString(s);
         isFloat = isFloat(s);
         
-        if(isInt)
-        {
-            return (T) int.class;
-        }
-        if(isString)
-        {
-            return (T) String.class;
-        }
-        if(isFloat)
-        {
-            return (T) float.class;
-        }
+        if(isInt) { return int.class; }
+        if(isString) { return String.class; }
+        if(isFloat) { return float.class; }
         
         return null;
         //return c; // if all false, prompt invalid input || exception. for now settle as null
     }
 
+    //TODO
     public boolean isMethod(String s)
     {
-        //check and see if s is a valid method
+        return false;//check and see if s is a valid method
     }
     
+    //TODO
     public int getParamNumber(String s)
     {
-        //get acceptable number of arguments
+        return 0;//get acceptable number of arguments
     }
     
-    public T getReturnType(String s)
+    //TODO
+    public Type getReturnType(String s)
     {
-        //check the return type of method s
+        return int.class;//check the return type of method s
     }
     
     //DONE
@@ -92,34 +87,45 @@ public class methods {
         
         for (int i = 0; i < s.length(); i++)
         {
-            if (s.charAt(i) == '(')
-            {
-                counter++;
-            }
-            if (s.charAt(i) == ')')
-            {
-                counter--;
-            }
+            if (s.charAt(i) == '(') { counter++; }
+            if (s.charAt(i) == ')') { counter--; }
         }
         
-        if (counter == 0)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        if (counter == 0) { return true; }
+        else { return false; }
     }
     
+    //DONE
     public boolean integerOutOfBounds(String s)
     {
         // TODO
+    	try
+    	{
+    		Object c = convert(s, getValueType(s));
+    		return false;
+    	}
+    	//ArithmeticException
+    	//NumberFormatException
+    	catch (ArithmeticException e)
+    	{
+    		return true;
+    	}
     }
     
+    //DONE
     public boolean floatOutOfBounds(String s)
     {
-        // TODO
+    	try
+    	{
+    		Object c = convert(s, getValueType(s));
+    		return false;
+    	}
+    	//ArithmeticException
+    	//NumberFormatException
+    	catch (ArithmeticException e)
+    	{
+    		return true;
+    	}
     }
     
     //DONE
@@ -127,7 +133,6 @@ public class methods {
     {
         char[] int_list = new char[]{'0','1','2','3','4','5','6','7','8','9'};
         boolean valid = false;
-        boolean isInt = false;
         for (int i = 0; i < s.length(); i++)
         {
             for (int a = 0; a < int_list.length; a++)
@@ -139,10 +144,7 @@ public class methods {
                 }
                 
             }
-            if (!valid)
-            {
-                return false;
-            }
+            if (!valid) { return false; }
             valid = false;
         }
         return true;
@@ -182,14 +184,8 @@ public class methods {
             }
             valid = false;
         }
-        if (isFloat)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        if (isFloat) { return true; }
+        else { return false; }
     }
     
     //DONE
@@ -200,49 +196,35 @@ public class methods {
         for (int i = 0; i < s.length(); i++)
         {
             if (s.charAt(i) == '"' && i == 0)
-            {
-                valid_start = true;
-            }
-            if (s.charAt(i) == '"' && i != 0 && i != (s.length() - 1))
-            {
-                return false;
-            }
+            { valid_start = true; }
+            
+            if (s.charAt(i) == '"' && i != 0 && i != (s.length() - 1)) 
+            { return false; }
+            
             if (s.charAt(i) == '"' && i == (s.length() - 1))
-            {
-                valid_end = true;
-            }
+            { valid_end = true; }
         }
-        if (valid_start && valid_end)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        if (valid_start && valid_end) { return true; }
+        else { return false; }
     }
     
     //DONE
     public Object convert(String s, Type valueType)
     {
-    	System.out.println("BP");
         Type testSub = valueType;
         
         if (testSub == s.getClass())
         {
-        	System.out.println("BP str");
             String result = s.substring(1, s.length() - 2);
             return result;
         }
         if (testSub == int.class)
         {
-        	System.out.println("BP int");
             int result = (int) Integer.parseInt(s);
             return result;
         }
         if (testSub == float.class)
         {
-        	System.out.println("BP flt");
             float result = Float.parseFloat(s);
             return result;
         }
