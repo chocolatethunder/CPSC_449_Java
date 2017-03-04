@@ -1,5 +1,6 @@
 import java.util.*;
 import java.lang.*;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.net.*;
 
@@ -65,27 +66,105 @@ public class methods {
         //for now settle as null
     }
 
-    //TODO
+    //DONE (Not Tested)
 	// The following method will check and see if user input method is valid
-    public boolean isMethod(String s)
+    public boolean isMethod(String s, Object o)
     {
     	//check and see if s is a valid method
-        return false;
+    	Class cls = o.getClass();
+    	Method[] methods = cls.getMethods();
+    	if (!validName(s)) { return false; }
+    	
+    	for (int i = 0; i < methods.length; i++)
+    	{
+    		String method = methods[i].getName();
+    		if (method == s)
+    		{
+    			return true;
+    		}
+    	}
+    	return false;
     }
     
-    //TODO
+    //DONE (Not Tested)
+    // This method is used to check if the name is valid to begin with
+    // NOTE: this method does not show if the name is a valid method
+    // Valid: add addd adddddd
+    // Invalid: ad'd d'iv id"k
+    public boolean validName(String s)
+    {
+    	char[] testSubject = s.toCharArray();
+    	for (int i = 0; i < testSubject.length; i++)
+    	{
+    		if(!Character.isLetter(testSubject[i]))
+    		{
+    			return false;
+    		}
+    	}
+    	return true;
+    }
+    
+    //DONE (Not Tested)
 	// The following method will check and
     // see how many arguments can be accepted by the method
-    public int getParamNumber(String s)
+    public int getParamNumber(String s, Object o)
     {
+    	Class cls = o.getClass();
+    	Method[] methods = cls.getMethods();
+    	Class[] parameters = null;
+    	for (int i = 0; i < methods.length; i++)
+    	{
+    		String method = methods[i].getName();
+    		if (method == s)
+    		{
+    			parameters = methods[i].getParameterTypes();
+    			return parameters.length;
+    		}
+    	}
         return 0;//get acceptable number of arguments
     }
     
-    //TODO
-    // The following method will check the proper return type of method
-    public Type getReturnType(String s)
+    //DONE (Not Tested)
+    // The following method will check if the argument type is valid for the method
+    // type = argument type, s = method's name, o = jar file that contains all valid methods
+    public boolean validParamType(Type type, String s, Object o)
     {
-        return int.class;//check the return type of method s
+    	Class cls = o.getClass();
+    	Method[] methods = cls.getMethods();
+    	Class[] parameters = null;
+    	for (int i = 0; i < methods.length; i++)
+    	{
+    		String method = methods[i].getName();
+    		if (method == s)
+    		{
+    			parameters = methods[i].getParameterTypes();
+    			break;
+    		}
+    	}
+    	if (type == parameters[0])
+    	{
+    		return true;
+    	}
+    	return false;
+    }
+    
+    //DONE (Not Tested)
+    // The following method will check the proper return type of method
+    public Type getReturnType(String s, Object o)
+    {
+    	Class cls = o.getClass();
+    	Method[] methods = cls.getMethods();
+    	Type returnType = null;
+    	for (int i = 0; i < methods.length; i++)
+    	{
+    		String method = methods[i].getName();
+    		if (method == s)
+    		{
+    			returnType = methods[i].getGenericReturnType();
+    			return returnType;
+    		}
+    	}
+        return null;//check the return type of method s
     }
     
     //DONE (Tested)
@@ -107,7 +186,6 @@ public class methods {
     //DONE - Method not neccessary, out of bound check done in Convert(), will comment out for now
  /*   public boolean integerOutOfBounds(String s)
     {
-        // TODO
     	try
     	{
     		Object c = convert(s, getValueType(s));
