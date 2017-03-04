@@ -1,4 +1,7 @@
 import java.util.*;
+import java.lang.*;
+import java.net.*;
+import java.test.*;
 
 public class methods {
 	public static void main (String args[]){
@@ -39,34 +42,32 @@ public class methods {
 			}
 		}
 	}
-    //In-progress
-    public T getValueType(String s)
+    //DONE
+    public static <T> T getValueType(String s)
     {
-        char[] int_list = new char[]{'0','1','2','3','4','5','6','7','8','9'};
-        Class c = null;
-        char som = s.charAt(0);
-        
         boolean isString = false;
         boolean isInt = false;
         boolean isFloat = false;
         
-        isInt = validInt(s);
-        isString = validString(s);
-        isFloat = validFloat(s);
+        isInt = isInt(s);
+        isString = isString(s);
+        isFloat = isFloat(s);
         
         if(isInt)
         {
-            return int.getClass();
+            return (T) int.class;
         }
         if(isString)
         {
-            return String.getClass();
+            return (T) String.class;
         }
         if(isFloat)
         {
-            return float.getClass();
+            return (T) float.class;
         }
-        return null; // if all false, prompt invalid input || exception. for now settle as null
+        
+        return null;
+        //return c; // if all false, prompt invalid input || exception. for now settle as null
     }
 
     public boolean isMethod(String s)
