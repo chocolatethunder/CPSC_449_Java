@@ -119,19 +119,22 @@ public class Parser<T extends Comparable<T>> {
 	 *  preoder traversal to print the tree
 	 * @param t
 	 */
-	public void treeToString(Node<Token> t){
-		//if(t == null) return "";
-		System.out.println( "PARENT -> " +  t.getData().getName());		// print parent
+	public void treeToString(Node<Token> t, Node<Token> parent ){
+		
+		if (parent != null) {
+			System.out.println( "PARENT -> " +  t.getData().getName() + " child of " + parent.getData().getName());		// print parent
+		} else {
+			System.out.println( "PARENT -> " +  t.getData().getName());		// print parent
+			
+		}
 		ArrayList<Node<Token>> children = t.getChildren();	// get children
-		
-		
 		if(t.getChildren().size() > 0) {
 			for (int i = 0; i < children.size(); i++) {
 				
 				if (children.get(i).getData().getType().equals("identifier")) {
-					treeToString(children.get(i));
+					treeToString(children.get(i), t);
 				} else {
-					System.out.println( "CHILD -> " + children.get(i).getData().getName() + " of " + t.getData().getName());
+					System.out.println( "CHILD -> " + children.get(i).getData().getName() + " child of " + t.getData().getName());
 				}
 					
 			}
@@ -154,7 +157,7 @@ public class Parser<T extends Comparable<T>> {
 				if (user.characterCount(input, '(') != 0) {
 					Tokenizer tokenList = new Tokenizer(input);		// create tokenlist
 					parser.setTokenList(tokenList.getTokens());		// set tokenlist to parser
-					parser.treeToString(parser.createParseTree());	// print parse tree
+					parser.treeToString(parser.createParseTree(), null);	// print parse tree
 				} else if (user.characterCount(input, '(') == 0) {
 					System.out.println("no brackets");
 				}
