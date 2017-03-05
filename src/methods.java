@@ -183,7 +183,7 @@ public class methods {
         else { return false; }
     }
     
-    //DONE - Method not neccessary, out of bound check done in Convert(), will comment out for now
+    //DONE - Method not necessary, out of bound check done in Convert(), will comment out for now
  /*   public boolean integerOutOfBounds(String s)
     {
     	try
@@ -199,7 +199,7 @@ public class methods {
     	}
     }*/
     
-    //DONE - Method not neccessary, out of bound check done in Convert(), will comment out for now
+    //DONE - Method not necessary, out of bound check done in Convert(), will comment out for now
 /*    public boolean floatOutOfBounds(String s)
     {
     	try
@@ -275,10 +275,7 @@ public class methods {
                     isFloat = true;
                     repeat = true;
                 }
-                else
-                {
-                    return false;
-                }
+                else { return false; }
             }
             valid = false;
         }
@@ -330,6 +327,10 @@ public class methods {
         			temp = (int) Integer.parseInt(s.substring(1, s.length() - 1));
         			result = 0 - temp;
         		}
+
+        		else if (s.charAt(0) == '+')
+        		{ result = (int) Integer.parseInt(s.substring(1, s.length() - 1)); }
+        		
         		else { result = (int) Integer.parseInt(s); }
         		
         		return result;
@@ -351,6 +352,10 @@ public class methods {
         			temp = Float.parseFloat(s.substring(1, s.length() - 1));
         			result = 0 - temp;
         		}
+        		
+        		else if (s.charAt(0) == '+')
+        		{ result = Float.parseFloat(s.substring(1, s.length() - 1)); }
+        		
         		else{ result = Float.parseFloat(s); }
         		
         		return result;
