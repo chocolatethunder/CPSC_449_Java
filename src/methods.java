@@ -251,7 +251,12 @@ public class methods {
         boolean valid = false;
         boolean isFloat = false;
         boolean repeat = false;
-        for (int i = 0; i < s.length(); i++)
+        
+        int start = 0;
+        if (s.charAt(0) == '-' || s.charAt(0) == '+')
+        { start = 1; }
+        
+        for (int i = start; i < s.length(); i++)
         {
             for (int a = 0; a < int_list.length; a++)
             {
@@ -338,7 +343,16 @@ public class methods {
         if (testSub == float.class)
         {
         	try {
-        		float result = Float.parseFloat(s);
+        		float temp;
+        		float result;
+        		
+        		if (s.charAt(0) == '-')
+        		{
+        			temp = Float.parseFloat(s.substring(1, s.length() - 1));
+        			result = 0 - temp;
+        		}
+        		else{ result = Float.parseFloat(s); }
+        		
         		return result;
         	}
         	catch (ArithmeticException e) {
