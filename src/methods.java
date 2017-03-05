@@ -221,7 +221,11 @@ public class methods {
     {
         char[] int_list = new char[]{'0','1','2','3','4','5','6','7','8','9'};
         boolean valid = false;
-        for (int i = 0; i < s.length(); i++)
+        int start = 0;
+        if (s.charAt(0) == '-' || s.charAt(0) == '+')
+        { start = 1; }
+        
+        for (int i = start; i < s.length(); i++)
         {
             for (int a = 0; a < int_list.length; a++)
             {
@@ -313,7 +317,16 @@ public class methods {
         if (testSub == int.class)
         {
         	try{
-        		int result = (int) Integer.parseInt(s);
+        		int temp;
+        		int result;
+        		
+        		if (s.charAt(0) == '-')
+        		{
+        			temp = (int) Integer.parseInt(s.substring(1, s.length() - 1));
+        			result = 0 - temp;
+        		}
+        		else { result = (int) Integer.parseInt(s); }
+        		
         		return result;
             }
             catch (ArithmeticException e)
