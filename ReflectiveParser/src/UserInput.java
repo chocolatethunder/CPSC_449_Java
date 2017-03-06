@@ -66,25 +66,5 @@ public class UserInput {
     	return counter;
     }
     
-    /**
-     * Takes a string and a character, and returns true if that character appears
-     * consecutively in the string and false otherwise.
-     * @param s
-     * @param c
-     * @return
-     */
-    public boolean twoConsecutive ( String s, char c ) {
-    	char currentChar, nextChar;
-    	currentChar = s.charAt(0);		// set current char to first character of s
-    	
-    	for ( int i = 1; i < s.length(); i++ ) {
-    		nextChar = s.charAt(i);
-    		if ( currentChar == c && nextChar == c) {
-    			return true;
-    		}
-    		currentChar = nextChar;
-    	}
-    	return false;
-    }
     
 }

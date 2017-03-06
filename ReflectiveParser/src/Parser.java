@@ -53,16 +53,15 @@ public class Parser<T extends Comparable<T>> {
 	 */
 	public Node<Token> createParseTree () {
 		
-		
 		Stack<Node<Token>> pStack = new Stack<Node<Token>>( );	// parent node stack
 		Stack<String> bStack = new Stack<String>( );	// bracket stack
 		Node<Token> currentTree = new Node<Token>(null);	// make first node
-		//Node<Token> currentNode = currentTree;		// set currentNode to empty tree
+		String previousType = "";
 		
 		for ( int i = 0; i < tokenList.size( ); i++ ) {
 			String type = tokenList.get( i ).getType();
 			Token token = tokenList.get( i );
-			// CHECKS ON c HERE!!
+			
 			switch ( type ){
 				case "openBracket":
 					if ( currentTree.getData() != null) {
@@ -75,24 +74,23 @@ public class Parser<T extends Comparable<T>> {
 						pStack.push( currentTree );
 						bStack.push( type );
 					}
-					
+					previousType = type;
 					break;
 				case "int":
 					currentTree.addChild(new Node<Token>( token ) );	// adds child to tree
-					
+					previousType = type;
 					break;
 				case "string":
 					currentTree.addChild(new Node<Token>( token ) );	// adds child to tree
-					
+					previousType = type;
 					break;
 				case "float":
 					currentTree.addChild(new Node<Token>( token ) );	// adds child to tree
-					
+					previousType = type;
 					break;
 				case "identifier":
 					currentTree.setData( token );		// adds data to parent node
-					
-					
+					previousType = type;
 					break;
 				case "closedBracket":
 					if (!bStack.isEmpty() && pStack.size() > 1) {
@@ -102,7 +100,7 @@ public class Parser<T extends Comparable<T>> {
 					} else if (!bStack.isEmpty() && pStack.size() == 1) {
 						bStack.pop();
 					}
-					
+					previousType = type;
 					break;
 					
 					
@@ -143,6 +141,30 @@ public class Parser<T extends Comparable<T>> {
 	}
 	
 	
+	/**
+	 *  preoder traversal to print the tree
+	 * @param t
+	 */
+	public String parse(Node<Token> t, Node<Token> parent ){
+		
+		if (parent != null) {
+			ArrayList<Node<Token>> children = t.getChildren();	// get children
+			if(t.getChildren().size() > 0) {
+				for (int i = 0; i < children.size(); i++) {
+					
+					if (children.get(i).getData().getType().equals("identifier")) {
+						return ("1" + parse(children.get(i), t));
+					} else {
+						return "";
+					}
+						
+				}
+			} 
+		}  return "";
+		
+	}
+	
+	
 	public static void main(String[] args) {
         
 		System.out.println("Please enter expression: ");
@@ -152,21 +174,26 @@ public class Parser<T extends Comparable<T>> {
 		Parser parser = new Parser();
 		
 		
-		if (user.checkBrackets(input) == true) {
-			if (!user.twoConsecutive(input, '(')) {
-				if (user.characterCount(input, '(') != 0) {
-					Tokenizer tokenList = new Tokenizer(input);		// create tokenlist
+		if (user.checkBrackets(input) == true) {		// check even number of brackets
+			if (user.characterCount(input, '(') != 0) {
+				Tokenizer tokenList = new Tokenizer(input);		// create tokenlist
+				if (tokenList.checkOrderOfTokens(tokenList.getTokens()) == -1) {		// no errors 
+				
 					parser.setTokenList(tokenList.getTokens());		// set tokenlist to parser
-					parser.treeToString(parser.createParseTree(), null);	// print parse tree
-				} else if (user.characterCount(input, '(') == 0) {
-					System.out.println("no brackets");
-				}
-			} else {
-				System.out.println("two consecutive open brackets, illegal");
+					Node<Token> parseTree = parser.createParseTree();
+					parser.treeToString(parseTree, null);	// print parse tree
+				} else
+					System.out.println("there is an error in format at index: " + tokenList.checkOrderOfTokens(tokenList.getTokens()) );	
+				
+				//System.out.println(parser.parse();
+			} else if (user.characterCount(input, '(') == 0) {
+				System.out.println("no brackets");
 			}
+			
 		} else {
 			System.out.println("no matching brackets");
 		}
+		
 		
 
         

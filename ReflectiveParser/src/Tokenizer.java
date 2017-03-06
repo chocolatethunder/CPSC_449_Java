@@ -174,20 +174,64 @@ public class Tokenizer {
     }
 	
 	
+	/**
+	 * 
+	 * If the ordering is not correct, returns the index where it is wrong
+	 * else, returns -1
+	 * @param input
+	 * @return
+	 */
+	public int checkOrderOfTokens( ArrayList<Token> input ) {
+		String previousToken = input.get(0).getType();
+		String currentToken;
+		
+		for (int index = 1; index < input.size(); index ++ ) {
+			currentToken = input.get(index).getType();
+			switch( currentToken ) {
+				case "identifier":
+					if (!previousToken.equals( "openBracket"))		// previous type does not equal openBracket
+						return index;
+					break;
+				case "int":
+					if (previousToken.equals("openBracket" ))
+						return index;
+					break;
+				case "float":
+					if (previousToken.equals("openBracket" ))
+						return index;
+					break;
+				case "string":
+					if (previousToken.equals("openBracket" ) )
+						return index;
+					break;
+				case "closedBracket":
+					if (previousToken.equals("openBracket" ))
+						return index;
+					break;
+				case "openBracket":
+					if (previousToken.equals("openBracket" ))
+						return index;
+					break;
+			
+			}
+			previousToken = currentToken;
+		}
+		return -1;
+	}
 	
 	
 	
-	
-	
-//	public static void main(String[] args) {
-//	        
-//			Tokenizer tokenizer = new Tokenizer( "( add (  add   \"three\"   2   ) 2   )" );
-//	        
-//	        ArrayList<Token> tokenList = tokenizer.getTokens();
-//	        
-//	       
-//	        for (int i = 0; i < tokenList.size(); i++ ){
-//	        	System.out.println("name: " + tokenList.get(i).getName() + " \ttype: " + tokenList.get(i).getType());
-//	        }
-//	   }
+	public static void main(String[] args) {
+	        
+			Tokenizer tokenizer = new Tokenizer( "( 2 add (  add   \"three\"   2   ) 2   )" );
+	        
+	        ArrayList<Token> tokenList = tokenizer.getTokens();
+	        
+	        System.out.println(tokenizer.checkOrderOfTokens(tokenizer.getTokens()));
+	        
+	       
+	        for (int i = 0; i < tokenList.size(); i++ ){
+	        	System.out.println("name: " + tokenList.get(i).getName() + " \ttype: " + tokenList.get(i).getType());
+	        }
+	   }
 }
