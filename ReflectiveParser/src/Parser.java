@@ -67,7 +67,8 @@ public class Parser<T extends Comparable<T>> {
 					if ( currentTree.getData() != null) {
 						currentTree.addChild(new Node<Token>(null));
 						ArrayList<Node<Token>> children = currentTree.getChildren();
-						currentTree = children.get(children.size()-1);
+						children.get(children.size()-1).setParent(currentTree); 		// set childs parent to current tree
+						currentTree = children.get(children.size()-1);					// set child to current tree
 						pStack.push(currentTree);
 						bStack.push( type );
 					} else {
@@ -140,27 +141,34 @@ public class Parser<T extends Comparable<T>> {
 		
 	}
 	
+	public String printChildren( Node<Token> parent ) {
+		ArrayList<Node<Token>> children = parent.getChildren();	// get children
+		String s= "";
+		for (int i = 0; i < children.size(); i ++ ) {
+			s+= children.get(i).getData().getName() + " ";
+		}
+		return s;
+	}
 	
 	/**
-	 *  preoder traversal to print the tree
+	 *  
 	 * @param t
 	 */
-	public String parse(Node<Token> t, Node<Token> parent ){
-		
-		if (parent != null) {
-			ArrayList<Node<Token>> children = t.getChildren();	// get children
-			if(t.getChildren().size() > 0) {
-				for (int i = 0; i < children.size(); i++) {
-					
-					if (children.get(i).getData().getType().equals("identifier")) {
-						return ("1" + parse(children.get(i), t));
-					} else {
-						return "";
-					}
-						
-				}
-			} 
-		}  return "";
+	public String parse(Node<Token> t ){
+			
+		ArrayList<Node<Token>> children = t.getChildren();	// get children
+		if(t.getChildren().size() > 0) {
+			for (int i = 0; i < children.size(); i++) {
+				
+				if (children.get(i).getData().getType().equals("identifier")) {
+					return parse(children.get(i)) + "parent:\t" + children.get(i).getParent().getData().getName() + 
+							" --> children: " + printChildren(children.get(i)) + "\n" ;
+				} 
+			}
+			
+			return  "bottom:\t" + t.getData().getName() + " --> children: " + printChildren(t) + "\n";
+		} 
+	  return t.getData().getName();
 		
 	}
 	
@@ -182,6 +190,8 @@ public class Parser<T extends Comparable<T>> {
 					parser.setTokenList(tokenList.getTokens());		// set tokenlist to parser
 					Node<Token> parseTree = parser.createParseTree();
 					parser.treeToString(parseTree, null);	// print parse tree
+					System.out.println(parser.parse(parseTree));
+				
 				} else
 					System.out.println("there is an error in format at index: " + tokenList.checkOrderOfTokens(tokenList.getTokens()) );	
 				

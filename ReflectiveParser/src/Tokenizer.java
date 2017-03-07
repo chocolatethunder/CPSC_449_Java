@@ -189,7 +189,7 @@ public class Tokenizer {
 			currentToken = input.get(index).getType();
 			switch( currentToken ) {
 				case "identifier":
-					if (!previousToken.equals( "openBracket"))		// previous type does not equal openBracket
+					if (!previousToken.equals("openBracket" ))		// previous type does not equal openBracket
 						return index;
 					break;
 				case "int":
@@ -223,7 +223,7 @@ public class Tokenizer {
 	
 	public static void main(String[] args) {
 	        
-			Tokenizer tokenizer = new Tokenizer( "( 2 add (  add   \"three\"   2   ) 2   )" );
+			Tokenizer tokenizer = new Tokenizer( "( add (  add   \"three\"   2   ) 2   )" );
 	        
 	        ArrayList<Token> tokenList = tokenizer.getTokens();
 	        
