@@ -151,7 +151,7 @@ public class Parser<T extends Comparable<T>> {
 	}
 	
 	/**
-	 *  
+	 *  Parses a parse tree in the correct order. bottom up!
 	 * @param t
 	 */
 	public String parse(Node<Token> t ){
@@ -162,11 +162,11 @@ public class Parser<T extends Comparable<T>> {
 				
 				if (children.get(i).getData().getType().equals("identifier")) {
 					return parse(children.get(i)) + "parent:\t" + children.get(i).getParent().getData().getName() + 
-							" --> children: " + printChildren(children.get(i)) + "\n" ;
+							" --> children: " + printChildren(children.get(i).getParent()) + "\n" ;
 				} 
 			}
 			
-			return  "bottom:\t" + t.getData().getName() + " --> children: " + printChildren(t) + "\n";
+		return  "bottom:\t" + t.getData().getName() + " --> children: " + printChildren(t) + "\n";
 		} 
 	  return t.getData().getName();
 		
@@ -189,7 +189,9 @@ public class Parser<T extends Comparable<T>> {
 				
 					parser.setTokenList(tokenList.getTokens());		// set tokenlist to parser
 					Node<Token> parseTree = parser.createParseTree();
+					System.out.println("\nPRINT PARSE TREE:");
 					parser.treeToString(parseTree, null);	// print parse tree
+					System.out.println("\nPARSE TREE ORDER OF TRAVERSAL:");
 					System.out.println(parser.parse(parseTree));
 				
 				} else
