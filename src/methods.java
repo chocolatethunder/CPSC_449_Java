@@ -160,7 +160,7 @@ public class methods {
     //DONE (Not Tested)
     // The following method will check if the argument type is valid for the method
     // type = argument type, s = method's name, o = jar file that contains all valid methods
-    public boolean validParamType(Type type, String s, Object o)
+    public boolean validParamType(Type type, String s, Object o, int index)
     {
     	Class cls = o.getClass();
     	Method[] methods = cls.getMethods();
@@ -174,7 +174,7 @@ public class methods {
     			break;
     		}
     	}
-    	if (type == parameters[0])
+    	if (type == parameters[index - 1])
     	{
     		return true;
     	}
