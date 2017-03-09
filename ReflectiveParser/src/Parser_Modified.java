@@ -147,7 +147,7 @@ public class Parser<T extends Comparable<T>> {
 	 *  
 	 * @param t
 	 */
-	public Node<Token> parse(Node<Token> rootNode ){
+	public Node<Token> parse(Node<Token> rootNode, Object o){
 		if (rootNode.isLeaf()) {
 			return rootNode;
 		}
@@ -158,7 +158,7 @@ public class Parser<T extends Comparable<T>> {
 				}
 			}
 			
-			Object obj; // suppose to be the jar file that contains all methods
+			Object obj = o; // suppose to be the jar file that contains all methods
 			int Index = 0;
 			Class<?> cls = obj.getClass();
 			Method[] methods = cls.getMethods(); // list of methods
@@ -175,21 +175,24 @@ public class Parser<T extends Comparable<T>> {
 			
 			Class<?>[] paramTypes = methods[Index].getParameterTypes(); // store types of parameters into an array
 			int leng = methods[Index].getParameterCount(); // store the count of required parameters
-			//Object result = methods[Index].invoke(obj,);
 			
 			Object[] args = new Object[leng]; // store arguments from node to an array
 			
+			// Get all children of root node, and store them in a arraylist
 			ArrayList<Node<Token>> children = rootNode.getChildren();
 			
 			if (leng == rootNode.getChildren().size()) // check if there is enough arguments for the method
 			{
 				for (int i = 0; i < rootNode.getChildren().size(); i++) {		// check each node and see if they are valid to the method	
 					if(validParamType(paramTypes[i], children.get(i).getData().getName(), obj, i))
-					{ // if so, convert the node into the proper type, then store into args
+					{	
+						// if so, convert the node into the proper type, then store into args
 						args[i] = convert(children.get(i).getData().getName(), paramTypes[i]);
 					}
 				}
 			}
+			else
+			{ // error handling }
 			
 			// delete all children
 			for (Node<Token> c : rootNode.getChildren()) { c.deleteNode(); }
@@ -203,8 +206,6 @@ public class Parser<T extends Comparable<T>> {
 			
 			return rootNode;
 		}
-		
-		
 	}
 	
 	
