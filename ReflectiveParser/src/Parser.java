@@ -140,19 +140,10 @@ public class Parser<T extends Comparable<T>> {
 		
 	}
 	
-	// JUST USED FOR TESTING NOT FOR ASSIGNMENT. WILL REMOVE.
-	public String printChildren( Node<Token> parent ) {
-		ArrayList<Node<Token>> children = parent.getChildren();	// get children
-		String s= "";
-		for (int i = 0; i < children.size(); i ++ ) {
-			s+= children.get(i).getData().getName() + " ";
-		}
-		return s;
-	}
 	
 	/**
 	 *  Parses a parse tree in the correct order. bottom up
-	 *  NOT WORKING PROPERLY!!
+	 *  
 	 * @param t
 	 */
 	public Node<Token> parse(Node<Token> rootNode ){
