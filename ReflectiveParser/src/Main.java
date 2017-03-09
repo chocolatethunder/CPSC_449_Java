@@ -1,7 +1,7 @@
 
 /**
  * Main class for program
- * @author Kowther
+ * 
  *
  */
 public class Main {

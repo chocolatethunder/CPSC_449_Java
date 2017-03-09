@@ -3,7 +3,6 @@ import java.util.ArrayList;
 /**
  * Creates an ArrayList<Token> list from a string. Each token contains the name and
  * type. They type consists of int, float, string, identifier, openBracket, closedBracket
- * @author Kowther
  *
  */
 public class Tokenizer {
@@ -11,7 +10,10 @@ public class Tokenizer {
 	ArrayList<Token> tokens;
 
 
-	// constructor takes in an input string to be tokenized
+	/**
+	 *  constructor takes in an input string to be tokenized
+	 * @param input
+	 */
 	public Tokenizer ( String input ) {
 		
 		this.input = input;
@@ -19,7 +21,10 @@ public class Tokenizer {
 		
 	}
 	
-	
+	/**
+	 * takes a String and makes a list of tokens that encodes the
+	 * name and type of each character. 
+	 */
 	public void makeTokenList() {
 		tokens = new ArrayList<Token>();
 		String expression = "";
@@ -30,31 +35,34 @@ public class Tokenizer {
 			switch ( j ) {
 				case '(':
 					
-					tokens.add(new Token((j + ""), "openBracket"));				// converted into string
+					tokens.add(new Token((j + ""), "openBracket"));	// converted into string
 					break;
 				case ' ':
 					if (expression.length() > 0) {
 						String type = getType(expression);				// get type
 						tokens.add(new Token (expression, type));		// add token if expression is not empty
 					}
-					expression = "";				// reset expression
+					expression = "";									// reset expression
 					break;
 				case ')':
-					if (expression.length() > 0) {					// if there is an expression, add it 
+					if (expression.length() > 0) {						// if there is an expression, add it 
 						String type = getType(expression);				// get type
-						tokens.add(new Token (expression, type));			// add expression before ')'
+						tokens.add(new Token (expression, type));		// add expression before ')'
 					}
-					expression = "";				// reset expression
-					tokens.add(new Token((j + ""), "closedBracket"));				// converted into string
+					expression = "";									// reset expression
+					tokens.add(new Token((j + ""), "closedBracket"));	// converted into string
 					break;
 				default:
-					expression += (j + "");			// add character to expression
+					expression += (j + "");								// add character to expression
 					break;
 			}	
 		}
 	}
 	
-	// getter for tokens
+	/**
+	 * getter for token list
+	 * @return
+	 */
 	public ArrayList<Token> getTokens() {
 		return tokens;
 	}
@@ -84,8 +92,12 @@ public class Tokenizer {
 		return "identifier";
 	}
 	
-	//DONE (Tested)
-    // The following method will check if the argument is an valid integer (int)
+	/**
+	 * The following method will check if the argument is an valid integer (int)
+	 * @param s
+	 * @return
+	 */
+     
     public boolean isInt(String s)
     {
         char[] int_list = new char[]{'0','1','2','3','4','5','6','7','8','9'};
@@ -111,8 +123,12 @@ public class Tokenizer {
         return true;
     }
     
-    //DONE (Tested)
-    // The following method will check if the argument is a valid float number
+    
+    /**
+     *  The following method will check if the argument is a valid float number
+     * @param s
+     * @return
+     */
     public boolean isFloat(String s)
     {
         char[] int_list = new char[]{'0','1','2','3','4','5','6','7','8','9'};
@@ -152,8 +168,11 @@ public class Tokenizer {
         else { return false; }
     }
     
-    //DONE (Tested)
-    // The following method will check if the argument is a valid string
+    /**
+     *  The following method will check if the argument is a valid string
+     * @param s
+     * @return
+     */
     public boolean isString(String s)
     {
         boolean valid_start = false;
@@ -220,7 +239,7 @@ public class Tokenizer {
 	}
 	
 	
-	
+	// test method for class
 	public static void main(String[] args) {
 	        
 			Tokenizer tokenizer = new Tokenizer( "( add (  add   \"three\"   2   ) 2   )" );

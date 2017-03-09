@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 /**
  * Node class for a parse tree
- * @author Kowther
  *
  * @param <T>
  */
@@ -79,6 +78,12 @@ public class Node<T> {
 	//Remove this TreeNode's parent
 	public void removeParent(){
 		this.myParent = null;
-}
+	}
+	
+	// Deletes node and its children
+	public void deleteNode() {
+		this.myChildren = null;
+		this.data = null;
+	}
 
 }

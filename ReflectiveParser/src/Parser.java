@@ -3,7 +3,6 @@ import java.util.Stack;
 
 /**
  * Creates a parse tree
- * @author Kowther
  *
  * @param <T>
  */
@@ -141,6 +140,7 @@ public class Parser<T extends Comparable<T>> {
 		
 	}
 	
+	// JUST USED FOR TESTING NOT FOR ASSIGNMENT. WILL REMOVE.
 	public String printChildren( Node<Token> parent ) {
 		ArrayList<Node<Token>> children = parent.getChildren();	// get children
 		String s= "";
@@ -151,7 +151,8 @@ public class Parser<T extends Comparable<T>> {
 	}
 	
 	/**
-	 *  Parses a parse tree in the correct order. bottom up!
+	 *  Parses a parse tree in the correct order. bottom up
+	 *  NOT WORKING PROPERLY!!
 	 * @param t
 	 */
 	public String parse(Node<Token> t ){
@@ -173,6 +174,7 @@ public class Parser<T extends Comparable<T>> {
 	}
 	
 	
+	// test method for class
 	public static void main(String[] args) {
         
 		System.out.println("Please enter expression: ");

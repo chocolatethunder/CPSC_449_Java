@@ -2,25 +2,34 @@ import java.util.Scanner;
 
 /**
  * Gets user input from console.
- * @author Kowther
  *
  */
 public class UserInput {
-	//Create a new Scanner object
-	private Scanner keyboard;
+	
+	private Scanner keyboard;		//Create a new Scanner object
 
 	
+	/**
+	 * constructor. Makes a new Scanner object that takes in input
+	 */
 	public UserInput() {
 		
 		keyboard = new Scanner(System.in);
 	}
 	
+	/**
+	 * Retrieves user input
+	 * @return
+	 */
 	public String getUserInput() {
 		
 		return keyboard.nextLine();
 		
 	}
 	
+	/**
+	 * closes the connection. 
+	 */
 	public void closeConnection() {
 		
 		keyboard.close();

@@ -8,11 +8,11 @@ import java.net.URLClassLoader;
 
 /**
  * 
- * loads a jar file
- * @author Kowther
- *
+ * loads a jar file dynamically at run time
+ * 
  */
 public class JarFileLoader {
+	
 	private static final Class<URLClassLoader> URLCLASSLOADER =
 	        URLClassLoader.class;
 	private static final Class<?>[] PARAMS = new Class[] { URL.class };

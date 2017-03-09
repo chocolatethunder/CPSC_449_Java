@@ -9,7 +9,7 @@ public class methods {
 		boolean shouldQuit = false;
 		boolean verboseMode = false;
 		
-		TreeNode parseTree;
+		
 		
 		//Create a new Scanner object
 		Scanner userInput = new Scanner(System.in);
