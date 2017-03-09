@@ -155,21 +155,44 @@ public class Parser<T extends Comparable<T>> {
 	 *  NOT WORKING PROPERLY!!
 	 * @param t
 	 */
-	public String parse(Node<Token> t ){
-			
-		ArrayList<Node<Token>> children = t.getChildren();	// get children
-		if(t.getChildren().size() > 0) {
-			for (int i = 0; i < children.size(); i++) {
+	public Node<Token> parse(Node<Token> rootNode ){
+		if (rootNode.isLeaf()) {
+			return rootNode;
+		} else {
+			for (Node<Token> c : rootNode.getChildren()) {
+				if(!c.isLeaf()) {
+					parse(c);
+				}
 				
-				if (children.get(i).getData().getType().equals("identifier")) {
-					return parse(children.get(i)) + "parent:\t" + children.get(i).getParent().getData().getName() + 
-							" --> children: " + printChildren(children.get(i).getParent()) + "\n" ;
-				} 
+			}
+			/*
+			 * *****************************************************************************
+			 *  THIS SECTION IS JUST A TEST!!! Needs to be replaced by invoking method code
+			 *  Always adds two parameters together!! This only takes integer
+			 *  values now. But will be replaced with whatever the method requires. 
+			 */
+			ArrayList<Node<Token>> children = rootNode.getChildren();		// get children names
+			int sum = 0;													// set sum to zero
+			
+			for (int i = 0; i < rootNode.getChildren().size(); i++) {		// add each child to sum	
+				sum += Integer.parseInt(children.get(i).getData().getName());
 			}
 			
-		return  "bottom:\t" + t.getData().getName() + " --> children: " + printChildren(t) + "\n";
-		} 
-	  return t.getData().getName();
+			rootNode.getData().setName(sum + "");	//converts to string before setting rootNode name 
+			rootNode.getData().setType("int");		// sets rootNode type to int
+			/*
+			 * END TEST SECTION
+			 *****************************************************************************
+			 */
+			
+			
+			// delete all children
+			for (Node<Token> c : rootNode.getChildren()) {
+				c.deleteNode();
+			}
+			return rootNode;
+		}
+		
 		
 	}
 	
@@ -193,8 +216,10 @@ public class Parser<T extends Comparable<T>> {
 					Node<Token> parseTree = parser.createParseTree();
 					System.out.println("\nPRINT PARSE TREE:");
 					parser.treeToString(parseTree, null);	// print parse tree
-					System.out.println("\nPARSE TREE ORDER OF TRAVERSAL:");
-					System.out.println(parser.parse(parseTree));
+					System.out.println("\nPARSE TREE EVALUATION FINAL RESULT:");
+					Node<Token> finalParse = parser.parse(parseTree);
+					System.out.println("Parse result: " + finalParse.getData().getName());
+					System.out.println("Parse result type: " + finalParse.getData().getType());
 				
 				} else
 					System.out.println("there is an error in format at index: " + tokenList.checkOrderOfTokens(tokenList.getTokens()) );	
