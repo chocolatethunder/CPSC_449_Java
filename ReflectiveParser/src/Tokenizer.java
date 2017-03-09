@@ -28,6 +28,7 @@ public class Tokenizer {
 	public void makeTokenList() {
 		tokens = new ArrayList<Token>();
 		String expression = "";
+		int index = 0;	// index for each token. Can be used later for error tracing. 
 		
 		for (int i = 0; i < input.length(); i++) {
 			
@@ -35,22 +36,22 @@ public class Tokenizer {
 			switch ( j ) {
 				case '(':
 					
-					tokens.add(new Token((j + ""), "openBracket"));	// converted into string
+					tokens.add(new Token((j + ""), "openBracket", index++));	// converted into string
 					break;
 				case ' ':
 					if (expression.length() > 0) {
 						String type = getType(expression);				// get type
-						tokens.add(new Token (expression, type));		// add token if expression is not empty
+						tokens.add(new Token (expression, type, index++));		// add token if expression is not empty
 					}
 					expression = "";									// reset expression
 					break;
 				case ')':
 					if (expression.length() > 0) {						// if there is an expression, add it 
 						String type = getType(expression);				// get type
-						tokens.add(new Token (expression, type));		// add expression before ')'
+						tokens.add(new Token (expression, type, index++));		// add expression before ')'
 					}
 					expression = "";									// reset expression
-					tokens.add(new Token((j + ""), "closedBracket"));	// converted into string
+					tokens.add(new Token((j + ""), "closedBracket", index++));	// converted into string
 					break;
 				default:
 					expression += (j + "");								// add character to expression
@@ -250,7 +251,7 @@ public class Tokenizer {
 	        
 	       
 	        for (int i = 0; i < tokenList.size(); i++ ){
-	        	System.out.println("name: " + tokenList.get(i).getName() + " \ttype: " + tokenList.get(i).getType());
+	        	System.out.println("name: " + tokenList.get(i).getName() + " \ttype: " + tokenList.get(i).getType()+ " \tindex: " + tokenList.get(i).getIndex());
 	        }
 	   }
 }
