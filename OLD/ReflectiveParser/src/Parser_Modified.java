@@ -164,15 +164,17 @@ public class Parser<T extends Comparable<T>> {
 			Method[] methods = cls.getMethods(); // list of methods
 			
 			// check if the method is valid
-			if (isMethod(rootNode.getData, obj))
+			if (isMethod(rootNode.getData().getName(), obj))
 			{
 				for (int idk = 0; idk < methods.length; idk++)
 				{
-					if (rootNode.getData == methods[idk].getName())
+					if (rootNode.getData().getName() == methods[idk].getName())
 					{Index = idk;}
 				}
 			}
 			
+            //Type returnType = getReturnType(rootNode.getData().getName(), obj);
+            
 			Class<?>[] paramTypes = methods[Index].getParameterTypes(); // store types of parameters into an array
 			int leng = methods[Index].getParameterCount(); // store the count of required parameters
 			
@@ -184,24 +186,30 @@ public class Parser<T extends Comparable<T>> {
 			if (leng == rootNode.getChildren().size()) // check if there is enough arguments for the method
 			{
 				for (int i = 0; i < rootNode.getChildren().size(); i++) {		// check each node and see if they are valid to the method	
-					if(validParamType(paramTypes[i], children.get(i).getData().getName(), obj, i))
+					if(validParamType(children.get(i).getData().getType(), children.get(i).getData().getName(), obj, i))
 					{	
 						// if so, convert the node into the proper type, then store into args
 						args[i] = convert(children.get(i).getData().getName(), paramTypes[i]);
 					}
+                    else
+                    { // TODO: error handling
+                    }
 				}
 			}
 			else
-			{ // error handling }
+			{ // TODO: error handling
+            }
 			
 			// delete all children
 			for (Node<Token> c : rootNode.getChildren()) { c.deleteNode(); }
 			
 			// invoke the method, and store the result
-			Object result = methods[Index].invoke(obj, args);
-			
+			Object temp = methods[Index].invoke(obj, args);
+            
+            String result = (getValueType(temp) == String.Class) ? temp : "" + temp ;
+            
 			// store the result into the root node
-			rootNode.getData().setName();
+			rootNode.getData().setName(result);
 			rootNode.getData().setType("String");
 			
 			return rootNode;
