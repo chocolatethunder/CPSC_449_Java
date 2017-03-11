@@ -47,7 +47,7 @@ public class ExceptionHandler extends Exception {
             String justName = pos > 0 ? filename.substring(0, pos) : filename;
             
             // Print the Synopsis
-            System.out.println(
+            System.err.println(
 				"Synopsis:\n" +
 				"  " + justName + "\n" +
 				"  " + justName + " { -h | -? | --help }+\n" +
@@ -63,7 +63,7 @@ public class ExceptionHandler extends Exception {
             
             // Print this if there are no arguments provided.
             if (full) {
-                System.out.println("This program interprets commands of the format '(<method> {arg}*)' on the command line, finds corresponding methods in <class-name>, and executes them, printing the result to sysout.");
+                System.err.println("This program interprets commands of the format '(<method> {arg}*)' on the command line, finds corresponding methods in <class-name>, and executes them, printing the result to sysout.");
             }
             
         } catch (Exception e) {
