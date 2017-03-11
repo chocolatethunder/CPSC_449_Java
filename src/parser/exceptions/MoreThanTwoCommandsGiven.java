@@ -2,6 +2,7 @@ package parser;
 
 import java.util.*;
 
+// Fatal error thrown when more then two command line arguments are provided by the user
 public class MoreThanTwoCommandsGiven extends ExceptionHandler {
     
     public MoreThanTwoCommandsGiven() {

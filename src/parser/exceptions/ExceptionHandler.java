@@ -5,13 +5,14 @@ import java.lang.*;
 import java.io.*;
 import java.net.*;
 
+// Fatal and non-fatal error handling
+// When an exception is thrown in the program, it is directed to the appropriate class which extends this class
+// Writes error code to syserror and then exits the program
+
 public class ExceptionHandler extends Exception {
     
     private static boolean verbose = true;
-    
-    public ExceptionHandler() {        
-    }
-    
+       
     public ExceptionHandler(String message) {
         super(message);
     }

@@ -2,6 +2,7 @@ package parser;
 
 import java.util.*;
 
+// Fatal error thrown when no jar file is provided
 public class NoJarFileGiven extends ExceptionHandler {
     
     public NoJarFileGiven() {

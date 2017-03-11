@@ -2,6 +2,7 @@ package parser;
 
 import java.util.*;
 
+// Fatal error thrown when a help qualifier appears with any other command line arguments
 public class UnexpectedHelpQualifier extends ExceptionHandler {
     
     public UnexpectedHelpQualifier() {
