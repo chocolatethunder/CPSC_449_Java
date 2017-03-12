@@ -48,7 +48,7 @@ public class Parser<T extends Comparable<T>> {
 		return this.tokenList;
 	}
 	
-	
+//PARSE TREE CREATOR ********************************************************************************************************************************
 	/**
 	 * Creates a parse tree. Error checking has been done. 
 	 * Takes a "legal" (i.e. correct brackets) token list.
@@ -111,12 +111,11 @@ public class Parser<T extends Comparable<T>> {
 			}
 		}
 		return currentTree;
-	}
+}
 	
-    
+//PARSE TREE CREATOR END ************************************************************************************************************************  
     
 
-	
 	/**
 	 *  preoder traversal to print the tree
 	 * @param t
@@ -133,7 +132,7 @@ public class Parser<T extends Comparable<T>> {
 		if(t.getChildren().size() > 0) {
 			for (int i = 0; i < children.size(); i++) {
 				
-				if (children.get(i).getData().getType().equals("identifier")) {
+				if (children.get(i).getData().getStringType().equals("identifier")) {
 					treeToString(children.get(i), t);
 				} else {
 					System.out.println( "CHILD -> " + children.get(i).getData().getName() + " child of " + t.getData().getName());
@@ -142,9 +141,9 @@ public class Parser<T extends Comparable<T>> {
 			}
 		}
 		
-	}
+}
 	
-	
+//EVALUATOR********************************************************************************************************************************
 	/**
 	 *  Parses a parse tree in the correct order. bottom up
 	 *  
@@ -155,21 +154,11 @@ public class Parser<T extends Comparable<T>> {
 	 */
 	public Node<Token> parse(Node<Token> rootNode, Class o ) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
 		
-		if (rootNode.isLeaf()) {
-			// TODO this doesn't take into account methods with no arguments!
-			// need to check if the node is a method with no args, if it is, need
-			// to invoke it here. so like if (rootNode.isLeaf() && isMethod()) then invoke method!
-			return rootNode;
-		}
-		else {
-			for (Node<Token> c : rootNode.getChildren()) {
-				if(!c.isLeaf()) {
-					parse(c, o);
-				}
-			}
+		//**** no children but is method****
+		if (rootNode.isLeaf() && rootNode.getData().getStringType().equals("identifier")) {
 			
-			Class obj = o; // suppose to be the jar file that contains all methods
-			int Index = 0;
+			Class obj = o; // class from jar file that contains all methods
+			int Index = 0;	// index for methods 
 			Method[] methods = o.getMethods(); // list of methods
 			
 			// check if the method is valid
@@ -177,44 +166,16 @@ public class Parser<T extends Comparable<T>> {
 			{
 				for (int idk = 0; idk < methods.length; idk++)
 				{
-					if (rootNode.getData().getName().equals(methods[idk].getName()))
-					{Index = idk;}
+					if (rootNode.getData().getName().equals(methods[idk].getName())) {
+						{Index = idk;}		// add method index
+						
+					}
+					
 				}
 			}
-			
-            //Type returnType = getReturnType(rootNode.getData().getName(), obj);
-            
-			Class<?>[] paramTypes = methods[Index].getParameterTypes(); // store types of parameters into an array
-			int leng = methods[Index].getParameterCount(); // store the count of required parameters
-			
-			Object[] args = new Object[leng]; // store arguments from node to an array
-			
-			// Get all children of root node, and store them in a arraylist
-			ArrayList<Node<Token>> children = rootNode.getChildren();
-			
-			if (leng == rootNode.getChildren().size()) // check if there is enough arguments for the method
-			{
-				for (int i = 0; i < rootNode.getChildren().size(); i++) {		// check each node and see if they are valid to the method	
-					//if(validParamType(children.get(i).getData().getType(), children.get(i).getData().getName(), obj, i))	DOESNT WORK!!!!!!! NEED FIXING!!!!
-					//{	
-						// if so, convert the node into the proper type, then store into args
-						args[i] = convert(children.get(i).getData().getName(), children.get(i).getData().getType());
-					//}
-                    //else
-                    //{ // TODO: error handling
-                    //}
-				}
-			}
-			else
-			{ // TODO: error handling
-            }
-			
-			// delete all children
-			for (Node<Token> c : rootNode.getChildren()) { c.deleteNode(); }
-			
 			
 			// invoke the method, and store the result
-			Object result = methods[Index].invoke(rootNode.getData().getName(), args);
+			Object result = methods[Index].invoke(rootNode.getData().getName());
             
             //String result = (temp.getClass() == String.class) ? temp : "" + temp ;
             
@@ -223,16 +184,105 @@ public class Parser<T extends Comparable<T>> {
 			rootNode.getData().setType(result.getClass());
 			if (result.getClass() == String.class) 
 				rootNode.getData().setStringType("string");
-			else if (result.getClass() == Integer.class)
+			else if (result.getClass() == int.class)
 				rootNode.getData().setStringType("int");
-			else if (result.getClass()== Float.class)
+			else if (result.getClass()== float.class)
 				rootNode.getData().setStringType("float");
-		
+			
+			
 			return rootNode;
+			
+			
+			
+			
+			// *** no children but is not method *** 
+		} else if ( rootNode.isLeaf()) {
+			
+			return rootNode;
+			
+			
+			
+			
+		}
+		//*** has children ****
+		else {
+			for (Node<Token> c : rootNode.getChildren()) {
+				if(!c.isLeaf()) {
+					parse(c, o);		// recursive call
+				}
+			}
+			
+			Class obj = o; // class from jar file that contains all methods
+			ArrayList<Integer> Index = new ArrayList<Integer>();	// used for list of methods that match root node
+			Method[] methods = o.getMethods(); // list of methods
+			
+			// check if the method is valid
+			if (isMethod(rootNode.getData().getName(), obj))
+			{
+				for (int idk = 0; idk < methods.length; idk++)
+				{
+					if (rootNode.getData().getName().equals(methods[idk].getName())) {
+						{Index.add(idk);}		// add method index
+						
+					}
+					
+				}
+			}
+			
+            //Type returnType = getReturnType(rootNode.getData().getName(), obj);
+            
+			// Get all children of root node, and store them in a arraylist
+			ArrayList<Node<Token>> children = rootNode.getChildren();
+			int methodIndex = validParamType(methods,children, Index );		// gets method index that contains the valid params 
+			
+			if (methodIndex == -1) {
+				System.out.println("no matching method call");
+				// node children does not match any method parameters.
+				//TODO, throw exception here
+			
+			
+			}else {
+				
+				Object[] args = new Object[children.size()]; // store arguments from node to an array
+
+				for (int i = 0; i < rootNode.getChildren().size(); i++) {		// convert children from string to their actual type and store in args list
+						args[i] = convert(children.get(i).getData().getName(), children.get(i).getData().getType());
+						
+						
+				}
+				
+
+				// delete all children
+				for (Node<Token> c : rootNode.getChildren()) { c.deleteNode(); }
+				
+				// invoke the method, and store the result
+				Object result = methods[methodIndex].invoke(rootNode.getData().getName(), args);
+	            
+				// store the result into the root node
+				rootNode.getData().setName(result+"");
+				
+				if (result.getClass().equals(String.class)) { 
+					rootNode.getData().setType(String.class);
+					rootNode.getData().setStringType("string");
+				}else if (result.getClass().equals(Integer.class)) {
+					rootNode.getData().setType(int.class);
+					rootNode.getData().setStringType("int");
+				}else if (result.getClass().equals(Float.class)) {
+					rootNode.getData().setType(float.class);
+					rootNode.getData().setStringType("float");
+				}
+			}
+			
+			
+			
+				return rootNode;
 		}
 	}
 	
-    //DONE 
+//EVALUATOR END ********************************************************************************************************************************
+    
+	
+	//DONE 
 	// The following method will check and see if user input method is valid
     public boolean isMethod(String s, Class cls)
     {
@@ -251,30 +301,42 @@ public class Parser<T extends Comparable<T>> {
     	return false;
     }
     
-    //DONE (Not Tested) ****DOESNT WORK!!*****
-    // The following method will check if the argument type is valid for the method
-    // type = argument type, s = method's name, o = jar file that contains all valid methods
-    public boolean validParamType(Class type, String s, Class cls, int index)
-    {
-    	Method[] methods = cls.getMethods();
-    	//Class[] parameters = null;
-    	for (int i = 0; i < methods.length; i++)
-    	{
-    		String method = methods[i].getName();
-    		if (method.equals(s))
-    		{
-    			Class[] parameters = methods[i].getParameterTypes();
-    			if (type == parameters[index - 1])
-    	    	{
-    				System.out.println(type.getName() + " param " + parameters[index-1].getName() );
-    	    		return true;
-    	    	}
-    			break;
-    		}
-    	}
+    
+    
+    //DONE
+    // The following method will return the index of the method with the correct param types.
+    // Or return -1 if no params match
+    public int validParamType(Method[] methods, ArrayList<Node<Token>> children, ArrayList<Integer> methodIndex)
+    {	int validParam = -1;
     	
-    	return false;
+    	for (Integer i : methodIndex) {
+    		
+    		Class<?>[] paramTypes = methods[i].getParameterTypes(); // store types of parameters into an array
+			int leng = methods[i].getParameterCount(); // store the count of required parameters
+			
+			if (leng != children.size()) {
+				
+				continue;		// if size not the same, go to next iteration
+			}
+			
+			
+			for (int j = 0; j < paramTypes.length; j ++) {
+				
+				if (paramTypes[j].equals(children.get(j).getData().getType())) {
+					validParam = i;
+				} else {
+					validParam = -1;
+				}
+			}
+    		
+			if (validParam != -1) return validParam;	// returns the valid param
+    	}
+    	return validParam;
+    
     }
+    
+    
+    
     
   //DONE
     // The following method will take the argument
@@ -288,7 +350,7 @@ public class Parser<T extends Comparable<T>> {
             String result = s.substring(1, s.length() - 1);
             return result;
         }
-        if (valueType == Integer.class)
+        if (valueType == int.class)
         {
         	try{
         		int temp;
@@ -313,7 +375,7 @@ public class Parser<T extends Comparable<T>> {
             	System.exit(0);
         	}
         }
-        if (valueType == Float.class)
+        if (valueType == float.class)
         {
         	try {
         		float temp;
@@ -367,8 +429,7 @@ public class Parser<T extends Comparable<T>> {
 					JarFileLoader jarFileLoader = new JarFileLoader("C:\\Users\\Kowther\\Desktop\\commands.jar", "Commands");
 					Class jarClass = jarFileLoader.getC();
 					Node<Token> finalParse = parser.parse(parseTree, jarClass);
-					System.out.println("Parse result: " + finalParse.getData().getName());
-					System.out.println("Parse result type: " + finalParse.getData().getType());
+					System.out.println( "\n" + finalParse.getData().getName());
 				
 				} else
 					System.out.println("there is an error in format at index: " + tokenList.checkOrderOfTokens(tokenList.getTokens()) );	

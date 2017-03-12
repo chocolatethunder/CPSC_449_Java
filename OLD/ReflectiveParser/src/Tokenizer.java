@@ -89,9 +89,9 @@ public class Tokenizer {
         isString = isString(s);
         isFloat = isFloat(s);
         
-        if(isInt)  return Integer.class; 
+        if(isInt)  return int.class; 
         if(isString) return String.class; 
-        if(isFloat)  return Float.class; 
+        if(isFloat)  return float.class; 
         
 		return Method.class;
 	}
@@ -278,7 +278,7 @@ public class Tokenizer {
 	        
 	       
 	        for (int i = 0; i < tokenList.size(); i++ ){
-	        	System.out.println("name: " + tokenList.get(i).getName() + " \ttype: " + tokenList.get(i).getType()+ " \tindex: " + tokenList.get(i).getIndex());
+	        	System.out.println("name: " + tokenList.get(i).getName() + " \ttype: " + tokenList.get(i).getStringType()+ " \tindex: " + tokenList.get(i).getIndex());
 	        }
 	   }
 }
