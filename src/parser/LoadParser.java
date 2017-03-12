@@ -8,24 +8,31 @@ import java.net.*;
 
 import parser.exceptions.*;
 
+/**
+ * Checks the command-line input for various conditions prior to running the Parser
+ * Throws various fatal error exceptions where appropriate
+ */
 public class LoadParser {	 
 	
+	/**
+	 * @param args - represents command-line arguments
+	 */
 	public LoadParser(String[] args) throws Exception {
 	   
 	   // Functional Requirement 1.1 and 1.2
-	   
 	   int i = 0, j = 0, k = 0;
+	   // flag represents what qualifier letter was chosen
 	   char flag;
 	   String jarFile;
 	   String arg;
 	   
+	   // Checks the command-line input for the length of the input as long as it begins with "-" (proper format)
 	   while (i < args.length && args[i].startsWith("-")) {
 		   
 		   // current argument
 		   arg = args[i];
 		   
 		   // check all the FAT arguments first
-		   
 			if (arg.startsWith("--")) {				  
 				
 				// Check to see if help is called without any arguments
@@ -40,9 +47,8 @@ public class LoadParser {
 					if ((i+1) > args.length) {
 						ExceptionHandler.printSynopsis(true);	
 					} else {
-									
+						throw new UnexpectedHelpQualifier();		
 					}
-
 					
 				// check if verbose mode is set
 				} else if (arg.equals("--verbose")) { 
@@ -59,14 +65,16 @@ public class LoadParser {
 					   // pass to jarLoader and launch program *********
 					   jarFile = args[i++];
 					} else {
-						
+						throw new NoJarFileGiven();
 					}
 					
 				} else {
-					// default is an <error>
-					
+					// default is an <error>	
+					// Invalid FAT qualifier entered
+					throw new UnrecognizedQualifier(args);
 				}
-			   
+		
+		   // Checking short qualifiers (input starts with "-", but not "--")
 		   } else {				  
 			   
 			   // check all the flags 
@@ -89,11 +97,10 @@ public class LoadParser {
 							if ((j+1) > (arg.length())) {
 								ExceptionHandler.printSynopsis(true);
 							} else {
-				
+								throw new UnexpectedHelpQualifier();
 							}							
 							break;
-							
-						   
+							 
 						// verbose flag
 						case 'v':
 							// this takes care of the { }* where there can be more than one -v punched in
@@ -106,22 +113,18 @@ public class LoadParser {
 							   // pass to jarLoader and launch program *********
 							   jarFile = args[i++];
 							} else {
-								
+								throw new NoJarFileGiven();
 							}
 							break;
 						   
 						// unknown flag <error>
-						default:
-							
-					   
+						// If the short qualifier is invalid
+						default:		
+							throw new UnrecognizedQualifier(arg, args);
 					}
-				   
 			   }
-			   
 		   }
-		   
 		   i++;
-		   
 	   }
 		
 	   // Functional Requirement 1.3
@@ -130,14 +133,17 @@ public class LoadParser {
 	   }
 	   
 	   // Enter some of the more finer checks
+	   // Like what?
 	   
 	   // Check to see if there are at most 2 arguments given
 	   try {
 		   this.checkNumArguments(args);
 	   } catch (Exception e) { }	   
-
 	}
 	
+	/**
+	 * @param args - represents the command-line arguments provided by the user
+	 */
 	public void checkNumArguments(String[] args) throws MoreThanTwoCommandsGiven {
 		
 		// Error checking		
@@ -151,9 +157,7 @@ public class LoadParser {
 		
 		// too many arguments throw <Exception>
 		if (numArguments > 2) {
-		   
+		   throw new MoreThanTwoCommandsGiven();
 		}
-		
 	}
-	
 }

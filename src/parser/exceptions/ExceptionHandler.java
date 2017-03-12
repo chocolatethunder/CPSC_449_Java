@@ -5,10 +5,11 @@ import java.lang.*;
 import java.io.*;
 import java.net.*;
 
-// Fatal and non-fatal error handling
-// When an exception is thrown in the program, it is directed to the appropriate class which extends this class
-// Writes error code to syserror and then exits the program
-
+/**
+ * Fatal and non-fatal error handling
+ * When an exception is thrown in the program, it is directed to the appropriate class which extends this class
+ * Writes error code to syserror and then exits the program
+ */
 public class ExceptionHandler extends Exception {
     
     private static boolean verbose = true;
@@ -20,22 +21,27 @@ public class ExceptionHandler extends Exception {
         super(message);
     }
     
+    // Enables verbose mode
     public static void verboseOn() {
         ExceptionHandler.verbose = true;
     }
     
+    // Disables verbose mode
     public static void verboseOff() {
         ExceptionHandler.verbose = false;
     }
 
+    // Returns whether verbose mode is enabled/disabled (set by the user at command-line)
     public static boolean isVerbose() {
         return ExceptionHandler.verbose;
     }
     
-    public static void printSynopsis(boolean full) {
-        
-        try {
-            
+    /**
+     * @param noArgs - set to true if no arguments are provided at command-line, false otherwise
+     */
+    public static void printSynopsis(boolean noArgs) {
+        try {  
+        	
             // Get the file name to dynamically show the user the name if the jar file that is 
             // excecuting the code. Hard coding is not a good idea incase the name of the jar file
             // is changed or altered. 

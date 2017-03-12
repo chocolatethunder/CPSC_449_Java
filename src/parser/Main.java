@@ -15,7 +15,5 @@ public class Main {
            LoadParser newProgram = new LoadParser(args);
        } catch (Exception e) { }
        
-        
     } 
-    
 }
