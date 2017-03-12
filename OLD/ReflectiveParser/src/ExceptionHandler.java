@@ -1,5 +1,5 @@
 
-public class ExceptionHandler {
+public class ExceptionHandler extends Exception {
 
 	// Fatal Error handling
 	// Takes in the type of Exception which has occurred

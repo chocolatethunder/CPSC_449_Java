@@ -1,3 +1,4 @@
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 /**
@@ -36,22 +37,24 @@ public class Tokenizer {
 			switch ( j ) {
 				case '(':
 					
-					tokens.add(new Token((j + ""), "openBracket", index++));	// converted into string
+					tokens.add(new Token((j + ""), char.class, "openBracket", index++));	// converted into string
 					break;
 				case ' ':
 					if (expression.length() > 0) {
-						String type = getType(expression);				// get type
-						tokens.add(new Token (expression, type, index++));		// add token if expression is not empty
+						Class type = getType(expression);				// get type
+						String stringType = getStringType(expression);				// get type
+						tokens.add(new Token (expression, type, stringType, index++));		// add token if expression is not empty
 					}
 					expression = "";									// reset expression
 					break;
 				case ')':
 					if (expression.length() > 0) {						// if there is an expression, add it 
-						String type = getType(expression);				// get type
-						tokens.add(new Token (expression, type, index++));		// add expression before ')'
+						Class type = getType(expression);				// get type
+						String stringType = getStringType(expression);
+						tokens.add(new Token (expression, type, stringType, index++));		// add expression before ')'
 					}
 					expression = "";									// reset expression
-					tokens.add(new Token((j + ""), "closedBracket", index++));	// converted into string
+					tokens.add(new Token((j + ""), char.class, "closedBracket", index++));	// converted into string
 					break;
 				default:
 					expression += (j + "");								// add character to expression
@@ -76,7 +79,31 @@ public class Tokenizer {
 	 * @param s
 	 * @return
 	 */
-	public String getType (String s ) {
+	public Class getType (String s ) {
+		
+		boolean isString = false;
+        boolean isInt = false;
+        boolean isFloat = false;
+        
+        isInt = isInt(s);
+        isString = isString(s);
+        isFloat = isFloat(s);
+        
+        if(isInt)  return Integer.class; 
+        if(isString) return String.class; 
+        if(isFloat)  return Float.class; 
+        
+		return Method.class;
+	}
+	
+	/**
+	 * get the type of an input.
+	 * Types are string, int, float or identifier
+	 * 
+	 * @param s
+	 * @return
+	 */
+	public String getStringType (String s ) {
 		
 		boolean isString = false;
         boolean isInt = false;
@@ -202,11 +229,11 @@ public class Tokenizer {
 	 * @return
 	 */
 	public int checkOrderOfTokens( ArrayList<Token> input ) {
-		String previousToken = input.get(0).getType();
+		String previousToken = input.get(0).getStringType();
 		String currentToken;
 		
 		for (int index = 1; index < input.size(); index ++ ) {
-			currentToken = input.get(index).getType();
+			currentToken = input.get(index).getStringType();
 			switch( currentToken ) {
 				case "identifier":
 					if (!previousToken.equals("openBracket" ))		// previous type does not equal openBracket
@@ -243,7 +270,7 @@ public class Tokenizer {
 	// test method for class
 	public static void main(String[] args) {
 	        
-			Tokenizer tokenizer = new Tokenizer( "( add (  add   \"three\"   2   ) 2   )" );
+			Tokenizer tokenizer = new Tokenizer( "(add (add \"three\" 2) 2)" );
 	        
 	        ArrayList<Token> tokenList = tokenizer.getTokens();
 	        

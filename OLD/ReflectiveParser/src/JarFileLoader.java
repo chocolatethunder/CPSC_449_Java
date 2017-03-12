@@ -16,6 +16,7 @@ public class JarFileLoader {
 	private static final Class<URLClassLoader> URLCLASSLOADER =
 	        URLClassLoader.class;
 	private static final Class<?>[] PARAMS = new Class[] { URL.class };
+	private Class c;
 	
 	/**
 	 * 
@@ -47,10 +48,18 @@ public class JarFileLoader {
 		method.invoke( systloader, new Object[] { url } );
 	
 		// Creates the class object from file ------------------------------------------------
-		System.out.println( sysclass.forName( classname ) );
+		//System.out.println( sysclass.forName( classname ) );
 		
-		Class c = sysclass.forName( classname );		// Must use forname (??) to create the class object from the file
+		setC(sysclass.forName( classname ));		// Must use forname (??) to create the class object from the file
 		
+	}
+
+	Class getC() {
+		return c;
+	}
+
+	void setC(Class c) {
+		this.c = c;
 	}
 
 }
