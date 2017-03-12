@@ -15,8 +15,6 @@ public class Main {
 	private static String jarFileName = "commands.jar";
 	private static String jarClassName = "Commands";
 	
-	private static Class<?> jarFile = null;
-	
 	public static void main(String[] args) {
 		//TODO: Display Synopsis
 		printSynopsis(args);
@@ -88,21 +86,127 @@ public class Main {
 		);
 	}
 	
-	//TODO: Displays synopsis message
+	//Checks for synopsis message formatting, and error checking for qualifiers
 	private static void printSynopsis(String[] args){
-		System.out.println(
-				"Synopsis:\n" +
-				"  methods\n" +
-				"  methods { -h | -? | --help }+\n" +
-				"  methods {-v --verbose}* <jar-file> [<class-name>]\n" +
-				"Arguments:\n" +
-				"  <jar-file>:   The .jar file that contains the class to load (see next line).\n" +
-				"  <class-name>: The fully qualified class name containing public static command methods to call. [Default="+"Commands"+"]\n" +
-				"Qualifiers:\n" +
-				"  -v --verbose: Print out detailed errors, warning, and tracking.\n" +
-				"  -h -? --help: Print out a detailed help message.\n" +
-				"Single-char qualifiers may be grouped; long qualifiers may be truncated to unique prefixes and are not case sensitive.\n"
-				);
+		switch (args.length){
+		//Done (Tested)
+		case 0:
+			printSynopsis();
+			System.exit(0);
+		case 1:
+			switch (args[0]){
+			case "-h":
+				helpCommandLine();
 				System.exit(0);
+				break;
+			case "?":
+				helpCommandLine();
+				System.exit(0);
+				break;
+			case "-hv":
+				helpCommandLine();
+				System.exit(0);
+				break;
+			case "-vh":
+				helpCommandLine();
+				System.exit(0);
+				break;
+			case "--help":
+				helpCommandLine();
+				System.exit(0);
+				break;
+			default:
+				//TODO: Implement fatal error
+				System.out.println("FATAL ERROR: THE COMMAND " + args[0] + " CANNOT BE A PART OF THE INPUT");
+				break;
+			}
+			break;
+		case 2:
+			//TODO: Check args[0] if '-v' or '--verbose'
+			//TODO: If no quantifier, then check args[0] is valid .jar file name
+			//TODO: then check args[1] valid "class name string" (proper qualities as class name)
+			break;
+		case 3:
+			//TODO: Check args[0] if 'v' or '--verbose', if not then throw fatal error
+			//TODO: Else check args[1] if valid .jar file name, if not throw fatal error
+			//TODO: check args[2] if valid "class name string" (proper qualities as class name)
+			break;
+		default:
+		}
 	}
+	
+	//Displays help message along with synopsis
+	private static void helpCommandLine(){
+		printSynopsis();
+		System.out.println(
+				"\nThis program interprets commands of the format '(<method> {arg}*)' on the command line, finds corresponding\n" +
+				"methods in <class-name>, and executes them, printing the result to sysout."
+		);
+	}
+	
+	//Display synopsis message
+	private static void printSynopsis(){
+		System.out.println(
+			"Synopsis:\n" +
+			"  methods\n" +
+			"  methods { -h | -? | --help }+\n" +
+			"  methods {-v --verbose}* <jar-file> [<class-name>]\n" +
+			"Arguments:\n" +
+			"  <jar-file>:   The .jar file that contains the class to load (see next line).\n" +
+			"  <class-name>: The fully qualified class name containing public static command methods to call. [Default="+"Commands"+"]\n" +
+			"Qualifiers:\n" +
+			"  -v --verbose: Print out detailed errors, warning, and tracking.\n" +
+			"  -h -? --help: Print out a detailed help message.\n" +
+			"Single-char qualifiers may be grouped; long qualifiers may be truncated to unique prefixes and are not case sensitive."
+			);
+	}
+	
+//	private static Node<T> evaluateTree(Node<T> rootNode){
+//		if (rootNode.isLeaf()){
+//		} else {
+//			for (Node<T> c : rootNode.getChildren()){
+//				if (c.isLeaf){
+//					//Do nothing
+//				} else {
+//					evaluateTree(c);
+//				}
+//			}
+//			//Evaluate method 'rootNode' using parameters 'rootNode.getChildren'
+//			//Set rootNode data to evaluation of above, and type to return value of above
+//			for (Node<T> c : rootNode.getChildren){
+//				c.deleteNode();
+//			}
+//		}
+//		return rootNode;
+//	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
