@@ -11,8 +11,10 @@ import parser.exceptions.*;
 public class Main {    
     
     public static void main (String[] args) {
+       try {
+           LoadParser newProgram = new LoadParser(args);
+       } catch (Exception e) { }
        
-       LoadParser newProgram = new LoadParser(args);
         
     } 
     
