@@ -12,7 +12,10 @@ import java.net.*;
 public class ExceptionHandler extends Exception {
     
     private static boolean verbose = true;
-       
+    
+    public ExceptionHandler() {        
+    }
+    
     public ExceptionHandler(String message) {
         super(message);
     }
@@ -66,6 +69,8 @@ public class ExceptionHandler extends Exception {
             if (full) {
                 System.err.println("This program interprets commands of the format '(<method> {arg}*)' on the command line, finds corresponding methods in <class-name>, and executes them, printing the result to sysout.");
             }
+			
+			System.exit(0);
             
         } catch (Exception e) {
             
