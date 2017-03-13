@@ -257,7 +257,7 @@ public class Parser<T extends Comparable<T>> {
 				
 				// invoke the method, and store the result
 				Object result = methods[methodIndex].invoke(rootNode.getData().getName(), args);
-	            
+	            System.out.println(methods[methodIndex].getName() + ": result is " + result);
 				// store the result into the root node
 				rootNode.getData().setName(result+"");
 				
@@ -353,20 +353,10 @@ public class Parser<T extends Comparable<T>> {
         if (valueType == int.class)
         {
         	try{
-        		int temp;
         		int result;
         		
-        		if (s.charAt(0) == '-')
-        		{
-        			temp = (int) Integer.parseInt(s.substring(1, s.length() - 1));
-        			result = 0 - temp;
-        		}
+        		 result = (int) Integer.parseInt(s); 
 
-        		else if (s.charAt(0) == '+')
-        		{ result = (int) Integer.parseInt(s.substring(1, s.length() - 1)); }
-        		
-        		else { result = (int) Integer.parseInt(s); }
-        		
         		return result;
             }
             catch (ArithmeticException e)
@@ -378,19 +368,10 @@ public class Parser<T extends Comparable<T>> {
         if (valueType == float.class)
         {
         	try {
-        		float temp;
+        		
         		float result;
         		
-        		if (s.charAt(0) == '-')
-        		{
-        			temp = Float.parseFloat(s.substring(1, s.length() - 1));
-        			result = 0 - temp;
-        		}
-        		
-        		else if (s.charAt(0) == '+')
-        		{ result = Float.parseFloat(s.substring(1, s.length() - 1)); }
-        		
-        		else{ result = Float.parseFloat(s); }
+        		 result = Float.parseFloat(s); 
         		
         		return result;
         	}
