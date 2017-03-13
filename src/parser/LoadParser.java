@@ -12,19 +12,22 @@ import parser.exceptions.*;
  * Checks the command-line input for various conditions prior to running the Parser
  * Throws various fatal error exceptions where appropriate
  */
-public class LoadParser {	 
+public class LoadParser {
 	
 	/**
 	 * @param args - represents command-line arguments
 	 */
 	public LoadParser(String[] args) throws Exception {
-	   
+		
+		
 	   // Functional Requirement 1.1 and 1.2
-	   int i = 0, j = 0, k = 0;
+	   
 	   // flag represents what qualifier letter was chosen
+	   int i = 0, j = 0, k = 0;		
 	   char flag;
-	   String jarFile;
 	   String arg;
+	   String jarFile;
+	   
 	   
 	   // Checks the command-line input for the length of the input as long as it begins with "-" (proper format)
 	   while (i < args.length && args[i].startsWith("-")) {
@@ -71,7 +74,7 @@ public class LoadParser {
 				} else {
 					// default is an <error>	
 					// Invalid FAT qualifier entered
-					throw new UnrecognizedQualifier(args);
+					throw new UnrecognizedQualifier(arg);
 				}
 		
 		   // Checking short qualifiers (input starts with "-", but not "--")
@@ -120,7 +123,7 @@ public class LoadParser {
 						// unknown flag <error>
 						// If the short qualifier is invalid
 						default:		
-							throw new UnrecognizedQualifier(arg, args);
+							throw new UnrecognizedQualifier(flag, arg);
 					}
 			   }
 		   }
