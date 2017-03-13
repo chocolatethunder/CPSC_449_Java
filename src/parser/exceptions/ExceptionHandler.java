@@ -37,9 +37,9 @@ public class ExceptionHandler extends Exception {
     }
     
     /**
-     * @param noArgs - set to true if no arguments are provided at command-line, false otherwise
+     * @param full - this checks to see if the extra line of help needs to be printed or not. 
      */
-    public static void printSynopsis(boolean noArgs) {
+    public static void printSynopsis(boolean full) {
         try {  
         	
             // Get the file name to dynamically show the user the name if the jar file that is 
