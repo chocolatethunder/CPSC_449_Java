@@ -2,6 +2,8 @@ PLEASE READ THIS VERY CAREFULLY.
 
 - Please install Apache Ant on your machine. It takes 3 minutes and you will love this thing forever and ever.
     - Ant already comes pre-installed with Eclipse (How bow dah!) so you just have to enable it.
+	Windows Installation: https://www.mkyong.com/ant/how-to-install-apache-ant-on-windows/
+	Mac Installation: https://www.mkyong.com/ant/how-to-apache-ant-on-mac-os-x/	
 
 - I encourage you to look in the build.xml file to see how the automation is happening but do not change it.
 
