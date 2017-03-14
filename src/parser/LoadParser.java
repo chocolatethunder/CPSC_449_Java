@@ -13,84 +13,171 @@ import java.net.*;
  */
 public class LoadParser {
 	
-	private List<String> arguments	= new ArrayList<String>();
-	private List<String> flags		= new ArrayList<String>();
-	private List<String> longFlags 	= new ArrayList<String>();
 	private String[] cmdLnArgS;
+	private String arg;
+	private char flag;
+	
+	private boolean hflag = false;
+	private boolean vflag = false;
+	
+	private String loadFile = "";
+	private String loadClass = "Commands"; // Default
+	
 	
 	/**
 	 * @param args - represents command-line arguments
 	 */
 	public LoadParser(String[] args) throws Exception {
 		
-		// make a local copy of the command line arguments
+		// Make a local copy of the command line arguments
 		cmdLnArgS = args.clone();
 		
-		// Functional Requirement 1.1 and 1.2
-		int i = 0, j = 0, k = 0;		
-		char flag;
-		String cmdLnArg;
-		String jarFile;		
+		// Indexing helpers
+		int i = 0, j = 0;
 		
-		
-		
-		// Collect all the args, flags, and longFlags		
-		while (i < this.cmdLnArgS.length) {
+		// process all the command line tokens (flags, arguments, longFlags).
+		while (i < cmdLnArgS.length) {
 			
-			cmdLnArg = this.cmdLnArgS[i];
+			this.arg = cmdLnArgS[i++];
 			
-			// collect --flags
-			if (cmdLnArg.startsWith("--")) {				
-				if (cmdLnArg.length() > 2) {					
-					longFlags.add(cmdLnArg);					
+			// Deal with FAT arguments. 
+			// ONLY COLLECT. Do the logic after. This is to check for any malformed or illegal arguments. 
+			
+			if (this.arg.startsWith("--")) {
+				
+				if (this.arg.equals("--help")) {
+					
+					// Skip doubles and repeats
+					while (i < cmdLnArgS.length && (cmdLnArgS[i].equals("--help") || cmdLnArgS[i].equals("-h"))) {						
+						this.arg = cmdLnArgS[i++];
+					}
+					
+					// Help flag is now active
+					this.hflag = true;
+					
+				} else if (this.arg.equals("--verbose")) {
+					
+					// Skip doubles and repeats
+					while (i < cmdLnArgS.length && (cmdLnArgS[i].equals("--verbose") || cmdLnArgS[i].equals("-v"))) {						
+						this.arg = cmdLnArgS[i++];
+					}
+					
+					// Verbose flag is now active
+					this.vflag = true;					
+					
+					// If there are tokens after verbose then ingest
+					if (i < cmdLnArgS.length) {
+						// check if there are atmost 2 arguments
+						this.checkNumArguments(this.cmdLnArgS);
+						// The next argument after -v should be a jar file
+						this.loadFile = cmdLnArgS[i++];
+						// if there is an additional class name provided 
+						if (i < cmdLnArgS.length) {
+							this.loadClass = cmdLnArgS[i++];
+						}
+					}
+					
 				} else {
-					throw new UnrecognizedQualifier(cmdLnArg);
-				}
-			// collect -flag
-			} else if (cmdLnArg.startsWith("-")) {				
-				if (cmdLnArg.length() > 1) {
-					flags.add(cmdLnArg);
-				} else {
-					throw new UnrecognizedQualifier(' ', cmdLnArg);
-				}
-			// collect arguments
-			} else {
-				arguments.add(cmdLnArg);
+					// Invalid FAT qualifier entered
+					throw new UnrecognizedQualifier(this.arg);
+				}				
+				
 			}
 			
-			i++;			
+			// Deal with BABY flags here. What kind of a man sends babies to fight me?
+			else if (this.arg.startsWith("-")) {
+				
+				// step through each character of the flag
+				for (j = 1; j < this.arg.length(); j++) {
+					
+					// collect each flag after - in -vh
+					this.flag = this.arg.charAt(j);
+					
+					// walk through each individual flag
+					switch (this.flag) {
+						
+						// -h flag
+						case 'h':
+						this.hflag = true;
+						break;
+						
+						// -v flag
+						case 'v':
+						this.vflag = true;
+						
+						// If there are tokens after verbose then ingest
+						// Need to collect the jar file name right after the flag
+						// length is finished not after the flag itself
+						if (j == this.arg.length()) {
+							// check if there are atmost 2 arguments
+							this.checkNumArguments(this.cmdLnArgS);
+							// The next argument after -v should be a jar file
+							this.loadFile = cmdLnArgS[i++];
+							// if there is an additional class name provided 
+							if (i < cmdLnArgS.length) {
+								this.loadClass = cmdLnArgS[i++];
+							}
+						}
+						break;
+						
+						// unidentified foreign flag
+						default:
+						throw new UnrecognizedQualifier(this.flag, this.arg);
+						
+					}					
+					
+				}
+				
+			} 
+			
+			// user has only entered arguments: 
+			// java -jar methods.jar commands.jar
+			else {				
+				// check if there are atmost 2 arguments
+				this.checkNumArguments(this.cmdLnArgS);
+				// The next argument after -v should be a jar file
+				this.loadFile = cmdLnArgS[i++];
+			}			
+			
 		}
 		
-		// remove duplicate flags and long flags
-		this.removeDuplicateFlags();
+		// DEAL WITH THE LOGIC
 		
-		// Then do checks in order of priority. Order matters here.
-		
-		// Run flag compatibility (i.e. can some flags be allowed with some others)
-		
-		// Check if there are only at most 2 arguments
-		this.checkNumOfArguments();
-		
-		// Functional Requirement 1.3: No qualifiers or arguments
-		this.checkForNoArguments();
+		// if help flag is active then there cannot be a input file		
+		if (this.hflag) {			
+			if (this.loadFile != "") {
+				throw new UnexpectedHelpQualifier();
+			} else {
+				ExceptionHandler.printSynopsis(true);	
+			}
+		// if the hel flag is INactive then jar loading can begine
+		} else {
+			System.out.println("End of Program");
+			// pass it to the file loader and throw an error if it failed (ErrorLoadingJarFile or ErrorFindingClass)
+		}	
 		
 	}
 	
-	private void removeDuplicateFlags() {		
-		this.flags 		= new ArrayList<String>(new LinkedHashSet<String>(this.flags));
-		this.longFlags 	= new ArrayList<String>(new LinkedHashSet<String>(this.longFlags));	
-	}
-	
-	private void checkNumOfArguments() throws MoreThanTwoCommandsGiven {
-		if (this.arguments.size() > 2) {
-			throw new MoreThanTwoCommandsGiven();
+	/**
+	 * @param args - represents the command-line arguments provided by the user
+	 */
+	public void checkNumArguments(String[] args) throws MoreThanTwoCommandsGiven {
+		
+		// Error checking		
+		int numArguments = 0;
+
+		for (String arg : args) {
+		   if (arg.charAt(0) != '-') {
+			   numArguments++;
+		   }
+		}
+		
+		// Too many arguments
+		if (numArguments > 2) {
+		   throw new MoreThanTwoCommandsGiven();
 		}
 	}
 	
-	private void checkForNoArguments() {
-		if (this.cmdLnArgS.length == 0) {
-			ExceptionHandler.printSynopsis(false);
-		}
-	}
+	
 
 }
