@@ -9,10 +9,12 @@ import java.net.*;
 
 public class Main {    
     
-    public static void main (String[] args) {
-       try {
-           LoadParser newProgram = new LoadParser(args);
-       } catch (Exception e) { }
-       
-    } 
+	public static void main (String[] args) {
+		try {
+			LoadParser newProgram = new LoadParser(args);
+		} catch (Exception e) { 
+			System.out.println(e.getMessage());
+		}
+
+	} 
 }
