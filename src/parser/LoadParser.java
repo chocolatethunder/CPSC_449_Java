@@ -36,13 +36,12 @@ public class LoadParser {
 		int i = 0, j = 0;
 		
 		// process all the command line tokens (flags, arguments, longFlags).
+		// ONLY COLLECT. Do the logic after. This is to check for any malformed or illegal arguments. 
 		while (i < cmdLnArgS.length) {
 			
 			this.arg = cmdLnArgS[i++];
 			
-			// Deal with FAT arguments. 
-			// ONLY COLLECT. Do the logic after. This is to check for any malformed or illegal arguments. 
-			
+			// Deal with FAT arguments.	This comment will trigger the left wingers.
 			if (this.arg.startsWith("--")) {
 				
 				if (this.arg.equals("--help")) {
@@ -67,14 +66,7 @@ public class LoadParser {
 					
 					// If there are tokens after verbose then ingest
 					if (i < cmdLnArgS.length) {
-						// check if there are atmost 2 arguments
-						this.checkNumArguments(this.cmdLnArgS);
-						// The next argument after -v should be a jar file
-						this.loadFile = cmdLnArgS[i++];
-						// if there is an additional class name provided 
-						if (i < cmdLnArgS.length) {
-							this.loadClass = cmdLnArgS[i++];
-						}
+						i = fileAndClassSetter(cmdLnArgS, i);
 					}
 					
 				} else {
@@ -107,16 +99,9 @@ public class LoadParser {
 						
 						// If there are tokens after verbose then ingest
 						// Need to collect the jar file name right after the flag
-						// length is finished not after the flag itself
-						if (j == this.arg.length()) {
-							// check if there are atmost 2 arguments
-							this.checkNumArguments(this.cmdLnArgS);
-							// The next argument after -v should be a jar file
-							this.loadFile = cmdLnArgS[i++];
-							// if there is an additional class name provided 
-							if (i < cmdLnArgS.length) {
-								this.loadClass = cmdLnArgS[i++];
-							}
+						// length is finished not after the flag itself						
+						if (j == this.arg.length()-1) {
+							i = fileAndClassSetter(cmdLnArgS, i);
 						}
 						break;
 						
@@ -132,11 +117,16 @@ public class LoadParser {
 			
 			// user has only entered arguments: 
 			// java -jar methods.jar commands.jar
-			else {				
-				// check if there are atmost 2 arguments
-				this.checkNumArguments(this.cmdLnArgS);
-				// The next argument after -v should be a jar file
-				this.loadFile = cmdLnArgS[i++];
+			else {
+				
+				if (!hflag) {
+					if (i < cmdLnArgS.length) {
+						i = fileAndClassSetter(cmdLnArgS, i);
+					}
+				} else {
+					throw new UnexpectedHelpQualifier();
+				}
+				
 			}			
 			
 		}
@@ -150,10 +140,19 @@ public class LoadParser {
 			} else {
 				ExceptionHandler.printSynopsis(true);	
 			}
-		// if the hel flag is INactive then jar loading can begine
-		} else {
-			System.out.println("End of Program");
+		
+		// if the help flag is INactive then jar loading can begine
+		} else {			
 			// pass it to the file loader and throw an error if it failed (ErrorLoadingJarFile or ErrorFindingClass)
+			try {
+				// Try loading the jar file
+				JarFileLoader jarLoad = new JarFileLoader(this.loadFile, this.loadClass);
+				
+				// If we have gotten this far then we load the program
+				// will need to pass the class as an object
+				//RunParser newProgramInstance = new RunParser();
+				
+			} catch (Exception e) { /* empty catch */ }
 		}	
 		
 	}
@@ -176,6 +175,24 @@ public class LoadParser {
 		if (numArguments > 2) {
 		   throw new MoreThanTwoCommandsGiven();
 		}
+	}
+	
+	private int fileAndClassSetter(String[] cmdLnArgS, int i) throws MoreThanTwoCommandsGiven {
+		
+		// check if there are atmost 2 arguments
+		this.checkNumArguments(this.cmdLnArgS);
+		
+		// The next argument after -v should be a jar file
+		if (i < cmdLnArgS.length && !( this.cmdLnArgS[i].equals("-h") || this.cmdLnArgS[i].equals("--help") )) {
+			this.loadFile = cmdLnArgS[i++];
+			// if there is an additional class name provided 							
+			if (i < cmdLnArgS.length && !( this.cmdLnArgS[i].equals("-h") || this.cmdLnArgS[i].equals("--help") )) {
+				this.loadClass = cmdLnArgS[i++];
+			}								
+		}
+		
+		return i;
+
 	}
 	
 	
