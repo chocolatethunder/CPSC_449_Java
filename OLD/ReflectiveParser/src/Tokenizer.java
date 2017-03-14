@@ -28,6 +28,7 @@ public class Tokenizer {
 	 */
 	public void makeTokenList() {
 		tokens = new ArrayList<Token>();
+		
 		String expression = "";
 		int index = 0;	// index for each token. Can be used later for error tracing. 
 		
@@ -56,6 +57,13 @@ public class Tokenizer {
 					expression = "";									// reset expression
 					tokens.add(new Token((j + ""), char.class, "closedBracket", index++));	// converted into string
 					break;
+					
+				case '"':
+					do {
+						expression += (j + "");								// add chacacter to expression
+						j = input.charAt( ++i );							// increment character
+					} while (j != '"' ); 									// keep adding until second " is seen
+						
 				default:
 					expression += (j + "");								// add character to expression
 					break;
@@ -270,7 +278,7 @@ public class Tokenizer {
 	// test method for class
 	public static void main(String[] args) {
 	        
-			Tokenizer tokenizer = new Tokenizer( "(add (add \"three\" 2) 2)" );
+			Tokenizer tokenizer = new Tokenizer( "(add (add \"three three\" 2) 2)" );
 	        
 	        ArrayList<Token> tokenList = tokenizer.getTokens();
 	        
