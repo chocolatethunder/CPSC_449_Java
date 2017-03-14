@@ -32,14 +32,19 @@ public class LoadParser {
 		// Make a local copy of the command line arguments
 		cmdLnArgS = args.clone();
 		
+		// No arguments
+		if (cmdLnArgS.length == 0) {
+			ExceptionHandler.printSynopsis(true);
+		}
+		
 		// Indexing helpers
 		int i = 0, j = 0;
 		
 		// process all the command line tokens (flags, arguments, longFlags).
 		// ONLY COLLECT. Do the logic after. This is to check for any malformed or illegal arguments. 
 		while (i < cmdLnArgS.length) {
-			
-			this.arg = cmdLnArgS[i++];
+
+			this.arg = cmdLnArgS[i];			
 			
 			// Deal with FAT arguments.	This comment will trigger the left wingers.
 			if (this.arg.startsWith("--")) {
@@ -47,8 +52,8 @@ public class LoadParser {
 				if (this.arg.equals("--help")) {
 					
 					// Skip doubles and repeats
-					while (i < cmdLnArgS.length && (cmdLnArgS[i].equals("--help") || cmdLnArgS[i].equals("-h"))) {						
-						this.arg = cmdLnArgS[i++];
+					while (i < cmdLnArgS.length && (cmdLnArgS[i].equals("--help") || cmdLnArgS[i].equals("-h"))) {
+						i++;
 					}
 					
 					// Help flag is now active
@@ -57,12 +62,12 @@ public class LoadParser {
 				} else if (this.arg.equals("--verbose")) {
 					
 					// Skip doubles and repeats
-					while (i < cmdLnArgS.length && (cmdLnArgS[i].equals("--verbose") || cmdLnArgS[i].equals("-v"))) {						
-						this.arg = cmdLnArgS[i++];
+					while (i < cmdLnArgS.length && (cmdLnArgS[i].equals("--verbose") || cmdLnArgS[i].equals("-v"))) {
+						i++;
 					}
 					
 					// Verbose flag is now active
-					this.vflag = true;					
+					this.vflag = true;
 					
 					// If there are tokens after verbose then ingest
 					if (i < cmdLnArgS.length) {
@@ -99,9 +104,9 @@ public class LoadParser {
 						
 						// If there are tokens after verbose then ingest
 						// Need to collect the jar file name right after the flag
-						// length is finished not after the flag itself						
-						if (j == this.arg.length()-1) {
-							i = fileAndClassSetter(cmdLnArgS, i);
+						// length is finished not after the flag itself				
+						if (j == this.arg.length()-1 && !( this.cmdLnArgS[i].startsWith("-") )) {
+							i = fileAndClassSetter(cmdLnArgS, ++i);
 						}
 						break;
 						
@@ -113,14 +118,13 @@ public class LoadParser {
 					
 				}
 				
-			} 
-			
+			}			
 			// user has only entered arguments: 
 			// java -jar methods.jar commands.jar
 			else {
 				
 				if (!hflag) {
-					if (i < cmdLnArgS.length) {
+					if (i <= cmdLnArgS.length) {
 						i = fileAndClassSetter(cmdLnArgS, i);
 					}
 				} else {
@@ -128,6 +132,8 @@ public class LoadParser {
 				}
 				
 			}			
+			// move to the next token
+			i++;
 			
 		}
 		
@@ -146,7 +152,7 @@ public class LoadParser {
 			// pass it to the file loader and throw an error if it failed (ErrorLoadingJarFile or ErrorFindingClass)
 			try {
 				// Try loading the jar file
-				JarFileLoader jarLoad = new JarFileLoader(this.loadFile, this.loadClass);
+				JarFileLoader jarLoad = new JarFileLoader(this.loadFile, this.loadClass);				
 				
 				// If we have gotten this far then we load the program
 				// will need to pass the class as an object
@@ -167,7 +173,7 @@ public class LoadParser {
 
 		for (String arg : args) {
 		   if (arg.charAt(0) != '-') {
-			   numArguments++;
+				numArguments++;
 		   }
 		}
 		
@@ -182,15 +188,17 @@ public class LoadParser {
 		// check if there are atmost 2 arguments
 		this.checkNumArguments(this.cmdLnArgS);
 		
-		// The next argument after -v should be a jar file
-		if (i < cmdLnArgS.length && !( this.cmdLnArgS[i].equals("-h") || this.cmdLnArgS[i].equals("--help") )) {
+		// capture the loadFile and optional loadClass
+		if (i < cmdLnArgS.length && !( this.cmdLnArgS[i].startsWith("-") )) {
+			// The next argument after -v should be a jar file. This is what the currrent index is at.
 			this.loadFile = cmdLnArgS[i++];
-			// if there is an additional class name provided 							
-			if (i < cmdLnArgS.length && !( this.cmdLnArgS[i].equals("-h") || this.cmdLnArgS[i].equals("--help") )) {
-				this.loadClass = cmdLnArgS[i++];
-			}								
+			// The next argument after jar file should be the optional class name
+			if (i < cmdLnArgS.length && !( this.cmdLnArgS[i].startsWith("-") )) {
+				this.loadClass = cmdLnArgS[i];
+			}
 		}
 		
+		// return the current index of the command line token loop
 		return i;
 
 	}
