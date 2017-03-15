@@ -21,18 +21,18 @@ public class Utilities {
     	for (int i = 0; i < methods.length; i++) {
     		methodName = methods[i].getName();
     		parameters = methods[i].getParameterTypes();
-    		Object temp = methods[i].getReturnType();
+    		Type temp = methods[i].getReturnType();
     		if (temp == String.class)
     		{
     			returnType = "string";
     		}
-    		else if (temp == int.class)
-    		{
-    			returnType = "int";
-    		}
-    		else if (temp == float.class)
+    		else if (temp == float.class || temp == Float.class)
     		{
     			returnType = "float";
+    		}
+    		else if (temp == int.class || temp == Integer.class)
+    		{
+    			returnType = "int";
     		}
     		temp = null;
     		
@@ -44,13 +44,13 @@ public class Utilities {
         		{
     				functionList += " " + "string";
         		}
-        		else if (temp == int.class)
-        		{
-        			functionList += " " + "int";
-        		}
-        		else if (temp == float.class)
+        		else if (temp == float.class || temp == Float.class)
         		{
         			functionList += " " + "float";
+        		}
+        		else if (temp == int.class || temp == Integer.class)
+        		{
+        			functionList += " " + "int";
         		}
     		}
 			
