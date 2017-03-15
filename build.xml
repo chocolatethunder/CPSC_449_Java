@@ -14,7 +14,7 @@
         <!-- Name of the parser jar -->
         <property name="parser.file" value="methods.jar" />
         <!-- Name of the provided commands file -->
-        <property name="commands.file" value="Commands.jar" />
+        <property name="commands.file" value="commands.jar" />
 
         <!-- Deletes the existing build, docs and dist directory-->
         <target name="clean">
@@ -52,11 +52,13 @@
                             <attribute name="Main-Class" value="${main.class}" />
                         </manifest>
                 </jar>
+				<!--
                 <jar destfile="${commands.file}" basedir="${ref.dir}">
                         <manifest>
                             <attribute name="Main-Class" value="Commands" />
                         </manifest>
                 </jar>
+				-->
         </target>
 
         <target name="main" depends="compile, jar, docs">
