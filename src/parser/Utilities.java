@@ -17,7 +17,6 @@ public class Utilities {
     	String methodName;
     	
     	Class[] parameters = null;
-    	String parameter = null;
     	String returnType = null;
     	
     	for (int i = 0; i < methods.length; i++) {
@@ -54,7 +53,6 @@ public class Utilities {
         		{
         			functionList += " " + "float";
         		}
-    			//functionList += " " + parameter;
     		}
 			
     		functionList += ") : " + returnType + "\n";
