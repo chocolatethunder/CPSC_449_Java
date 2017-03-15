@@ -12,7 +12,7 @@ import java.net.*;
  */
 public class ExceptionHandler extends Exception {
     
-    private static boolean verbose = true;
+    private static boolean verbose = false;
     
     public ExceptionHandler() {        
     }
@@ -20,16 +20,15 @@ public class ExceptionHandler extends Exception {
     public ExceptionHandler(String message) {
         super(message);
     }
-    
-    // Enables verbose mode
-    public static void verboseOn() {
-        ExceptionHandler.verbose = true;
-    }
-    
-    // Disables verbose mode
-    public static void verboseOff() {
-        ExceptionHandler.verbose = false;
-    }
+	
+	// Toggles Verbose mode
+	public static void toggleVerbose() {
+		if (ExceptionHandler.verbose) {
+			ExceptionHandler.verbose = false;
+		} else {
+			ExceptionHandler.verbose = true;
+		}
+	}
 
     // Returns whether verbose mode is enabled/disabled (set by the user at command-line)
     public static boolean isVerbose() {
