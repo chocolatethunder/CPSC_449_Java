@@ -82,5 +82,12 @@ public class Utilities {
 		return s.length() - s.replace(Character.toString(c),"").length();
 	}
 	
+	/*
+	public static boolean isString (String s) {
+		// string split
+		// string.startswith && string.endswith
+	}
+	*/
+	
 
 }

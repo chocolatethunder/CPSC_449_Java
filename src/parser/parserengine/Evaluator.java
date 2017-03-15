@@ -14,7 +14,7 @@ public class Evaluator {
 	
 	}
 	
-	public string toString() {
+	public String toString() {
 		return "evaluated string";
 	}
 
