@@ -10,11 +10,10 @@ import java.net.*;
 public class Utilities {
 	
 	// The following method will print out every function, its parameters' type, and return type
-    public static void printFunctionList(Object o) {
+    public static void printFunctionList(Class cls) {
     	String functionList = "";
     	
-    	Class cls = o.getClass();
-    	Method[] methods = cls.getMethods();
+    	Method[] methods = cls.getDeclaredMethods();
     	String methodName;
     	
     	Class[] parameters = null;

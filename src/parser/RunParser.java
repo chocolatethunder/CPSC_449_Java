@@ -64,7 +64,7 @@ public class RunParser {
 					
 					// Function List
 					case 'f':
-					printFunctionList(jarLoad);
+					printFunctionList(jarLoad.getLoadedClass());
 					break;
 					
 					// Pring Help
