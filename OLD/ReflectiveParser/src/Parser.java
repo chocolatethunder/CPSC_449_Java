@@ -143,6 +143,10 @@ public class Parser<T extends Comparable<T>> {
 		
 }
 	
+	
+
+
+	
 //EVALUATOR********************************************************************************************************************************
 	/**
 	 *  Parses a parse tree in the correct order. bottom up
@@ -152,45 +156,30 @@ public class Parser<T extends Comparable<T>> {
 	 * @throws IllegalArgumentException 
 	 * @throws IllegalAccessException 
 	 */
-	public Node<Token> parse(Node<Token> rootNode, Class o ) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
+	public Node<Token> parse(Node<Token> rootNode, Class obj ) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
+		Object result = null;
+		
 		
 		//**** no children but is method****
 		if (rootNode.isLeaf() && rootNode.getData().getStringType().equals("identifier")) {
 			
-			Class obj = o; // class from jar file that contains all methods
-			int Index = 0;	// index for methods 
-			Method[] methods = o.getMethods(); // list of methods
 			
-			// check if the method is valid
-			if (isMethod(rootNode.getData().getName(), obj))
+			Method[] methods = obj.getMethods(); // list of methods
+			ArrayList<Integer> indices = getMethodIndices ( obj,  rootNode);	// index for methods
+			
+		
+			
+			if (indices.size() == 0)	// rootNode does not match any method in the class
 			{
-				for (int idk = 0; idk < methods.length; idk++)
-				{
-					if (rootNode.getData().getName().equals(methods[idk].getName())) {
-						{Index = idk;}		// add method index
-						
-					}
-					
-				}
+				
+				// TODO add error handling here, method not valid!
 			}
 			
+			
 			// invoke the method, and store the result
-			Object result = methods[Index].invoke(rootNode.getData().getName());
-            
-            //String result = (temp.getClass() == String.class) ? temp : "" + temp ;
-            
-			// store the result into the root node
-			rootNode.getData().setName(result+"");
-			rootNode.getData().setType(result.getClass());
-			if (result.getClass() == String.class) 
-				rootNode.getData().setStringType("string");
-			else if (result.getClass() == int.class)
-				rootNode.getData().setStringType("int");
-			else if (result.getClass()== float.class)
-				rootNode.getData().setStringType("float");
+			result = methods[indices.get(0)].invoke(rootNode.getData().getName());		// will only have one index if it has no children
 			
-			
-			return rootNode;
+			return setRootNodeData(rootNode, result);
 			
 			
 			
@@ -208,35 +197,30 @@ public class Parser<T extends Comparable<T>> {
 		else {
 			for (Node<Token> c : rootNode.getChildren()) {
 				if(!c.isLeaf()) {
-					parse(c, o);		// recursive call
+					parse(c, obj);		// recursive call
 				}
 			}
 			
-			Class obj = o; // class from jar file that contains all methods
-			ArrayList<Integer> Index = new ArrayList<Integer>();	// used for list of methods that match root node
-			Method[] methods = o.getMethods(); // list of methods
 			
-			// check if the method is valid
-			if (isMethod(rootNode.getData().getName(), obj))
+			Method[] methods = obj.getMethods(); // list of methods
+			ArrayList<Integer> indices = getMethodIndices ( obj,  rootNode);	// index for methods
+			
+		
+			if (indices.size() == 0)	// rootNode does not match any method in the class
 			{
-				for (int idk = 0; idk < methods.length; idk++)
-				{
-					if (rootNode.getData().getName().equals(methods[idk].getName())) {
-						{Index.add(idk);}		// add method index
-						
-					}
-					
-				}
+				
+				// TODO add error handling here, method not valid!
 			}
 			
-            //Type returnType = getReturnType(rootNode.getData().getName(), obj);
+			
             
 			// Get all children of root node, and store them in a arraylist
 			ArrayList<Node<Token>> children = rootNode.getChildren();
-			int methodIndex = validParamType(methods,children, Index );		// gets method index that contains the valid params 
+			
+			int methodIndex = validParamType(methods,children, indices );		// gets method index that contains the valid params 
 			
 			if (methodIndex == -1) {
-				System.out.println("no matching method call");
+				
 				// node children does not match any method parameters.
 				//TODO, throw exception here
 			
@@ -247,8 +231,6 @@ public class Parser<T extends Comparable<T>> {
 
 				for (int i = 0; i < rootNode.getChildren().size(); i++) {		// convert children from string to their actual type and store in args list
 						args[i] = convert(children.get(i).getData().getName(), children.get(i).getData().getType());
-						
-						
 				}
 				
 
@@ -256,26 +238,11 @@ public class Parser<T extends Comparable<T>> {
 				for (Node<Token> c : rootNode.getChildren()) { c.deleteNode(); }
 				
 				// invoke the method, and store the result
-				Object result = methods[methodIndex].invoke(rootNode.getData().getName(), args);
-	            System.out.println(methods[methodIndex].getName() + ": result is " + result);
-				// store the result into the root node
-				rootNode.getData().setName(result+"");
-				
-				if (result.getClass().equals(String.class)) { 
-					rootNode.getData().setType(String.class);
-					rootNode.getData().setStringType("string");
-				}else if (result.getClass().equals(Integer.class)) {
-					rootNode.getData().setType(int.class);
-					rootNode.getData().setStringType("int");
-				}else if (result.getClass().equals(Float.class)) {
-					rootNode.getData().setType(float.class);
-					rootNode.getData().setStringType("float");
-				}
+				 result = methods[methodIndex].invoke(rootNode.getData().getName(), args);
+
+	    
 			}
-			
-			
-			
-				return rootNode;
+			return setRootNodeData(rootNode, result);
 		}
 	}
 	
@@ -322,8 +289,9 @@ public class Parser<T extends Comparable<T>> {
 			
 			for (int j = 0; j < paramTypes.length; j ++) {
 				
+				// compare params to children 
 				if (paramTypes[j].equals(children.get(j).getData().getType())) {
-					validParam = i;
+					validParam = i;		
 				} else {
 					validParam = -1;
 				}
@@ -336,6 +304,23 @@ public class Parser<T extends Comparable<T>> {
     }
     
     
+	// check if the method is valid
+	public ArrayList<Integer> getMethodIndices (Class obj, Node<Token> rootNode) {
+		ArrayList<Integer> index = new ArrayList<Integer>();
+		Method[] methods = obj.getMethods(); // list of methods
+		if (isMethod(rootNode.getData().getName(), obj))
+		{
+			for (int idk = 0; idk < methods.length; idk++)
+			{
+				if (rootNode.getData().getName().equals(methods[idk].getName())) {
+					{index.add(idk);}		// add method index
+				}
+				
+			}
+		}
+
+		return index;
+	}
     
     
   //DONE
@@ -350,7 +335,7 @@ public class Parser<T extends Comparable<T>> {
             String result = s.substring(1, s.length() - 1);
             return result;
         }
-        if (valueType == int.class)
+        if (valueType == int.class || valueType == Integer.class )
         {
         	try{
         		int result;
@@ -365,13 +350,13 @@ public class Parser<T extends Comparable<T>> {
             	System.exit(0);
         	}
         }
-        if (valueType == float.class)
+        if (valueType == float.class || valueType == Float.class)
         {
         	try {
         		
         		float result;
         		
-        		 result = Float.parseFloat(s); 
+        		 result = (float)Float.parseFloat(s); 
         		
         		return result;
         	}
@@ -384,6 +369,26 @@ public class Parser<T extends Comparable<T>> {
     }
     
 
+    
+    // Sets rootNode data with result data. DOES NOT CHECK RETURN TYPE YET
+	public Node<Token> setRootNodeData (Node<Token> rootNode, Object data ) {
+		
+		// store the result into the root node
+		rootNode.getData().setName(data+"");
+		
+		if (data.getClass().equals(String.class)) { 
+			rootNode.getData().setType(String.class);
+			rootNode.getData().setStringType("string");
+		}else if (data.getClass().equals(Integer.class)) {
+			rootNode.getData().setType(int.class);
+			rootNode.getData().setStringType("int");
+		}else if (data.getClass().equals(Float.class)) {
+			rootNode.getData().setType(float.class);
+			rootNode.getData().setStringType("float");
+		}
+		
+		return rootNode;
+	}
     
 	
 	
