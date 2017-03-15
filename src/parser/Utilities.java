@@ -17,13 +17,13 @@ public class Utilities {
     	String methodName;
     	
     	Class[] parameters = null;
-    	String parameter;
-    	String returnType;
+    	String parameter = null;
+    	String returnType = null;
     	
     	for (int i = 0; i < methods.length; i++) {
     		methodName = methods[i].getName();
     		parameters = methods[i].getParameterTypes();
-    		Class<?> temp = methods[i].getReturnType();
+    		Object temp = methods[i].getReturnType();
     		if (temp == String.class)
     		{
     			returnType = "string";
@@ -44,17 +44,17 @@ public class Utilities {
     			temp = parameters[j];
     			if (temp == String.class)
         		{
-    				parameter = "string";
+    				functionList += " " + "string";
         		}
         		else if (temp == int.class)
         		{
-        			parameter = "int";
+        			functionList += " " + "int";
         		}
         		else if (temp == float.class)
         		{
-        			parameter = "float";
+        			functionList += " " + "float";
         		}
-    			functionList += " " + parameter;
+    			//functionList += " " + parameter;
     		}
 			
     		functionList += ") : " + returnType + "\n";
