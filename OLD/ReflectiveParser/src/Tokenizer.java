@@ -63,7 +63,10 @@ public class Tokenizer {
 						expression += (j + "");								// add chacacter to expression
 						j = input.charAt( ++i );							// increment character
 					} while (j != '"' ); 									// keep adding until second " is seen
-						
+					
+					expression += (j + "");								// add closing "" to expression
+					j = input.charAt( i );							// increment character
+					break;
 				default:
 					expression += (j + "");								// add character to expression
 					break;
