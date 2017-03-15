@@ -4,21 +4,15 @@ import java.io.*;
 import java.util.*;
 import java.lang.*;
 import java.text.*;
-import java.net.*;
 
 import static parser.Utilities.*;
 
-
-/**
- * 
- * 
- *
- */
 public class RunParser {
 
 	private boolean quit = false;
 	private String input = "";
-	    
+	ArrayList<Character> allowedExprStarts = new ArrayList<Character>(Arrays.asList('(','+','-','"'));
+
 	public RunParser(JarFileLoader jarLoad) {
 		
 		Scanner reader = new Scanner(System.in);
@@ -39,9 +33,11 @@ public class RunParser {
 			// Trim leading and trailing spaces
 			input.trim();
 			
+			// Capture the first character
+			char meta = input.charAt(0);
+			
+			// Either a meta command has been entered
 			if (input.length() == 1) {
-				
-				char meta = input.charAt(0);
 				
 				// Process meta commands
 				switch(meta) {
@@ -77,7 +73,27 @@ public class RunParser {
 					
 				}
 				
-			}			
+			} else {
+				
+				// or an expression is being entered
+				if (allowedExprStarts.contains(meta)) {
+					
+					/**** ENTRY INTO THE CODE ****/
+					
+					// Tokenize
+					Tokenizer tokenizer = new Tokenizer(input);
+					
+					// Construct Parse Trees. We must construct additional parsetrees!!
+					
+					// Evaluate expression
+					
+					// Print result
+					
+					/**** EXIT FROM THE CODE ****/
+					
+				}
+				
+			}		
 			
 		}
 
