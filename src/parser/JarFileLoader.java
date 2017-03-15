@@ -21,9 +21,11 @@ public class JarFileLoader {
 			URL url = jarFile.toURI().toURL();
 			
 			// Debug
+			/*
 			System.out.println(fileName);
 			System.out.println(className);			
-
+			*/
+			
 			// Get the Classloader method
 			URLClassLoader sysLoader = (URLClassLoader)ClassLoader.getSystemClassLoader();
 			// Turn the URLClassLoader into a class object
