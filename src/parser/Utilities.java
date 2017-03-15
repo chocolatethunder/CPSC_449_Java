@@ -23,12 +23,37 @@ public class Utilities {
     	for (int i = 0; i < methods.length; i++) {
     		methodName = methods[i].getName();
     		parameters = methods[i].getParameterTypes();
-    		returnType = methods[i].getReturnType().getName();
+    		Class<?> temp = methods[i].getReturnType();
+    		if (temp == String.class)
+    		{
+    			returnType = "string";
+    		}
+    		else if (temp == int.class)
+    		{
+    			returnType = "int";
+    		}
+    		else if (temp == float.class)
+    		{
+    			returnType = "float";
+    		}
+    		temp = null;
     		
     		functionList += "("  + methodName;
     		
 			for (int j = 0; j < parameters.length; j++) {
-    			parameter = parameters[j].getName();
+    			temp = parameters[j];
+    			if (temp == String.class)
+        		{
+    				parameter = "string";
+        		}
+        		else if (temp == int.class)
+        		{
+        			parameter = "int";
+        		}
+        		else if (temp == float.class)
+        		{
+        			parameter = "float";
+        		}
     			functionList += " " + parameter;
     		}
 			
