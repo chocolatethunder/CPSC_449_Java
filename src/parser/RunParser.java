@@ -85,9 +85,17 @@ public class RunParser {
 					
 					// Construct Parse Trees. We must construct additional parsetrees!!
 					
+					// ParseTreeConstructor parseTree = new ParseTreeConstructor(tokenizer);
+					
+					
 					// Evaluate expression
 					
+					// Evaluator evaluate = new Evaluate(parseTree, jarLoad);
+					
+					
 					// Print result
+					
+					// System.out.println(evaluate.toString());
 					
 					/**** EXIT FROM THE CODE ****/
 					
