@@ -288,8 +288,18 @@ public class Parser<T extends Comparable<T>> {
 			
 			
 			for (int j = 0; j < paramTypes.length; j ++) {
+				 
+				// if param is Integer class then converts it to int.class
+				if (paramTypes[j].equals(Integer.class)) {
+					paramTypes[j] = int.class;
+				}
 				
-				// compare params to children 
+				// if param is Float.class then converts it to float.class
+				if (paramTypes[j].equals(Float.class)) {
+					paramTypes[j] = float.class;
+				}
+				
+				// compare params to children
 				if (paramTypes[j].equals(children.get(j).getData().getType())) {
 					validParam = i;		
 				} else {
