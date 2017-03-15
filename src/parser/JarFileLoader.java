@@ -19,11 +19,15 @@ public class JarFileLoader {
 			// Take the file and convert it into a classpath using a URL conversion
 			File jarFile = new File(fileName);
 			URL url = jarFile.toURI().toURL();
+			
+			// Debug
+			System.out.println(fileName);
+			System.out.println(className);			
 
 			// Get the Classloader method
 			URLClassLoader sysLoader = (URLClassLoader)ClassLoader.getSystemClassLoader();
 			// Turn the URLClassLoader into a class object
-			Class<URLClassLoader> sysClass = URLClassLoader.class;
+			Class<?> sysClass = URLClassLoader.class;
 			// Grab the "addURL" method
 			Method method = sysClass.getDeclaredMethod("addURL", parameters);
 			// Cheat and set it to accesible because it is private
