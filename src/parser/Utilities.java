@@ -5,7 +5,6 @@ import java.util.*;
 import java.lang.*;
 import java.lang.reflect.*;
 import java.text.*;
-import java.net.*;
 
 public class Utilities {
 	
@@ -60,5 +59,28 @@ public class Utilities {
     	
     	System.out.println(functionList);
     }
+	
+	public static boolean checkBrackets (String s) {
+		
+		Stack<Character> stack = new Stack<Character>();
+		
+		for (int i = 0; i < s.length(); i++) {
+			char c = s.charAt(i);
+			if (c == '(') {
+				stack.push(c);
+			} else if (c == ')') {
+				if (stack.isEmpty()) { return false; }
+				if (stack.pop() != '(') { return false; }
+			}
+		}
+		
+		return stack.isEmpty();
+		
+	}
+	
+	public static int characterCount (String s, char c) {	
+		return s.length() - s.replace(Character.toString(c),"").length();
+	}
+	
 
 }
