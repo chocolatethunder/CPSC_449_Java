@@ -32,7 +32,7 @@ public class LoadParser {
 		// Make a local copy of the command line arguments
 		cmdLnArgS = args.clone();
 		
-		// No arguments
+		// Print full help message if there are no arguments
 		if (cmdLnArgS.length == 0) {
 			ExceptionHandler.printSynopsis(true);
 		}
@@ -44,7 +44,7 @@ public class LoadParser {
 		// ONLY COLLECT. Do the logic after. This is to check for any malformed or illegal arguments. 
 		while (i < cmdLnArgS.length) {
 
-			this.arg = cmdLnArgS[i];			
+			this.arg = cmdLnArgS[i];
 			
 			// Deal with FAT arguments.	This comment will trigger the left wingers.
 			if (this.arg.startsWith("--")) {
@@ -105,12 +105,12 @@ public class LoadParser {
 						// If there are tokens after verbose then ingest
 						// Need to collect the jar file name right after the flag
 						// length is finished not after the flag itself				
-						if (j == this.arg.length()-1 && !( this.cmdLnArgS[i].startsWith("-") )) {
+						if (j == this.arg.length()-1 && !this.cmdLnArgS[i].startsWith("-")) {
 							i = fileAndClassSetter(cmdLnArgS, ++i);
 						}
 						break;
 						
-						// unidentified foreign flag
+						// unidentified foreign flag. Call in the Vexillologist!
 						default:
 						throw new UnrecognizedQualifier(this.flag, this.arg);
 						
@@ -139,6 +139,10 @@ public class LoadParser {
 		
 		// DEAL WITH THE LOGIC
 		
+		if (this.vflag) {
+			ExceptionHandler.toggleVerbose();
+		}
+		
 		// if help flag is active then there cannot be a input file		
 		if (this.hflag) {			
 			if (this.loadFile != "") {
@@ -155,9 +159,10 @@ public class LoadParser {
 				JarFileLoader jarLoad = new JarFileLoader(this.loadFile, this.loadClass);				
 				
 				// If we have gotten this far then we load the program
-				// will need to pass the class as an object
-				//RunParser newProgramInstance = new RunParser();
-				
+				// Need to pass the loaded class as an object
+				if (jarLoad.isFileLoaded()) {
+					RunParser newProgramInstance = new RunParser(jarLoad);
+				}
 			} catch (Exception e) { /* empty catch */ }
 		}	
 		
@@ -189,12 +194,14 @@ public class LoadParser {
 		this.checkNumArguments(this.cmdLnArgS);
 		
 		// capture the loadFile and optional loadClass
-		if (i < cmdLnArgS.length && !( this.cmdLnArgS[i].startsWith("-") )) {
+		if (i < cmdLnArgS.length && !this.cmdLnArgS[i].startsWith("-") ) {
 			// The next argument after -v should be a jar file. This is what the currrent index is at.
 			this.loadFile = cmdLnArgS[i++];
 			// The next argument after jar file should be the optional class name
-			if (i < cmdLnArgS.length && !( this.cmdLnArgS[i].startsWith("-") )) {
+			if (i < cmdLnArgS.length && !this.cmdLnArgS[i].startsWith("-") ) {
 				this.loadClass = cmdLnArgS[i];
+			} else {
+				i--;
 			}
 		}
 		
