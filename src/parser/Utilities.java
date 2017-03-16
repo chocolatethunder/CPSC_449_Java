@@ -68,7 +68,7 @@ public class Utilities {
     	System.out.println(functionList);
     }
 	
-<<<<<<< HEAD
+
     /**
      * @param s - Represents the input string being checked for matching brackets
      * @return - Boolean representing if the brackets in the input match
@@ -91,12 +91,7 @@ public class Utilities {
 		
 	}
 	
-	/**
-	 * @param s - Represents the string of interest for counting a specific character's number of occurrences
-	 * @param c - Represents the character being counted
-	 * @return - Integer representing the number of times a character appears in a string
-	 */
-=======
+
 	/**
 	 * checks if the number of brackets match, i.e. the # of '(' matches the # of ')'
 	 * @param s
@@ -119,7 +114,6 @@ public class Utilities {
     /**
     * counts the number of a specific character in a string 
     */
->>>>>>> origin/master
 	public static int characterCount (String s, char c) {	
 		return s.length() - s.replace(Character.toString(c),"").length();
 	}
