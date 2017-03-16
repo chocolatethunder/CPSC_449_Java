@@ -15,8 +15,11 @@ public class Evaluator {
 
 	public Evaluator(ParseTreeConstructor parseTreeConstructor) {
         this.parseTreeConstructor = parseTreeConstructor;
-        this.parseTree = parseTreeConstructor.createParseTree ();
-        
+        try {
+            this.parseTree = parseTreeConstructor.createParseTree ();
+        } catch (Exception e) {
+            // handled in parse tree constructor
+        }
 	}
     	
 	
@@ -212,7 +215,7 @@ public class Evaluator {
             catch (NumberFormatException e)
         	{
             	System.out.println("Int out of range!");
-            	System.exit(0);
+            	
         	}
         }
         if (valueType == float.class || valueType == Float.class)
@@ -227,7 +230,7 @@ public class Evaluator {
         	}
         	catch (NumberFormatException e) {
         		System.out.println("Float out of range!");
-        		System.exit(0);
+        		
         	}
         }
         return null;

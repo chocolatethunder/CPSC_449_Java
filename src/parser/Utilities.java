@@ -156,7 +156,10 @@ public class Utilities {
         	int temp = Integer.parseInt(s.substring(start, s.length()));
         	return true;
         }
-        catch (Exception e) { return false; }
+        catch (NumberFormatException e) { 
+            System.out.println("int out of bounds ");
+            //throw new ParserException("Integer out of range", 0, s);
+        return false; }
     }
     
     /**
@@ -176,7 +179,9 @@ public class Utilities {
 	        	float temp = Float.parseFloat(s.substring(start, s.length()));
 	        	return true;
 	        }
-	        catch (Exception e) { return false; }
+	        catch (NumberFormatException e) { 
+            System.out.println("Int out of range!");
+            return false; }
         }
         else { return false; }
     }
