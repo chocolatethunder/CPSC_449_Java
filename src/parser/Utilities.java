@@ -157,9 +157,7 @@ public class Utilities {
         	return true;
         }
         catch (NumberFormatException e) { 
-            System.out.println("int out of bounds ");
-            //throw new ParserException("Integer out of range", 0, s);
-        return false; }
+            return false; }
     }
     
     /**
@@ -179,9 +177,8 @@ public class Utilities {
 	        	float temp = Float.parseFloat(s.substring(start, s.length()));
 	        	return true;
 	        }
-	        catch (NumberFormatException e) { 
-            System.out.println("Int out of range!");
-            return false; }
+	        catch (NumberFormatException e) {
+                return false; }
         }
         else { return false; }
     }
