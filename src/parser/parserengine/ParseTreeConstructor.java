@@ -73,7 +73,7 @@ public class ParseTreeConstructor {
 				case "unidentified":
 					// TODO error handling!!!!
 					System.out.println(token.getName() + " invalid variable type in position " + token.getIndex() );
-					System.exit(0); // should not be exiting here
+					
 					
 			}
 		}
