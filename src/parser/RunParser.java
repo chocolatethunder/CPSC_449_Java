@@ -13,7 +13,7 @@ import static parser.Utilities.*;
 public class RunParser {
 
 	private boolean quit = false;
-	private String originalInput = "";
+	private String userInput = "";
     private String input = "";
 	ArrayList<Character> allowedExprStarts = new ArrayList<Character>(Arrays.asList('(','+','-','"'));
 
@@ -34,12 +34,12 @@ public class RunParser {
 			System.out.print("> ");
 			
 			// Capture input
-			input = reader.nextLine();  // used to parse expression
+			userInput = reader.nextLine();  // used to parse expression
 			
 			// Process
 			
 			// Trim leading and trailing spaces
-			input.trim();
+			input = userInput.trim();
 			
 			// Capture the first character
 			char meta = input.charAt(0);
