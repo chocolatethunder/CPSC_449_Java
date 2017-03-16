@@ -9,7 +9,6 @@ import static parser.Utilities.*;
  * Creates an ArrayList<Token> list from a string. Each token contains the name and
  * type. They type consists of int, float, string, identifier, openBracket, closedBracket,
  * unidentified.
- *
  */
 public class Tokenizer {
 	
@@ -18,6 +17,10 @@ public class Tokenizer {
 	int tokenPosition = 0;
 	Class jarLoad;
     
+	/**
+	 * @param input - String representing the command line input
+	 * @param jarLoad - Class representing the class under consideration
+	 */
 	public Tokenizer (String input, JarFileLoader jarLoad ) {
 		this.input = input;
         this.jarLoad = jarLoad.getLoadedClass();
@@ -29,27 +32,25 @@ public class Tokenizer {
 				// makes token list
 				this.makeTokenList();				
 			}
-		} catch (Exception e) { /*Do nothing*/ }
-		
+		} catch (Exception e) { /*Errors handled elsewhere*/ }
 	}
-    
-    
+     
     /**
-	 * takes a String and makes a list of tokens that encodes the
-	 * name and type of each character. 
+	 * Makes a list of tokens that encodes the name and type of each character. 
 	 */
 	public void makeTokenList() {
 		tokens = new ArrayList<Token>();
 		
-		String subExpression = ""; // 
-		int tokenPosition = 0;	// index for each token. Can be used later for error tracing. 
+		String subExpression = "";
+		// index for each token, used in error tracing
+		int tokenPosition = 0;	
 		
 		for (int i = 0; i < input.length(); i++) {
 			
 			char j = input.charAt( i );
+			
 			switch ( j ) {
 				case '(':
-					
 					tokens.add(new Token((j + ""), char.class, "openBracket", tokenPosition++));	// converted into string
 					break;
 				case ' ':
@@ -86,11 +87,18 @@ public class Tokenizer {
 		}
 	}
 	
+	/**
+	 * @return - ArrayList<Token> representing the list of tokens created from the command-line input
+	 */
 	public ArrayList<Token> getTokens() {
 		return this.tokens;		
 	}
 	
-    
+    /**
+     * Checks the command-line input for various syntax errors.
+     * @param input - String representing the command-line input
+     * @return - Boolean representing if the input checks passed
+     */
 	public boolean runPrelimChecks(String input) throws Exception {		
 		
 		// check even number of brackets
@@ -99,10 +107,12 @@ public class Tokenizer {
 			// if the input begins with a '('
 			if (characterCount(input, '(') != 0) {
 				
-				return true;
+				return true;}
+		
 			
             // deals with literals
-			} else {
+			 else {
+                
                 // If no brackets needs checks to see if it is a int float or string,
                 if (isInt(input) || isFloat(input)) {
                     System.out.println(input);
@@ -110,17 +120,16 @@ public class Tokenizer {
                     System.out.println(input.substring(1, input.length()-1));
                     
                 } else {
-                    System.out.println(input + " IS NOT VALID!");
-                    //TODO exception handling. Warning input is invalid
+                	throw new ParserException("Unexpected character encountered", 0, input);
                 }
-                 
-				
-			}
-			
-		} else {
-			// exception
+			 }
 		}
+			
+		else {
+			throw new ParserException("Mis-matched brackets encountered", 0, input);
+		}
+		
+		
 		return false;
 	}
-
 }

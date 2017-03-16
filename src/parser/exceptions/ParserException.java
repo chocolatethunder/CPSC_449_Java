@@ -15,7 +15,7 @@ public class ParserException extends ExceptionHandler {
 	 * @param cmd - erroneous user input from the command line
 	 * @param e - exception which was thrown, used to print appropriate stack trace in verbose mode
 	 */
-    public ParserException(String errMsg, int offset, String cmd, Exception e) {
+    public ParserException(String errMsg, int offset, String cmd) {
         
     	// Error message
         System.out.println(errMsg + " at offset " + offset);
@@ -31,7 +31,7 @@ public class ParserException extends ExceptionHandler {
         
         // Prints a stack trace if verbose mode was enabled by the user
         if (ExceptionHandler.isVerbose() == true) {
-            e.printStackTrace();
+            printStackTrace();
         }
         
     }
