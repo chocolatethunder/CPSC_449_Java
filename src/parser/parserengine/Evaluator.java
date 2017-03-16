@@ -259,6 +259,7 @@ public class Evaluator {
     
 	
 	public String toString() {
+		// Needs to return result here. Might need to use .toString method ???
 		return "evaluated string";
 	}
 
