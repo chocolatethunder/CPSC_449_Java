@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import static parser.Utilities.*;
 
-// this file needs to be re-written. what is this code bruh? It hurt my brain!
 
 public class Tokenizer {
 	
@@ -15,8 +14,7 @@ public class Tokenizer {
 	
 	public Tokenizer (String expression) {
 		
-		// Debug
-		System.out.println(expression);
+
 		
 	}
 	
