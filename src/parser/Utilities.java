@@ -102,6 +102,7 @@ public class Utilities {
 	/**
 	 * Allowable types are string, int, float or identifier.
 	 * @param s - Represents the string under consideration for identifying its type
+	 * @param jarLoad - Represents the class under consideration
 	 * @return - Class representing the type of the input string
 	 */
 	public static Class getType (String s , Class jarLoad) {
@@ -118,7 +119,8 @@ public class Utilities {
 	
 	/**
 	 * Allowable types are string, int, float or identifier.
-	 * @param s - Represents the string under consideration for indentifying its type
+	 * @param s - Represents the string under consideration for identifying its type
+	 * @param jarLoad - Represents the class under consideration
 	 * @return - String representing the type of the input string
 	 */
 	public static String getStringType (String s, Class jarLoad ) {
