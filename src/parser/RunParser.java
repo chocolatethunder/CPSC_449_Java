@@ -71,16 +71,14 @@ public class RunParser {
 					printFunctionList(jarLoad.getLoadedClass());
 					break;
 					
-					// Pring Help
+					// Print Help
 					case '?':
 					this.printStartup();
 					break;
 					
 					default:
-					break;
-					
+					break;	
 				}
-				
 			}
 			
 			// or an expression is being entered
@@ -91,7 +89,7 @@ public class RunParser {
 					// Tokenize
 					Tokenizer tokenizer = new Tokenizer(input, jarLoad);
 					
-					// Check if the order of tokens is corret
+					// Check if the order of tokens is correct
 					if (checkOrderOfTokens(tokenizer.getTokens()) == -1) {
 				
 						// Construct Parse Trees. We must construct additional parsetrees!!
@@ -100,26 +98,23 @@ public class RunParser {
 						// Evaluate expression
 						Evaluator evaluator = new Evaluator(parseTree);
 						
-						
                         // parse tree 
                         evaluator.parse(evaluator.getParseTree(), jarLoad.getLoadedClass());
                          
                         // print result 
 						System.out.println(evaluator.toString());
-					
-					}
-					
+					}	
 				} catch (Exception e) { /*Do nothing*/ }
 				
 			} else {
+				// input doesn't contain a qualifier and isn't ( + - "
+				// why would we throw an exception? What about numbers?
 				// throw exception. 
 				// @Kaylee you might need to overload the ParseException function to 
 				// not have a String cmd parameter because I just saw Rob's output and it says:
 				// Unexpected character encounterd at offset 0
-			}	
-			
+			}				
 		}
-
 	}
     
 	/**
@@ -134,7 +129,5 @@ public class RunParser {
 		"<expression>: Evaluate the expression.\n" +
 		"Expressions can be integers, floats, strings (surrounded in double quotes) or function calls of the form '(identifier {expression}*)'."
 		);
-	}    
-    
-    
+	}        
 }
