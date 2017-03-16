@@ -71,7 +71,8 @@ public class Utilities {
 
     /**
      * @param s - Represents the input string being checked for matching brackets
-     * @return - Boolean representing if the brackets in the input match
+     * @return - int representing the index where there is a mis match, or -1 if 
+     *           brackets match
      */
 	public static int checkBrackets (String s) {
 		
@@ -85,7 +86,7 @@ public class Utilities {
 				iStack.push(i);
 			} else if (c == ')') {
 				if (bStack.isEmpty()) { return i; }
-				if (bStack.pop() != '(') { return iStack.pop(); }   // return index
+				if (bStack.pop() != '(') { return iStack.pop(); }   
 			}
 		}
         
