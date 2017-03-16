@@ -6,12 +6,19 @@ import java.lang.*;
 import java.lang.reflect.*;
 import java.text.*;
 
+/**
+ * Class contains methods used globally throughout the program.
+ */
 public class Utilities {
 	
-	// The following method will print out every function, its parameters' type, and return type
+	/**
+	 * Prints out each function (with its parameters' types and return type) for the specified class
+	 * @param cls - Represents the class under consideration for printing functions
+	 */
     public static void printFunctionList(Class cls) {
     	String functionList = "";
     	
+    	// Retrieves methods from the loaded class
     	Method[] methods = cls.getDeclaredMethods();
     	String methodName;
     	
@@ -19,6 +26,7 @@ public class Utilities {
     	String returnType = null;
     	
     	for (int i = 0; i < methods.length; i++) {
+    		// Retrieves specific method's parameters and return type
     		methodName = methods[i].getName();
     		parameters = methods[i].getParameterTypes();
     		Type temp = methods[i].getReturnType();
@@ -60,6 +68,10 @@ public class Utilities {
     	System.out.println(functionList);
     }
 	
+    /**
+     * @param s - Represents the input string being checked for matching brackets
+     * @return - Boolean representing if the brackets in the input match
+     */
 	public static boolean checkBrackets (String s) {
 		
 		Stack<Character> stack = new Stack<Character>();
@@ -78,55 +90,54 @@ public class Utilities {
 		
 	}
 	
+	/**
+	 * @param s - Represents the string of interest for counting a specific character's number of occurrences
+	 * @param c - Represents the character being counted
+	 * @return - Integer representing the number of times a character appears in a string
+	 */
 	public static int characterCount (String s, char c) {	
 		return s.length() - s.replace(Character.toString(c),"").length();
 	}
+	
 	/**
-	 * get the type of an input.
-	 * Types are string, int, float or identifier
-	 * 
-	 * @param s
-	 * @return
+	 * Allowable types are string, int, float or identifier.
+	 * @param s - Represents the string under consideration for identifying its type
+	 * @return - Class representing the type of the input string
 	 */
 	public static Class getType (String s , Class jarLoad) {
-		
-		
+			
         if(isInt(s))  return int.class; 
         if(isString(s)) return String.class; 
         if(isFloat(s))  return float.class; 
         
-        if(isMethod(s, jarLoad)) return Method.class;	// if not method return generic class
+        // if not method return generic class
+        if(isMethod(s, jarLoad)) return Method.class;	
 		
-        
-        
 		return Class.class;
 	}
 	
 	/**
-	 * get the type of an input.
-	 * Types are string, int, float or identifier
-	 * 
-	 * @param s
-	 * @return
+	 * Allowable types are string, int, float or identifier.
+	 * @param s - Represents the string under consideration for indentifying its type
+	 * @return - String representing the type of the input string
 	 */
 	public static String getStringType (String s, Class jarLoad ) {
-		
-        
+		   
         if(isInt(s)) return "int"; 
         if(isString(s)) return "string"; 
         if(isFloat(s))  return "float"; 
         
-        if(isMethod(s, jarLoad)) return "identifier"; // if not method return generic class
+        // if not method return generic class
+        if(isMethod(s, jarLoad)) return "identifier"; 
         
 		return "unidentified";
 	}
 	
 	/**
-	 * The following method will check if the argument is an valid integer (int)
-	 * @param s
-	 * @return
+	 * Checks if the argument is a valid integer.
+	 * @param s - Represents the value under consideration 
+	 * @return - Boolean representing whether or not the input string is a valid integer
 	 */
-     
     public static boolean isInt(String s)
     {
         boolean valid = false;
@@ -141,11 +152,10 @@ public class Utilities {
         catch (Exception e) { return false; }
     }
     
-    
     /**
-     *  The following method will check if the argument is a valid float number
-     * @param s
-     * @return
+     * Checks if the argument is a valid float.
+     * @param s - Represents the value under consideration
+     * @return - Boolean representing whether or not the input string is a valid float
      */
     public static boolean isFloat(String s)
     {
@@ -165,9 +175,9 @@ public class Utilities {
     }
     
     /**
-     *  The following method will check if the argument is a valid string
-     * @param s
-     * @return
+     * Checks if the argument is a valid string.
+     * @param s - Represents the value under consideration
+     * @return - Boolean representing whether or not the input string is a valid string
      */
     public static boolean isString(String s)
     {
@@ -188,9 +198,12 @@ public class Utilities {
         else { return false; }
     }
     
-      /**
-      * The following method will check and see if user input is a valid method
-      */ 
+	/**
+	* Checks if the argument is a valid method.
+	* @param s - Represents the value under consideration
+	* @param jarLoad - Represents the class under consideration
+	* @return - Boolean representing whether or not the input string is a valid method
+    */ 
     public static boolean isMethod(String s, Class jarLoad)
     {
     	//check and see if s is a valid method
@@ -208,10 +221,9 @@ public class Utilities {
     	return false;
     }
     
-    	/**
-	 * 
-	 * If the ordering is not correct, returns the index where it is wrong
-	 * else, returns -1
+    /**
+	 * If the ordering is not correct, returns the index where the error occurs.
+	 * Else returns -1
 	 * @param input
 	 * @return
 	 */
