@@ -4,12 +4,24 @@ import java.io.File;
 import java.lang.reflect.*;
 import java.net.*;
 
+/**
+ * Contains methods which attempt to load the jar file and class.
+ */
 public class JarFileLoader {
 
 	private Class[] parameters = new Class[]{URL.class};
 	private Class loadedClass;
 	private boolean loadSuccessful = false;
 
+	/**
+	 * 
+	 * Attempts to load the provided jar file and class, throwing appropriate
+	 * exceptions if the process is not possible.
+	 * 
+	 * @param fileName - represents the jar file being loaded
+	 * @param className - represents the class being loaded
+	 * 
+	 */
 	public JarFileLoader(String fileName, String className) throws ErrorLoadingJarFile, ErrorFindingClass {
 
 		// Lifted from Robert Kremer's Java Reflection Notes.
@@ -39,27 +51,32 @@ public class JarFileLoader {
 
 			// Load the class here
 			try {
-				// SysClass holds the info for the loaded jar file
+				// sysClass holds the info for the loaded jar file
 				this.loadedClass = sysClass.forName(className);
 				this.loadSuccessful = true;
 			}
-			// If there is any error loading the jar file throw the generic <exception>
+			// If there is any error loading the class throw the fatal error exception
 			catch (Exception e) {
 				throw new ErrorFindingClass(className);
 			}
 
 		}
-		// If there is any error loading the jar file throw the generic <exception>
-		catch (Exception e) {
+		// If there is any error loading the jar file throw the fatal error exception
 			throw new ErrorLoadingJarFile(fileName);
 		}
 
 	}
 
+	/**
+	 * Returns the class which was loaded
+	 */
 	public Class getLoadedClass() {
 		return this.loadedClass;
 	}
 
+	/**
+	 * Returns a boolean which represents if the file was loaded successfully
+	 */
 	public boolean isFileLoaded() {
 		return this.loadSuccessful;
 	}
