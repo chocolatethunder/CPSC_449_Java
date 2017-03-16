@@ -73,21 +73,25 @@ public class Utilities {
      * @param s - Represents the input string being checked for matching brackets
      * @return - Boolean representing if the brackets in the input match
      */
-	public static boolean checkBrackets (String s) {
+	public static int checkBrackets (String s) {
 		
-		Stack<Character> stack = new Stack<Character>();
+		Stack<Character> bStack = new Stack<Character>(); // bracket stack
+        Stack<Integer> iStack = new Stack<Integer>(); // index stack
 		
 		for (int i = 0; i < s.length(); i++) {
 			char c = s.charAt(i);
 			if (c == '(') {
-				stack.push(c);
+                bStack.push(c);
+				iStack.push(i);
 			} else if (c == ')') {
-				if (stack.isEmpty()) { return false; }
-				if (stack.pop() != '(') { return false; }
+				if (bStack.isEmpty()) { return i; }
+				if (bStack.pop() != '(') { return iStack.pop(); }   // return index
 			}
 		}
-		
-		return stack.isEmpty();
+        
+		if (!bStack.isEmpty()) {return iStack.pop();}
+        
+		return -1;  // brackets match
 	}
 	
     /**

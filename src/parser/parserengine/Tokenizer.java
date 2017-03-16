@@ -102,9 +102,9 @@ public class Tokenizer {
 	public boolean runPrelimChecks(String input) throws Exception {		
 		
 		// check even number of brackets
-		if (checkBrackets(input) == true) {
+		if (checkBrackets(input) == -1) {       // i.e not even number of brackets
 			
-			// if the input begins with a '('
+			// if there are brackets
 			if (characterCount(input, '(') != 0) {
 				
 				return true;}
@@ -126,7 +126,7 @@ public class Tokenizer {
 		}
 			
 		else {
-			throw new ParserException("Mis-matched brackets encountered", 0, input);
+			throw new ParserException("Mis-matched brackets encountered", checkBrackets(input), input);
 		}
 		
 		
