@@ -100,11 +100,12 @@ public class RunParser {
 						// Evaluate expression
 						Evaluator evaluator = new Evaluator(parseTree);
 						
-						/* This line needs to go. I need a nice clean evaluator.toString() to generate the output here.
-						 * Please go into you Evaluator.java file and take the result variable on line 62 and pass it to
-						 * the toString() method at the end. Remove this comment upon completion. 
-						 */
-						// System.out.println(evaluator.parse(evaluator.getParseTree(), jarLoad.getLoadedClass()).getData().getName());
+						
+                        // parse tree 
+                        evaluator.parse(evaluator.getParseTree(), jarLoad.getLoadedClass());
+                         
+                        // print result 
+						System.out.println(evaluator.toString());
 					
 					}
 					

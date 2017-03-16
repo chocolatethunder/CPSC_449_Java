@@ -101,7 +101,9 @@ public class Tokenizer {
 				return true;
 				
 			} else {
-				// exception
+                // If no brackets needs checks to see if it is a int float or string,
+                // if so print it. else print warning exception. 
+				// System.exit(0)
 			}
 			
 		} else {

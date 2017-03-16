@@ -11,12 +11,12 @@ import static parser.Utilities.*;
 public class Evaluator {
     ParseTreeConstructor parseTreeConstructor;
     Node<Token> parseTree;
-    
+    Object result = null;   // holds the result of the parse
 
 	public Evaluator(ParseTreeConstructor parseTreeConstructor) {
         this.parseTreeConstructor = parseTreeConstructor;
         this.parseTree = parseTreeConstructor.createParseTree ();
-	
+        
 	}
     	
 	
@@ -37,8 +37,6 @@ public class Evaluator {
 	 * @throws IllegalAccessException 
 	 */
 	public Node<Token> parse( Node<Token> rootNode, Class jarLoad ) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
-		Object result = null;
-		
 		
 		
 		//**** no children but is method****
@@ -259,8 +257,8 @@ public class Evaluator {
     
 	
 	public String toString() {
-		// Needs to return result here. Might need to use .toString method ???
-		return "evaluated string";
+		
+		return result + "";
 	}
 
 }
