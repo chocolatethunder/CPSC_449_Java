@@ -7,12 +7,19 @@ import java.text.*;
 
 import static parser.Utilities.*;
 
+/**
+ * Contains various methods which parse the command-line input.
+ */
 public class RunParser {
 
 	private boolean quit = false;
 	private String input = "";
 	ArrayList<Character> allowedExprStarts = new ArrayList<Character>(Arrays.asList('(','+','-','"'));
 
+	/**
+	 * Runs the parser on the command-line input
+	 * @param jarLoad - Represents the loaded jar file
+	 */
 	public RunParser(JarFileLoader jarLoad) {
 		
 		Scanner reader = new Scanner(System.in);
@@ -111,6 +118,9 @@ public class RunParser {
 
 	}
     
+	/**
+	 * Prints the appropriate start-up messages to the console
+	 */
 	private void printStartup(){
 		System.out.println(
 		"q           : Quit the program.\n" +
