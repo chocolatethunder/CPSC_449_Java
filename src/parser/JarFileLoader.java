@@ -60,8 +60,9 @@ public class JarFileLoader {
 				throw new ErrorFindingClass(className);
 			}
 
-		}
+		} 
 		// If there is any error loading the jar file throw the fatal error exception
+		catch (Exception e) {
 			throw new ErrorLoadingJarFile(fileName);
 		}
 
