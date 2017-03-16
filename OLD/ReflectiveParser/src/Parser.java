@@ -354,7 +354,7 @@ public class Parser<T extends Comparable<T>> {
 
         		return result;
             }
-            catch (ArithmeticException e)
+            catch (NumberFormatException e)
         	{
             	System.out.println("Int out of range!");
             	System.exit(0);
