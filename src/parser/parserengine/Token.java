@@ -1,5 +1,8 @@
 package parser;
 
+/**
+ * Separates the command-line input into token components.
+ */
 public class Token {
 	
 	// name of Token
@@ -12,9 +15,11 @@ public class Token {
 	private int index;
 	
 	/**
-	 * constructor for token. Sets the name and type
-	 * @param name
-	 * @param type
+	 * Constructor for the token component.
+	 * @param name - Represents the name of the token
+	 * @param type- Represents the type of the token (Integer, Float, String, Char)
+	 * @param stringType - Represents the token expressed as a string for printing purposes
+	 * @param index - Represents the index at which the token occurs in the command-line input
 	 */
 	public Token (String name, Class type, String stringType, int index) {
 		this.setName(name);
@@ -24,67 +29,59 @@ public class Token {
 	}
 	
 	/**
-	 * getter for name
-	 * @return
+	 * 
+	 * @return - String representing the name of the token
 	 */
 	public String getName() {
 		return this.name;
 	}
 
 	/**
-	 * setter for name
-	 * @param name
+	 * @param name - String representing the name of the token
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
-	 * getter for type
-	 * @return
+	 * @return - Class representing the type of the token (Integer, String, Float, Char)
 	 */
 	public Class getType() {
 		return this.type;
 	}
 
 	/**
-	 * setter for type
-	 * @param type
+	 * @param type - Class representing the type of the token (Integer, String, Float, Char)
 	 */
 	public void setType(Class type) {
 		this.type = type;
 	}	
 	
 	/**
-	 * getter for index
-	 * @return
+	 * @return - Integer representing the index at which the token occurs in the command-line
 	 */
 	public int getIndex() {
 		return this.index;
 	}
 
 	/**
-	 * setter for index
-	 * @param index
+	 * @param index - Integer representing the index at which the token occurs in the command-line
 	 */
 	public void setIndex(int index) {
 		this.index = index;
 	}
 
 	/**
-	* getter for stringType
-	* @return
+	* @return - String representing the token expressed as a string for printing
 	*/
 	public String getStringType() {
 		return this.stringType;
 	}
 	 
 	 /**
-	  * setter for stringType
-	  * @param stringType
+	  * @param stringType - String representing the token expressed as a string for printing
 	  */
 	public void setStringType(String stringType) {
 		this.stringType = stringType;
 	}
-
 }
