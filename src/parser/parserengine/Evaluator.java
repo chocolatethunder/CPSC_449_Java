@@ -209,7 +209,7 @@ public class Evaluator {
 
         		return result;
             }
-            catch (ArithmeticException e)
+            catch (NumberFormatException e)
         	{
             	System.out.println("Int out of range!");
             	System.exit(0);
@@ -225,7 +225,7 @@ public class Evaluator {
         		
         		return result;
         	}
-        	catch (ArithmeticException e) {
+        	catch (NumberFormatException e) {
         		System.out.println("Float out of range!");
         		System.exit(0);
         	}
