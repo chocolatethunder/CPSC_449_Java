@@ -18,11 +18,18 @@ public class Tokenizer {
 	int tokenPosition = 0;
 	Class jarLoad;
     
-	public Tokenizer (String input, Class jarLoad ) {
+	public Tokenizer (String input, JarFileLoader jarLoad ) {
 		this.input = input;
-        this.jarLoad = jarLoad;
-        makeTokenList();		// makes token list
-
+        this.jarLoad = jarLoad.getLoadedClass();
+		
+		try {
+			// If the preliminary checks are good then continue
+			// to make a token list.
+			if (this.runPrelimChecks(input)) {				
+				// makes token list
+				this.makeTokenList();				
+			}
+		} catch (Exception e) { /*Do nothing*/ }
 		
 	}
     
@@ -80,7 +87,27 @@ public class Tokenizer {
 	}
 	
 	public ArrayList<Token> getTokens() {
-		return this.tokens;
+		return this.tokens;		
+	}
+	
+	public boolean runPrelimChecks(String input) throws Exception {		
+		
+		// check even number of brackets
+		if (checkBrackets(input) == true) {
+			
+			// if the input begins with a '('
+			if (characterCount(input, '(') != 0) {
+				
+				return true;
+				
+			} else {
+				// exception
+			}
+			
+		} else {
+			throw new ParserException("No matching brackers", 0, input, new Exception()); 
+		}
+		return false;
 	}
 
 }
