@@ -91,29 +91,11 @@ public class Utilities {
 		
 	}
 	
-
-	/**
-	 * checks if the number of brackets match, i.e. the # of '(' matches the # of ')'
-	 * @param s
-	 * @return boolean
-	 */
-    public static boolean checkBrackets (String s)
-    {
-        int counter = 0;
-        
-        for (int i = 0; i < s.length(); i++)
-        {
-            if (s.charAt(i) == '(') { counter++; }
-            if (s.charAt(i) == ')') { counter--; }
-        }
-        
-        if (counter == 0) { return true; }
-        else { return false; }
-    }
-	
     /**
-    * counts the number of a specific character in a string 
-    */
+	 * @param s - Represents the string of interest for counting a specific character's number of occurrences
+	 * @param c - Represents the character being counted
+	 * @return - Integer representing the number of times a character appears in a string
+	 */
 	public static int characterCount (String s, char c) {	
 		return s.length() - s.replace(Character.toString(c),"").length();
 	}
