@@ -42,8 +42,6 @@ public class Tokenizer {
 		tokens = new ArrayList<Token>();
 		
 		String subExpression = "";
-		// index for each token, used in error tracing
-		int tokenPosition = 0;	
 		
 		for (int i = 0; i < input.length(); i++) {
 			
@@ -51,13 +49,13 @@ public class Tokenizer {
 			
 			switch ( j ) {
 				case '(':
-					tokens.add(new Token((j + ""), char.class, "openBracket", tokenPosition++));	// converted into string
+					tokens.add(new Token((j + ""), char.class, "openBracket", i-1));	// converted into string
 					break;
 				case ' ':
 					if (subExpression.length() > 0) {
 						Class type = getType(subExpression, jarLoad);				// get type
 						String stringType = getStringType(subExpression, jarLoad);				// get type
-						tokens.add(new Token (subExpression, type, stringType, tokenPosition++));		// add token if expression is not empty
+						tokens.add(new Token (subExpression, type, stringType, i-1));		// add token if expression is not empty
 					}
 					subExpression = "";									// reset subExpression
 					break;
@@ -65,10 +63,10 @@ public class Tokenizer {
 					if (subExpression.length() > 0) {						// if there is an expression, add it 
 						Class type = getType(subExpression, jarLoad);				// get type
 						String stringType = getStringType(subExpression, jarLoad);
-						tokens.add(new Token (subExpression, type, stringType, tokenPosition++));		// add subExpression before ')'
+						tokens.add(new Token (subExpression, type, stringType, i-1));		// add subExpression before ')'
 					}
 					subExpression = "";									// reset subExpression
-					tokens.add(new Token((j + ""), char.class, "closedBracket", tokenPosition++));	// converted into string
+					tokens.add(new Token((j + ""), char.class, "closedBracket", i-1));	// converted into string
 					break;
 					
 				case '"':

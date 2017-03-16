@@ -83,7 +83,7 @@ public class ParseTreeConstructor {
 					break;
 				// Token is not of the datatype Integer, Float, String, or Char
 				case "unidentified":
-					throw new ParserException("Invalid datatype encountered", token.getIndex(), tokenizer.getInput());	
+					throw new ParserException("Invalid datatype encountered", token.getIndex() - (token.getName().length()-1), tokenizer.getInput());	
 			}
 		}
 		return currentTree;
