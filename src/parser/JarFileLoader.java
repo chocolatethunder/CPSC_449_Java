@@ -68,14 +68,14 @@ public class JarFileLoader {
 	}
 
 	/**
-	 * Returns the class which was loaded
+	 * @return - Returns the class which was loaded
 	 */
 	public Class getLoadedClass() {
 		return this.loadedClass;
 	}
 
 	/**
-	 * Returns a boolean which represents if the file was loaded successfully
+	 * @return - Returns a boolean which represents if the file was loaded successfully 
 	 */
 	public boolean isFileLoaded() {
 		return this.loadSuccessful;
