@@ -15,7 +15,7 @@ public class RunParser {
 	private boolean quit = false;
 	private String userInput = "";
     private String input = "";
-	ArrayList<Character> allowedExprStarts = new ArrayList<Character>(Arrays.asList('(','+','-','"'));
+	ArrayList<Character> allowedQuantifierStarts = new ArrayList<Character>(Arrays.asList('q','v','f','?'));
 
 	/**
 	 * Runs the parser on the command-line input
@@ -45,7 +45,7 @@ public class RunParser {
 			char meta = input.charAt(0);
 			
 			// Either a meta command has been entered
-			if (input.length() == 1) {
+			if (input.length() == 1 && allowedQuantifierStarts.contains(meta)) {
 				
 				// Process meta commands
 				switch(meta) {
