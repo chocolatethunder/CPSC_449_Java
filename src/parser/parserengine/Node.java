@@ -2,72 +2,89 @@ package parser;
 
 import java.util.ArrayList;
 
-
+/**
+ * Class which represents the Node in the parse tree and contains various methods to manipulate/retrieve
+ * data from a node.
+ */
 public class Node<T> {
 	
 	private ArrayList<Node<T>> myChildren = new ArrayList<Node<T>>();
 	private Node<T> myParent = null;
 	private T data = null;
 	
-	// Basic Constructor to Create TreeNode (Only Initializes Data)
+	/**
+	 * Initializes data of node.
+	 * @param data - Represents the node's data
+	 */
 	public Node(T data) {
 		this.data = data;
 	}
 	
-	// Constructor to Create TreeNode (Initializes data and Stores myParent)
+	/**
+	 * Initializes data and parents of node.
+	 * @param data - Represents the node's data
+	 * @param parent - Represents the node's parent node
+	 */
 	public Node(T data, Node<T> parent) {
 		this.data = data;
 		this.myParent = parent;
 	}
 	
-	// Getter that Returns List of myChildren
+	/**
+	 * @return - ArrayList<Node<T>> representing all the children node's for the node of interest
+	 */
 	public ArrayList<Node<T>> getChildren() {
 		return this.myChildren;
 	}
 	
-	// Getter for TreeNode myParent
+	/**
+	 * @return - Returns the Node<T> object which is the parent node of the node of interest
+	 */
 	public Node<T> getParent(){
 		return this.myParent;
 	}
 	
-	// Setter that Sets TreeNode myParent
+	/**
+	 * @param parent - Node representing the parent node of the node of interest
+	 */
 	public void setParent(Node<T> parent) {
 		//parent.addChild(this);
 		this.myParent = parent;
 	}
 	
-	// Creates a new TreeNode that is a Child of this TreeNode, and sets 
-	// this TreeNode to be the parent of the child
-	public void addChild(T data) {
-		Node<T> child = new Node<T>(data);
-		child.setParent(this);
-		this.myChildren.add(child);
-	}
-	
-	// Makes a TreeNode a child of this TreeNode
+	/**
+	 * Adds a new child node for the node of interest and sets its parent to the current node
+	 * @param child - Represents the new child node
+	 */
 	public void addChild(Node<T> child) {
 		child.setParent(this);
 		this.myChildren.add(child);
 	}
 	
-	// Returns data from this TreeNode
+	/**
+	 * @return - Generic type representing the data contained within a node
+	 */
 	public T getData() {
 		return this.data;
 	}
 	
-	// Sets the data for a TreeNode
+	/**
+	 * @param data - Generic type representing the data contained within a node
+	 */
 	public void setData(T data){
 		this.data = data;
 	}
 	
-	// Returns boolean that determines if parent is null
-	// null parent means that this TreeNode is the root
+	/**
+	 * @return - Boolean representing whether or not the node of interest is the parent node of the tree
+	 */
 	public boolean isRoot(){
 		return (this.myParent == null);
 	}
 	
-	// Returns a boolean that determines if TreeNode is leaf
-	// If the TreeNode has no children then it is a leaf node
+	/**
+	 * @return - Boolean representing whether or not the node of interest is a leaf node of the tree
+	 */
 	public boolean isLeaf(){
 		if (this.myChildren.size() == 0) {
 			return true;
@@ -76,15 +93,18 @@ public class Node<T> {
 		}
 	}
 	
-	// Remove this TreeNode's parent
+	/**
+	 * Removes the parent of a node
+	 */
 	public void removeParent(){
 		this.myParent = null;
 	}
 	
-	// Deletes node and its children
+	/**
+	 * Deletes a node and all of its children nodes
+	 */
 	public void deleteNode() {
 		this.myChildren = null;
 		this.data = null;
 	}
-
 }
