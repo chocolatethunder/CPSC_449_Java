@@ -60,24 +60,28 @@ public class Utilities {
     	System.out.println(functionList);
     }
 	
-	public static boolean checkBrackets (String s) {
-		
-		Stack<Character> stack = new Stack<Character>();
-		
-		for (int i = 0; i < s.length(); i++) {
-			char c = s.charAt(i);
-			if (c == '(') {
-				stack.push(c);
-			} else if (c == ')') {
-				if (stack.isEmpty()) { return false; }
-				if (stack.pop() != '(') { return false; }
-			}
-		}
-		
-		return stack.isEmpty();
-		
-	}
+	/**
+	 * checks if the number of brackets match, i.e. the # of '(' matches the # of ')'
+	 * @param s
+	 * @return boolean
+	 */
+    public static boolean checkBrackets (String s)
+    {
+        int counter = 0;
+        
+        for (int i = 0; i < s.length(); i++)
+        {
+            if (s.charAt(i) == '(') { counter++; }
+            if (s.charAt(i) == ')') { counter--; }
+        }
+        
+        if (counter == 0) { return true; }
+        else { return false; }
+    }
 	
+    /**
+    * counts the number of a specific character in a string 
+    */
 	public static int characterCount (String s, char c) {	
 		return s.length() - s.replace(Character.toString(c),"").length();
 	}
