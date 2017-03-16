@@ -135,29 +135,18 @@ public class Utilities {
 	 * @return
 	 */
      
-    public boolean isInt(String s)
+    public static boolean isInt(String s)
     {
-        char[] int_list = new char[]{'0','1','2','3','4','5','6','7','8','9'};
         boolean valid = false;
         int start = 0;
         if (s.charAt(0) == '-' || s.charAt(0) == '+')
         { start = 1; }
         
-        for (int i = start; i < s.length(); i++)
-        {
-            for (int a = 0; a < int_list.length; a++)
-            {
-                if (s.charAt(i) == int_list[a])
-                {
-                    valid = true;
-                    break;
-                }
-                
-            }
-            if (!valid) { return false; }
-            valid = false;
+        try{
+        	int temp = Integer.parseInt(s.substring(start, s.length()));
+        	return true;
         }
-        return true;
+        catch (Exception e) { return false; }
     }
     
     
@@ -166,42 +155,20 @@ public class Utilities {
      * @param s
      * @return
      */
-    public boolean isFloat(String s)
+    public static boolean isFloat(String s)
     {
-        char[] int_list = new char[]{'0','1','2','3','4','5','6','7','8','9'};
-        char dot = '.';
-        boolean valid = false;
-        boolean isFloat = false;
-        boolean repeat = false;
-        
         int start = 0;
         if (s.charAt(0) == '-' || s.charAt(0) == '+')
         { start = 1; }
         
-        for (int i = start; i < s.length(); i++)
+        if (!isInt(s) && s.charAt(start) != '.')
         {
-            for (int a = 0; a < int_list.length; a++)
-            {
-                if (s.charAt(i) == int_list[a])
-                {
-                    valid = true;
-                    break;
-                }
-                
-            }
-            if (!valid)
-            {
-                if (s.charAt(i) == dot && !repeat && i != 0)
-                {
-                    valid = true;
-                    isFloat = true;
-                    repeat = true;
-                }
-                else { return false; }
-            }
-            valid = false;
+	        try{
+	        	float temp = Float.parseFloat(s.substring(start, s.length()));
+	        	return true;
+	        }
+	        catch (Exception e) { return false; }
         }
-        if (isFloat) { return true; }
         else { return false; }
     }
     
@@ -210,7 +177,7 @@ public class Utilities {
      * @param s
      * @return
      */
-    public boolean isString(String s)
+    public static boolean isString(String s)
     {
         boolean valid_start = false;
         boolean valid_end = false;
