@@ -8,17 +8,28 @@ import java.text.*;
 
 import static parser.Utilities.*;
 
+/**
+ * Class which creates a parse tree for the command-line input.
+ */
 public class ParseTreeConstructor {
+	
     Tokenizer tokenizer;
     ArrayList<Token> tokenList;
 
+    /**
+     * @param tokenizer - Represents the object which contains the tokens (components) to be sorted into the parse tree
+     */
 	public ParseTreeConstructor(Tokenizer tokenizer) {
         this.tokenizer = tokenizer;
-        tokenList = tokenizer.getTokens();
-		
+        tokenList = tokenizer.getTokens();	
 	}
     
-    public Node<Token> createParseTree () {
+	/**
+	 * Sorts the tokens derived from the command-line input into the parse tree
+	 * @return - Node<Token> representing the root node of the parse tree
+	 */
+	// If a node has children, it is a method call, and those children are its parameters (which may be additional method calls).
+    public Node<Token> createParseTree () throws Exception{
 		
 		Stack<Node<Token>> pStack = new Stack<Node<Token>>( );	// parent node stack
 		Stack<String> bStack = new Stack<String>( );	// bracket stack
@@ -70,14 +81,11 @@ public class ParseTreeConstructor {
 					}
 					previousType = stringType;
 					break;
+				// Token is not of the datatype Integer, Float, String, or Char
 				case "unidentified":
-					// TODO error handling!!!!
-					System.out.println(token.getName() + " invalid variable type in position " + token.getIndex() );
-					
-					
+					throw new ParserException("Invalid datatype encountered", token.getIndex(), tokenizer.getInput());	
 			}
 		}
 		return currentTree;
     }
-
 }

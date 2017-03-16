@@ -132,4 +132,11 @@ public class Tokenizer {
 		
 		return false;
 	}
+	
+	/**
+	 * @return - Returns the original input string derived from the command-line
+	 */
+	public String getInput(){
+		return this.input;
+	}
 }
