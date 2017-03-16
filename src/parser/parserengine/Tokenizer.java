@@ -90,6 +90,7 @@ public class Tokenizer {
 		return this.tokens;		
 	}
 	
+    
 	public boolean runPrelimChecks(String input) throws Exception {		
 		
 		// check even number of brackets
@@ -99,11 +100,21 @@ public class Tokenizer {
 			if (characterCount(input, '(') != 0) {
 				
 				return true;
-				
+			
+            // deals with literals
 			} else {
                 // If no brackets needs checks to see if it is a int float or string,
-                // if so print it. else print warning exception. 
-				// System.exit(0)
+                if (isInt(input) || isFloat(input)) {
+                    System.out.println(input);
+                } else if (isString(input)) {
+                    System.out.println(input.substring(1, input.length()-1));
+                    
+                } else {
+                    System.out.println(input + " IS NOT VALID!");
+                    //TODO exception handling. Warning input is invalid
+                }
+                 
+				
 			}
 			
 		} else {

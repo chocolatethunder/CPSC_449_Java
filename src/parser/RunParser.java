@@ -82,7 +82,7 @@ public class RunParser {
 			}
 			
 			// or an expression is being entered
-			else if (allowedExprStarts.contains(meta)) {				
+			else  {				
 	
 				try {
 					
@@ -106,14 +106,14 @@ public class RunParser {
 					}	
 				} catch (Exception e) { /*Do nothing*/ }
 				
-			} else {
+			} // else {
 				// input doesn't contain a qualifier and isn't ( + - "
 				// why would we throw an exception? What about numbers?
 				// throw exception. 
 				// @Kaylee you might need to overload the ParseException function to 
 				// not have a String cmd parameter because I just saw Rob's output and it says:
 				// Unexpected character encounterd at offset 0
-			}				
+			//}				
 		}
 	}
     
