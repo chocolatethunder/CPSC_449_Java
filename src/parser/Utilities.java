@@ -88,7 +88,6 @@ public class Utilities {
 		}
 		
 		return stack.isEmpty();
-		
 	}
 	
     /**
@@ -224,9 +223,9 @@ public class Utilities {
     
     /**
 	 * If the ordering is not correct, returns the index where the error occurs.
-	 * Else returns -1
-	 * @param input
-	 * @return
+	 * Otherwise returns -1
+	 * @param input - Represents a list of tokens representing the command-line input
+	 * @return - Integer representing the index at which there is an error in the token order
 	 */
 	public static int checkOrderOfTokens( ArrayList<Token> input ) {
 		String previousToken = input.get(0).getStringType();
@@ -235,8 +234,10 @@ public class Utilities {
 		for (int index = 1; index < input.size(); index ++ ) {
 			currentToken = input.get(index).getStringType();
 			switch( currentToken ) {
-				case "identifier":
-					if (!previousToken.equals("openBracket" ))		// previous type does not equal openBracket
+				case "identifier":\
+					// Previous type does not equal openBracket
+					// Error in which two open brackets occur in a row
+					if (!previousToken.equals("openBracket" ))		
 						return index;
 					break;
 				case "int":
