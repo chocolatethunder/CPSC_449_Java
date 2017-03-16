@@ -81,38 +81,41 @@ public class RunParser {
 					
 				}
 				
-			} else {
-				
-				// or an expression is being entered
-				if (allowedExprStarts.contains(meta)) {
+			}
+			
+			// or an expression is being entered
+			else if (allowedExprStarts.contains(meta)) {				
 	
-					try {
-						
-						// Tokenize
-						Tokenizer tokenizer = new Tokenizer(input, jarLoad);
-						
-						// Check if the order of tokens is corret
-						if (checkOrderOfTokens(tokenizer.getTokens()) == -1) {
+				try {
 					
-							// Construct Parse Trees. We must construct additional parsetrees!!
-							ParseTreeConstructor parseTree = new ParseTreeConstructor(tokenizer);
-							
-							// Evaluate expression
-							Evaluator evaluator = new Evaluator(parseTree);
-							
-							/* This line needs to go. I need a nice clean evaluator.toString() to generate the output here.
-							 * Please go into you Evaluator.java file and take the result variable on line 62 and pass it to
-							 * the toString() method at the end. Remove this comment upon completion. 
-							 */
-							// System.out.println(evaluator.parse(evaluator.getParseTree(), jarLoad.getLoadedClass()).getData().getName());
-						
-						}
-						
-					} catch (Exception e) { /*Do nothing*/ }
-
-				}
+					// Tokenize
+					Tokenizer tokenizer = new Tokenizer(input, jarLoad);
+					
+					// Check if the order of tokens is corret
+					if (checkOrderOfTokens(tokenizer.getTokens()) == -1) {
 				
-			}		
+						// Construct Parse Trees. We must construct additional parsetrees!!
+						ParseTreeConstructor parseTree = new ParseTreeConstructor(tokenizer);
+						
+						// Evaluate expression
+						Evaluator evaluator = new Evaluator(parseTree);
+						
+						/* This line needs to go. I need a nice clean evaluator.toString() to generate the output here.
+						 * Please go into you Evaluator.java file and take the result variable on line 62 and pass it to
+						 * the toString() method at the end. Remove this comment upon completion. 
+						 */
+						// System.out.println(evaluator.parse(evaluator.getParseTree(), jarLoad.getLoadedClass()).getData().getName());
+					
+					}
+					
+				} catch (Exception e) { /*Do nothing*/ }
+				
+			} else {
+				// throw exception. 
+				// @Kaylee you might need to overload the ParseException function to 
+				// not have a String cmd parameter because I just saw Rob's output and it says:
+				// Unexpected character encounterd at offset 0
+			}	
 			
 		}
 

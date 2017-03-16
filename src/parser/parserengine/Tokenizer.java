@@ -105,7 +105,7 @@ public class Tokenizer {
 			}
 			
 		} else {
-			throw new ParserException("No matching brackers", 0, input, new Exception()); 
+			// exception
 		}
 		return false;
 	}
