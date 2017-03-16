@@ -82,8 +82,7 @@ public class RunParser {
 					
 					// Tokenize
 					Tokenizer tokenizer = new Tokenizer(input, jarLoad.getLoadedClass());
-                    System.out.println(checkOrderOfTokens(tokenizer.getTokens()));
-                    ArrayList<Token> tokenList = tokenizer.getTokens();
+                   
                     
       
 	        
