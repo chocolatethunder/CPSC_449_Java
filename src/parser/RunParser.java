@@ -13,7 +13,8 @@ import static parser.Utilities.*;
 public class RunParser {
 
 	private boolean quit = false;
-	private String input = "";
+	private String originalInput = "";
+    private String input = "";
 	ArrayList<Character> allowedExprStarts = new ArrayList<Character>(Arrays.asList('(','+','-','"'));
 
 	/**
@@ -33,8 +34,8 @@ public class RunParser {
 			System.out.print("> ");
 			
 			// Capture input
-			input = reader.next();
-			
+			originalInput = reader.nextLine();  // used to parse expression
+			input = originalInput;
 			// Process
 			
 			// Trim leading and trailing spaces
@@ -86,27 +87,49 @@ public class RunParser {
 				if (allowedExprStarts.contains(meta)) {
 					
 					/**** ENTRY INTO THE CODE ****/
-					
-					// Tokenize
-					Tokenizer tokenizer = new Tokenizer(input, jarLoad.getLoadedClass());
-                   
                     
-      
-	        
+					// Tokenize
+                    try {
+                        Tokenizer tokenizer = new Tokenizer(originalInput, jarLoad.getLoadedClass());
+                        
+                        // Construct Parse Trees. We must construct additional parsetrees!!
+                        ParseTreeConstructor parseTree = new ParseTreeConstructor(tokenizer);
+                        
+                      
+                       
+                       if (checkBrackets(originalInput) == true) {		// check even number of brackets
+                            if (characterCount(originalInput, '(') != 0) {
+                                //Tokenizer tokenizer = new Tokenizer(input, jarLoad.getLoadedClass());
+                                if (checkOrderOfTokens(tokenizer.getTokens()) == -1) {		// no errors 
+                                    // Construct Parse Trees. We must construct additional parsetrees!!
+                                    ParseTreeConstructor parseTreeConstructor = new ParseTreeConstructor(tokenizer);
+                        
+                                    // Evaluate expression
+                                    Evaluator evaluator = new Evaluator(parseTreeConstructor);
+                    
+                                    
+                                    System.out.println(evaluator.parse(evaluator.getParseTree(), jarLoad.getLoadedClass()).getData().getName());;
+                                } else
+                                    System.out.println("there is an error in format at index: " + checkOrderOfTokens(tokenizer.getTokens()) );	
+                    
+                
+                            } else if (characterCount(originalInput, '(') == 0) {
+                                System.out.println("no brackets");
+                            }
+                
+                        } else {
+                            System.out.println("no matching brackets");
+                            }
+                    
+                    } catch (Exception e) {
+                        // NOT SURE WHAT TO DO HERE
+                    }
+                    
 					
-					// Construct Parse Trees. We must construct additional parsetrees!!
-					
-					// ParseTreeConstructor parseTree = new ParseTreeConstructor(tokenizer);
 					
 					
-					// Evaluate expression
 					
-					// Evaluator evaluate = new Evaluate(parseTree, jarLoad);
-					
-					
-					// Print result
-					
-					// System.out.println(evaluate.toString());
+					 
 					
 					/**** EXIT FROM THE CODE ****/
 					
