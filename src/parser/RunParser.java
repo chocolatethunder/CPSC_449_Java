@@ -81,7 +81,12 @@ public class RunParser {
 					/**** ENTRY INTO THE CODE ****/
 					
 					// Tokenize
-					Tokenizer tokenizer = new Tokenizer(input);
+					Tokenizer tokenizer = new Tokenizer(input, jarLoad.getLoadedClass());
+                    System.out.println(checkOrderOfTokens(tokenizer.getTokens()));
+                    ArrayList<Token> tokenList = tokenizer.getTokens();
+                    
+      
+	        
 					
 					// Construct Parse Trees. We must construct additional parsetrees!!
 					

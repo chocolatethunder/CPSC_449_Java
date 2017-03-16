@@ -88,21 +88,18 @@ public class Utilities {
 	 * @param s
 	 * @return
 	 */
-	public Class getType (String s ) {
+	public static Class getType (String s , Class jarLoad) {
 		
-		boolean isString = false;
-        boolean isInt = false;
-        boolean isFloat = false;
+		
+        if(isInt(s))  return int.class; 
+        if(isString(s)) return String.class; 
+        if(isFloat(s))  return float.class; 
         
-        isInt = isInt(s);
-        isString = isString(s);
-        isFloat = isFloat(s);
+        if(isMethod(s, jarLoad)) return Method.class;	// if not method return generic class
+		
         
-        if(isInt)  return int.class; 
-        if(isString) return String.class; 
-        if(isFloat)  return float.class; 
         
-		return Method.class;
+		return Class.class;
 	}
 	
 	/**
@@ -112,21 +109,16 @@ public class Utilities {
 	 * @param s
 	 * @return
 	 */
-	public String getStringType (String s ) {
+	public static String getStringType (String s, Class jarLoad ) {
 		
-		boolean isString = false;
-        boolean isInt = false;
-        boolean isFloat = false;
         
-        isInt = isInt(s);
-        isString = isString(s);
-        isFloat = isFloat(s);
+        if(isInt(s)) return "int"; 
+        if(isString(s)) return "string"; 
+        if(isFloat(s))  return "float"; 
         
-        if(isInt)  return "int"; 
-        if(isString) return "string"; 
-        if(isFloat)  return "float"; 
+        if(isMethod(s, jarLoad)) return "identifier"; // if not method return generic class
         
-		return "identifier";
+		return "unidentified";
 	}
 	
 	/**
@@ -195,5 +187,70 @@ public class Utilities {
         if (valid_start && valid_end) { return true; }
         else { return false; }
     }
+    
+      /**
+      * The following method will check and see if user input is a valid method
+      */ 
+    public static boolean isMethod(String s, Class jarLoad)
+    {
+    	//check and see if s is a valid method
+    	Method[] methods = jarLoad.getMethods();
+    	//if (!validName(s)) { return false; }
+    	
+    	for (int i = 0; i < methods.length; i++)
+    	{
+    		String method = methods[i].getName();
+    		if (method.equals(s))
+    		{
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    
+    	/**
+	 * 
+	 * If the ordering is not correct, returns the index where it is wrong
+	 * else, returns -1
+	 * @param input
+	 * @return
+	 */
+	public static int checkOrderOfTokens( ArrayList<Token> input ) {
+		String previousToken = input.get(0).getStringType();
+		String currentToken;
+		
+		for (int index = 1; index < input.size(); index ++ ) {
+			currentToken = input.get(index).getStringType();
+			switch( currentToken ) {
+				case "identifier":
+					if (!previousToken.equals("openBracket" ))		// previous type does not equal openBracket
+						return index;
+					break;
+				case "int":
+					if (previousToken.equals("openBracket" ))
+						return index;
+					break;
+				case "float":
+					if (previousToken.equals("openBracket" ))
+						return index;
+					break;
+				case "string":
+					if (previousToken.equals("openBracket" ) )
+						return index;
+					break;
+				case "closedBracket":
+					if (previousToken.equals("openBracket" ))
+						return index;
+					break;
+				case "openBracket":
+					if (previousToken.equals("openBracket" ))
+						return index;
+					break;
+			
+			}
+			previousToken = currentToken;
+		}
+		return -1;
+	}
 
 }

@@ -6,7 +6,7 @@ public class Token {
 	private String name;
 	// Type of token. Can be Integer, Float, String, Char	
 	private Class type;
-	// Type of token expressed as a string. Can be int, float, string, identifier, openBracket, closedBracket
+	// Type of token expressed as a string. Can be int, float, string, identifier, openBracket, closedBracket, unidentified
 	private String stringType;
 	// index in ArrayList. Can be used to for tracing error
 	private int index;
