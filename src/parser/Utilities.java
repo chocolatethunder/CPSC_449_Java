@@ -234,7 +234,7 @@ public class Utilities {
 		for (int index = 1; index < input.size(); index ++ ) {
 			currentToken = input.get(index).getStringType();
 			switch( currentToken ) {
-				case "identifier":\
+				case "identifier":
 					// Previous type does not equal openBracket
 					// Error in which two open brackets occur in a row
 					if (!previousToken.equals("openBracket" ))		
