@@ -8,145 +8,136 @@ import java.text.*;
 
 import static parser.Utilities.*;
 
+/**
+ * Class which contains the methods which evaluated a completed parse tree.
+ */
 public class Evaluator {
     ParseTreeConstructor parseTreeConstructor;
     Node<Token> parseTree;
     Object result = null;   // holds the result of the parse
 
+    /**
+     * @param parseTreeConstructor - Represents the parse tree created from the command-line input
+     */
 	public Evaluator(ParseTreeConstructor parseTreeConstructor) {
         this.parseTreeConstructor = parseTreeConstructor;
         try {
             this.parseTree = parseTreeConstructor.createParseTree ();
-        } catch (Exception e) {
-            // handled in parse tree constructor
-        }
+        } catch (Exception e) { /*handled in parse tree constructor*/}
 	}
-    	
 	
 	/**
-	 * returns the tokenList
-	 * @return 
+	 * @return - Node<Token> representing the root of the parse tree
 	 */
 	public Node<Token> getParseTree() {
 		return this.parseTree;
 	}
     
     /**
-	 *  Parses a parse tree in the correct order. bottom up
+	 * Evaluates the parse tree from the bottom up (most embedded method call).
 	 *  
-	 * @param t
+	 * @param rootNode - Represents the root node of the parse tree
+	 * @param jarLoad - Represents the class under consideration
 	 * @throws InvocationTargetException 
 	 * @throws IllegalArgumentException 
 	 * @throws IllegalAccessException 
+	 * @return - Node<Token> representing the root node of the parse tree
 	 */
 	public Node<Token> parse( Node<Token> rootNode, Class jarLoad ) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
 		
-		
-		//**** no children but is method****
+		// If the node has no children and is a method
 		if (rootNode.isLeaf() && rootNode.getData().getStringType().equals("identifier")) {
+			// list of methods
+			Method[] methods = jarLoad.getMethods(); 
+			// index for methods
+			ArrayList<Integer> indices = getMethodIndices ( jarLoad,  rootNode);	
 			
-			
-			Method[] methods = jarLoad.getMethods(); // list of methods
-			ArrayList<Integer> indices = getMethodIndices ( jarLoad,  rootNode);	// index for methods
-			
-		
-			
-			if (indices.size() == 0)	// rootNode does not match any method in the class
+			// root node does not match any method in the class
+			if (indices.size() == 0)	
 			{
-				
 				// TODO add error handling here, method not valid!
 			}
 			
-			
-			// invoke the method, and store the result
-			result = methods[indices.get(0)].invoke(rootNode.getData().getName());		// will only have one index if it has no children
+			// Invoke the method, and store the result
+			// Will only have one index if it has no children
+			result = methods[indices.get(0)].invoke(rootNode.getData().getName());		
 			
 			return setRootNodeData(rootNode, result);
 			
-			
-			
-			
-			// *** no children but is not method *** 
+		// If the node has no children and is not a method
 		} else if ( rootNode.isLeaf()) {
-			
-			return rootNode;
-			
-			
-			
-			
-		}
-		//*** has children ****
+			return rootNode;}
+		
+		// If the node has children
 		else {
 			for (Node<Token> c : rootNode.getChildren()) {
 				if(!c.isLeaf()) {
-					parse(c, jarLoad);		// recursive call
+					parse(c, jarLoad);		
 				}
 			}
-			
-			
-			Method[] methods = jarLoad.getMethods(); // list of methods
-			ArrayList<Integer> indices = getMethodIndices ( jarLoad,  rootNode);	// index for methods
-			
+			// list of methods
+			Method[] methods = jarLoad.getMethods(); 
+			// index for methods
+			ArrayList<Integer> indices = getMethodIndices ( jarLoad,  rootNode);	
 		
-			if (indices.size() == 0)	// rootNode does not match any method in the class
+			// root node does not match any method in the class
+			if (indices.size() == 0)	
 			{
-				
 				// TODO add error handling here, method not valid!
 			}
 			
-			
-            
 			// Get all children of root node, and store them in a arraylist
 			ArrayList<Node<Token>> children = rootNode.getChildren();
 			
-			int methodIndex = validParamType(methods,children, indices );		// gets method index that contains the valid params 
+			// gets method index that contains the valid params 
+			int methodIndex = validParamType(methods,children, indices );		
 			
 			if (methodIndex == -1) {
-				
 				// node children does not match any method parameters.
 				//TODO, throw exception here
+			}
 			
-			
-			}else {
-				
-				Object[] args = new Object[children.size()]; // store arguments from node to an array
+			else {
+				// store arguments from node to an array
+				Object[] args = new Object[children.size()]; 
 
-				for (int i = 0; i < rootNode.getChildren().size(); i++) {		// convert children from string to their actual type and store in args list
+				// convert children from string to their actual type and store in args list
+				for (int i = 0; i < rootNode.getChildren().size(); i++) {		
 						args[i] = convert(children.get(i).getData().getName(), children.get(i).getData().getType());
 				}
 				
-
 				// delete all children
 				for (Node<Token> c : rootNode.getChildren()) { c.deleteNode(); }
 				
 				// invoke the method, and store the result
-				 result = methods[methodIndex].invoke(rootNode.getData().getName(), args);
-
-	    
+				result = methods[methodIndex].invoke(rootNode.getData().getName(), args);
 			}
 			return setRootNodeData(rootNode, result);
 		}
 	}
-    
-    //DONE
-    // The following method will return the index of the method with the correct param types.
-    // Or return -1 if no params match
-    public int validParamType(Method[] methods, ArrayList<Node<Token>> children, ArrayList<Integer> methodIndex)
-    {	int validParam = 0;
+
+	/**
+	 * Returns the index of the method with the correct parameter types, or will return -1 if no parameters match.
+	 * @param methods - Represents the list of methods for the class
+	 * @param children - Represents a list of the children for the node
+	 * @param methodIndex - Represents the indices of the methods
+	 * @return - Integer representing if the parameters of the method were found to be valid
+	 */
+    public int validParamType(Method[] methods, ArrayList<Node<Token>> children, ArrayList<Integer> methodIndex) {
+    	int validParam = 0;
     	
     	for (Integer i : methodIndex) {
-    		
-    		Class<?>[] paramTypes = methods[i].getParameterTypes(); // store types of parameters into an array
-			int leng = methods[i].getParameterCount(); // store the count of required parameters
+    		// store types of parameters into an array
+    		Class<?>[] paramTypes = methods[i].getParameterTypes(); 
+    		// store the count of required parameters
+			int leng = methods[i].getParameterCount();
 			
 			if (leng != children.size()) {
-				
-				continue;		// if size not the same, go to next iteration
+				// if size not the same, go to next iteration
+				continue;		
 			}
 			
-			
-			for (int j = 0; j < paramTypes.length; j ++) {
-				 
+			for (int j = 0; j < paramTypes.length; j ++) { 
 				// if param is Integer class then converts it to int.class
 				if (paramTypes[j].equals(Integer.class)) {
 					paramTypes[j] = int.class;
@@ -162,39 +153,43 @@ public class Evaluator {
 					validParam++;
 				}
 			}
-    		
-			if (validParam == paramTypes.length) { return i; }	// returns the valid param
+			// returns the valid param
+			if (validParam == paramTypes.length) { return i; }	
 			else { validParam = 0; }
     	}
     	return -1;
-    
     }
     
-    
-	// check if the method is valid
+    /**
+     * Returns a list of indices of the methods in the class
+     * @param obj - Represents the class under consideration
+     * @param rootNode - Represents the root node of the parse tree
+     * @return - ArrayList<Integer> representing the indices of the methods
+     */
 	public ArrayList<Integer> getMethodIndices (Class obj, Node<Token> rootNode) {
 		ArrayList<Integer> index = new ArrayList<Integer>();
-		Method[] methods = obj.getMethods(); // list of methods
+		// list of methods
+		Method[] methods = obj.getMethods(); 
 		if (isMethod(rootNode.getData().getName(), obj))
 		{
 			for (int idk = 0; idk < methods.length; idk++)
 			{
 				if (rootNode.getData().getName().equals(methods[idk].getName())) {
-					{index.add(idk);}		// add method index
+					// add method index
+					{index.add(idk);}		
 				}
-				
 			}
 		}
-
 		return index;
 	}
     
-    
-  //DONE
-    // The following method will take the argument
-    // and convert it into the desired type
-    public Object convert(String s, Class valueType)
-    {
+	/**
+	 * Takes an argument and attempts to convert it into the desired datatype.
+	 * @param valueType - Represents the desired datatype for the argument
+	 * @param s - Represents the string to convert
+	 * @return - Object representing the result of the conversion, or null if it was unsuccessful
+	 */
+    public Object convert(String s, Class valueType) {
         Class testSub = valueType;
         
         if (valueType == String.class)
@@ -202,43 +197,36 @@ public class Evaluator {
             String result = s.substring(1, s.length() - 1);
             return result;
         }
+        
         if (valueType == int.class || valueType == Integer.class )
         {
         	try{
         		int result;
-        		
-        		 result = (int) Integer.parseInt(s); 
-
+        		result = (int) Integer.parseInt(s); 
         		return result;
-            }
-            catch (NumberFormatException e)
-        	{
-            	System.out.println("Int out of range!");
-            	
-        	}
+            }catch (NumberFormatException e)
+        	{System.out.println("Int out of range!");}
         }
+        
         if (valueType == float.class || valueType == Float.class)
         {
         	try {
-        		
         		float result;
-        		
-        		 result = (float)Float.parseFloat(s); 
-        		
+        		result = (float)Float.parseFloat(s); 
         		return result;
-        	}
-        	catch (NumberFormatException e) {
-        		System.out.println("Float out of range!");
-        		
-        	}
+        	}catch (NumberFormatException e) {
+        		System.out.println("Float out of range!");}
         }
         return null;
     }
         
-    
-    // Sets rootNode data with result data. DOES NOT CHECK RETURN TYPE YET
+    /**
+     * Sets the root node data to the result of the evaluated method call.
+     * @param rootNode - Represents the root node of the parse tree
+     * @param data - Represents the result of the evaluated method call
+     * @return - Node representing the updated root node
+     */
 	public Node<Token> setRootNodeData (Node<Token> rootNode, Object data ) {
-		
 		// store the result into the root node
 		rootNode.getData().setName(data+"");
 		
@@ -252,15 +240,13 @@ public class Evaluator {
 			rootNode.getData().setType(int.class);
 			rootNode.getData().setStringType("int");
 		}
-		
 		return rootNode;
 	}
 	
-    
-	
+	/**
+	 * @return - String representing the result of the method evaluations
+	 */
 	public String toString() {
-		
 		return result + "";
 	}
-
 }
