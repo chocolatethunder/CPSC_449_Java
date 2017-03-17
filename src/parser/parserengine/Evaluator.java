@@ -103,8 +103,25 @@ public class Evaluator {
 			
 			if (methodIndex == -1) {
 				// node children does not match any method parameters.
-				//NEEDS TO PRINT ONLY THE CURRENT METHOD CALL AND THE TYPES BEING TRIED AS PARAMETERS
-				throw new ParserException(String.valueOf("Matching function for " + rootNode.getData().getName() + "<<attemped parameter types>>" + " not found"), rootNode.getData().getIndex(), parseTreeConstructor.getInput());
+				int correctIndex = rootNode.getData().getIndex() - rootNode.getData().getName().length()+1; // subexpression starting index
+				
+				Type temp;
+				String paramTypeList = "";
+				
+				// Creates a string representing the types of the parameters attempting to be being passed to the method
+				for (int i = 0; i < rootNode.getChildren().size(); i ++ ) {
+					temp = rootNode.getChildren().get(i).getData().getType();
+					if (temp == String.class){
+						paramTypeList = paramTypeList + " " + "string";
+					}
+					else if (temp == Float.class || temp == float.class){
+						paramTypeList = paramTypeList + " " + "float";
+					}
+					else if (temp == Integer.class || temp == int.class){
+						paramTypeList = paramTypeList + " " + "int";
+					}					
+                }	
+				throw new ParserException(String.valueOf("Matching function for (" + rootNode.getData().getName() + paramTypeList + ") not found"), correctIndex, parseTreeConstructor.getInput());
 			}
 			
 			else {
