@@ -108,7 +108,7 @@ public class Tokenizer {
 				} else {
 					this.okayToParse = false;		//If end of input, throw error
                     String message = "Encountered improper formatting error while reading string beginning at offset " + savedStartingIndex;
-                    throw new ParserException(message, input.length()-1, input);
+                    throw new ParserException(message, savedStartingIndex, input);
 				}
 				break;
 			}
