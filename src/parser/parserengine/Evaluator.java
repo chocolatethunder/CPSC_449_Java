@@ -160,7 +160,6 @@ public class Evaluator {
 				// compare params to children
 				if (paramTypes[j].equals(children.get(j).getData().getType())) {
 					validParam++;
-					System.out.println(true);
 				}
 			}
     		
