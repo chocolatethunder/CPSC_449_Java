@@ -1,13 +1,13 @@
-/**
- * CPSC 449 - Winter 2017
- * Prof: Rob Kremar
- * Assignment: Java
- * Group #: 32
- * Members: Saurabh, Kaylee, Kowther, Matthew, Tsz (Alan)
- * Description:
- * 		This class is used to start the program (i.e. load the parser).
- * 
- */
+/************************************************************************************
+ * CPSC 449 - Winter 2017															*
+ * Prof: Rob Kremar																	*
+ * Assignment: Java																	*
+ * Group #: 32																		*
+ * Members: Saurabh Tomar, Kaylee Stelter, Kowther Hassan, Matthew Mullins, Tsz Lam	*
+ * Description:																		*
+ * 		This class is used to start the program (i.e. load the parser).				*
+ * 																					*
+ ************************************************************************************/
 
 package parser;
 
