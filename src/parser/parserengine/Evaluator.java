@@ -163,11 +163,10 @@ public class Evaluator {
 				}
 			}
     		
-			if (validParam == paramTypes.length) { return validParam; }	// returns the valid param
+			if (validParam == paramTypes.length) { return i; }	// returns the valid param
 			else { validParam = 0; }
     	}
-    	validParam = -1;
-    	return validParam;
+    	return -1;
     
     }
     
@@ -246,12 +245,12 @@ public class Evaluator {
 		if (data.getClass().equals(String.class)) { 
 			rootNode.getData().setType(String.class);
 			rootNode.getData().setStringType("string");
-		}else if (data.getClass().equals(Integer.class)) {
-			rootNode.getData().setType(int.class);
-			rootNode.getData().setStringType("int");
-		}else if (data.getClass().equals(Float.class)) {
+		}else if (data.getClass().equals(Float.class) || data.getClass().equals(float.class)) {
 			rootNode.getData().setType(float.class);
 			rootNode.getData().setStringType("float");
+		}else if (data.getClass().equals(Integer.class) || data.getClass().equals(int.class)) {
+			rootNode.getData().setType(int.class);
+			rootNode.getData().setStringType("int");
 		}
 		
 		return rootNode;
