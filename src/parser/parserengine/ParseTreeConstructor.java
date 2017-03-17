@@ -88,4 +88,11 @@ public class ParseTreeConstructor {
 		}
 		return currentTree;
     }
+    
+    /**
+     * @return - String represents the original command-line input
+     */
+    public String getInput(){
+    	return tokenizer.getInput();
+    }
 }

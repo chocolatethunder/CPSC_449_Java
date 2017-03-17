@@ -43,7 +43,7 @@ public class Evaluator {
 	 * @throws IllegalAccessException 
 	 * @return - Node<Token> representing the root node of the parse tree
 	 */
-	public Node<Token> parse( Node<Token> rootNode, Class jarLoad ) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
+	public Node<Token> parse( Node<Token> rootNode, Class jarLoad ) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, ParserException{
 		
 		// If the node has no children and is a method
 		if (rootNode.isLeaf() && rootNode.getData().getStringType().equals("identifier")) {
@@ -55,7 +55,7 @@ public class Evaluator {
 			// root node does not match any method in the class
 			if (indices.size() == 0)	
 			{
-				// TODO add error handling here, method not valid!
+				throw new ParserException(String.valueOf("Matching function for" + rootNode.getData().getStringType() + "not found"), 0, parseTreeConstructor.getInput());
 			}
 			
 			// Invoke the method, and store the result
@@ -83,7 +83,8 @@ public class Evaluator {
 			// root node does not match any method in the class
 			if (indices.size() == 0)	
 			{
-				// TODO add error handling here, method not valid!
+				// NEEDS TO PRINT ONLY THE CURRENT METHOD CALL AND ITS PARAMETERS
+				throw new ParserException(String.valueOf("Matching function for " + rootNode.getData().getStringType() + " not found"), 0, parseTreeConstructor.getInput());
 			}
 			
 			// Get all children of root node, and store them in a arraylist
@@ -94,7 +95,8 @@ public class Evaluator {
 			
 			if (methodIndex == -1) {
 				// node children does not match any method parameters.
-				//TODO, throw exception here
+				//NEEDS TO PRINT ONLY THE CURRENT METHOD CALL AND THE TYPES BEING TRIED AS PARAMETERS
+				throw new ParserException(String.valueOf("Matching function for " + rootNode.getData().getStringType() + "<<attemped parameter types>>" + " not found"), 0, parseTreeConstructor.getInput());
 			}
 			
 			else {
