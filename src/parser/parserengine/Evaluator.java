@@ -47,7 +47,7 @@ public class Evaluator {
 	public Node<Token> parse( Node<Token> rootNode, Class jarLoad ) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, ParserException{
 		
 		// If the node has no children and is a method
-		if (rootNode.isLeaf() && rootNode.getData().getStringType().equals("identifier")) {
+		if (rootNode.isLeaf() && (rootNode.getData().getStringType().equals("identifier") || rootNode.getData().getStringType().equals("unidentified") )) {
 			// list of methods
 			Method[] methods = jarLoad.getMethods(); 
 			// index for methods
@@ -56,7 +56,8 @@ public class Evaluator {
 			// root node does not match any method in the class
 			if (indices.size() == 0)	
 			{
-				throw new ParserException(String.valueOf("Matching function for" + rootNode.getData().getStringType() + "not found"), 0, parseTreeConstructor.getInput());
+                int correctIndex = rootNode.getData().getIndex() - rootNode.getData().getName().length()+1; // subexpression starting index
+				throw new ParserException(String.valueOf("Matching function for '(" + rootNode.getData().getName() + ")' not found"), correctIndex, parseTreeConstructor.getInput());
 			}
 			
 			// Invoke the method, and store the result
@@ -84,8 +85,14 @@ public class Evaluator {
 			// root node does not match any method in the class
 			if (indices.size() == 0)	
 			{
-				// NEEDS TO PRINT ONLY THE CURRENT METHOD CALL AND ITS PARAMETERS
-				throw new ParserException(String.valueOf("Matching function for " + rootNode.getData().getStringType() + " not found"), 0, parseTreeConstructor.getInput());
+				// creating string of subexpression
+                String expression = "'(" +  rootNode.getData().getName();
+                for (int i = 0; i < rootNode.getChildren().size(); i ++ ) {
+                    expression += " " + rootNode.getChildren().get(i).getData().getName();
+                }
+                expression += ")'";
+                int correctIndex = rootNode.getData().getIndex() - rootNode.getData().getName().length()+1; // subexpression starting index
+				throw new ParserException(String.valueOf("Matching function for " + expression + " not found"), correctIndex, parseTreeConstructor.getInput());
 			}
 			
 			// Get all children of root node, and store them in a arraylist
@@ -97,7 +104,7 @@ public class Evaluator {
 			if (methodIndex == -1) {
 				// node children does not match any method parameters.
 				//NEEDS TO PRINT ONLY THE CURRENT METHOD CALL AND THE TYPES BEING TRIED AS PARAMETERS
-				throw new ParserException(String.valueOf("Matching function for " + rootNode.getData().getStringType() + "<<attemped parameter types>>" + " not found"), 0, parseTreeConstructor.getInput());
+				throw new ParserException(String.valueOf("Matching function for " + rootNode.getData().getName() + "<<attemped parameter types>>" + " not found"), rootNode.getData().getIndex(), parseTreeConstructor.getInput());
 			}
 			
 			else {
