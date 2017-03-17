@@ -38,7 +38,7 @@ public class Tokenizer {
     /**
 	 * Makes a list of tokens that encodes the name and type of each character. 
 	 */
-	public void makeTokenList() {
+	public void makeTokenList() throws Exception {
 		tokens = new ArrayList<Token>();
 		
 		String subExpression = "";
@@ -70,11 +70,20 @@ public class Tokenizer {
 					break;
 					
 				case '"':
+                    int savedStartingIndex = i;
 					do {
 						subExpression += (j + "");								// add chacacter to expression
 						j = input.charAt( ++i );							// increment character
-					} while (j != '"' ); 									// keep adding until second " is seen
-					
+                        if (i == input.length()-1) {
+                            String message = "Encountered end-of-input while reading string beginning at offset " + savedStartingIndex;
+                            throw new ParserException(message, input.length()-1, input);
+                        }
+					} while (j != '"'); 									// keep adding until second " is seen
+					if (input.charAt( i+1 ) != ' ') {
+                        String message = "Encountered end-of-input while reading string beginning at offset " + savedStartingIndex;
+                        throw new ParserException(message, i, input);
+                    }
+                    
 					subExpression += (j + "");								// add closing "" to expression
 					j = input.charAt( i );							// increment character
 					break;
