@@ -134,7 +134,16 @@ public class Tokenizer {
                     System.out.println(input.substring(1, input.length()-1));
                     
                 } else {
-                	throw new ParserException("Unexpected character encountered", 0, input);
+                	
+                	int errorIndex = 0;
+                	
+                	for (int i = 0; i < input.length(); i++){
+                		String temp = String.valueOf(input.charAt(i));
+                		if (isInt(temp)){
+                			errorIndex++;
+                		}
+                	}
+                	throw new ParserException("Unexpected character encountered", errorIndex, input);
                 }
 			 }
 		}
