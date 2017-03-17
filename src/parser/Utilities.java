@@ -14,6 +14,7 @@ public class Utilities {
 	/**
 	 * Prints out each function (with its parameters' types and return type) for the specified class
 	 * @param cls - Represents the class under consideration for printing functions
+	 * @param functionList - is the string that holds each function from the jar file that is being load
 	 */
     public static void printFunctionList(Class cls) {
     	String functionList = "";
@@ -30,6 +31,8 @@ public class Utilities {
     		methodName = methods[i].getName();
     		parameters = methods[i].getParameterTypes();
     		Type temp = methods[i].getReturnType();
+    		
+    		// The following conditions will store the type of result from the method
     		if (temp == String.class)
     		{
     			returnType = "string";
@@ -46,6 +49,7 @@ public class Utilities {
     		
     		functionList += "("  + methodName;
     		
+    		// for loop below will confirm the correct type for each argument that the method accepts
 			for (int j = 0; j < parameters.length; j++) {
     			temp = parameters[j];
     			if (temp == String.class)
@@ -78,7 +82,6 @@ public class Utilities {
 		
 		Stack<Character> bStack = new Stack<Character>(); // bracket stack
         Stack<Integer> iStack = new Stack<Integer>(); // index stack
-		
 		for (int i = 0; i < s.length(); i++) {
 			char c = s.charAt(i);
 			if (c == '(') {
