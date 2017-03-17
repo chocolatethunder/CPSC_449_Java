@@ -1,3 +1,20 @@
+/************************************************************************************
+ * CPSC 449 - Winter 2017															*
+ * Prof: Rob Kremar																	*
+ * Assignment: Java																	*
+ * Group #: 32																		*
+ * Members: Saurabh Tomar, Kaylee Stelter, Kowther Hassan, Matthew Mullins, Tsz Lam	*
+ * Description:																		*
+ * 		-Checks the command-line input for various conditions prior to 				*
+ * 		running the Parser															*
+ * 		-Throws various fatal error exceptions where appropriate					*
+ *  																				*
+ * Contain methods:																	*			
+ * 		+LoadParser(String[]) <- Constructor										*
+ * 		+checkNumArguments(String[]):void											*
+ * 		-fileAndClassSetter(String[], int):int										*
+ * 																					*
+ ************************************************************************************/
 package parser;
 
 import java.io.*;
@@ -6,11 +23,6 @@ import java.lang.*;
 import java.text.*;
 import java.net.*;
 
-
-/**
- * Checks the command-line input for various conditions prior to running the Parser
- * Throws various fatal error exceptions where appropriate
- */
 public class LoadParser {
 	
 	private String[] cmdLnArgS;

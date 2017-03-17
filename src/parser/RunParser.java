@@ -5,11 +5,11 @@
  * Group #: 32																		*
  * Members: Saurabh Tomar, Kaylee Stelter, Kowther Hassan, Matthew Mullins, Tsz Lam	*
  * Description:																		*
- * 		Contains various methods which parse the command-line input.				*
+ * 		-Contains various methods which parse the command-line input.				*
  * 																					*
  * Methods:																			*			
- * 		RunParser(JarFileLoader) <- Constructor										*
- * 		printStartup():void															*
+ * 		+RunParser(JarFileLoader) <- Constructor									*
+ * 		-printStartup():void														*
  * 																					*
  ************************************************************************************/
 

@@ -1,12 +1,25 @@
+/************************************************************************************
+ * CPSC 449 - Winter 2017															*
+ * Prof: Rob Kremar																	*
+ * Assignment: Java																	*
+ * Group #: 32																		*
+ * Members: Saurabh Tomar, Kaylee Stelter, Kowther Hassan, Matthew Mullins, Tsz Lam	*
+ * Description:																		*
+ * 		-Contains methods which attempt to load the jar file and class.				*
+ *  																				*
+ * Contain methods:																	*			
+ * 		+JarFileLoader(String, String) <- Constructor								*
+ * 		+getLoadedClass():Class														*
+ * 		+isFileLoaded():boolean														*
+ * 																					*
+ ************************************************************************************/
+
 package parser;
 
 import java.io.File;
 import java.lang.reflect.*;
 import java.net.*;
 
-/**
- * Contains methods which attempt to load the jar file and class.
- */
 public class JarFileLoader {
 
 	private Class[] parameters = new Class[]{URL.class};

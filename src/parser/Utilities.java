@@ -1,3 +1,26 @@
+/************************************************************************************
+ * CPSC 449 - Winter 2017															*
+ * Prof: Rob Kremar																	*
+ * Assignment: Java																	*
+ * Group #: 32																		*
+ * Members: Saurabh Tomar, Kaylee Stelter, Kowther Hassan, Matthew Mullins, Tsz Lam	*
+ * Description:																		*
+ * 		-Class contains methods used globally throughout the program. 				*
+ *  																				*
+ * Contain methods:																	*			
+ * 		+printFunctionList(Class):void												*
+ * 		+checkBrackets(String):int													*
+ * 		+characterCount(String, char):int											*
+ * 		+getType(String, Class):Class												*
+ * 		+getStringType(String, Class):String										*
+ * 		+isInt(String):boolean														*
+ * 		+isFloat(String):boolean													*
+ * 		+isString(String):boolean													*
+ * 		+isMethod(String, Class):boolean											*
+ * 		+checkOrderOfTokens(ArrayList<Token>):int									*
+ * 																					*
+ ************************************************************************************/
+
 package parser;
 
 import java.io.*;
@@ -6,9 +29,6 @@ import java.lang.*;
 import java.lang.reflect.*;
 import java.text.*;
 
-/**
- * Class contains methods used globally throughout the program.
- */
 public class Utilities {
 	
 	/**

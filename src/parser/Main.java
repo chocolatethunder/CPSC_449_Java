@@ -5,7 +5,7 @@
  * Group #: 32																		*
  * Members: Saurabh Tomar, Kaylee Stelter, Kowther Hassan, Matthew Mullins, Tsz Lam	*
  * Description:																		*
- * 		This class is used to start the program (i.e. load the parser).				*
+ * 		-This class is used to start the program (i.e. load the parser)				*
  * 																					*
  ************************************************************************************/
 
