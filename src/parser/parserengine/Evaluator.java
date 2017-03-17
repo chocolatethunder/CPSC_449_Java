@@ -217,14 +217,19 @@ public class Evaluator {
 	 * @return - Object representing the result of the conversion, or null if it was unsuccessful
 	 */
     public Object convert(String s, Class valueType) {
-        Class testSub = valueType;
+    	// Temporary subject used for testing
+    	Class testSub = valueType;
         
+    	// Following conditions will match the s to one of the acceptable types (int/Integer, float/Float, String)
+    	
+    	// Convert string to the proper string format
         if (valueType == String.class)
         {
             String result = s.substring(1, s.length() - 1);
             return result;
         }
         
+        // Convert s to int
         if (valueType == int.class || valueType == Integer.class )
         {
         	try{
@@ -235,6 +240,7 @@ public class Evaluator {
         	{System.out.println("Int out of range!");}
         }
         
+        // Convert s to float
         if (valueType == float.class || valueType == Float.class)
         {
         	try {
@@ -244,6 +250,8 @@ public class Evaluator {
         	}catch (NumberFormatException e) {
         		System.out.println("Float out of range!");}
         }
+        
+        // If s doesnt match any of the acceptable types, return null to notify caller
         return null;
     }
         

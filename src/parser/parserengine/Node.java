@@ -48,7 +48,6 @@ public class Node<T> {
 	 * @param parent - Node representing the parent node of the node of interest
 	 */
 	public void setParent(Node<T> parent) {
-		//parent.addChild(this);
 		this.myParent = parent;
 	}
 	

@@ -134,9 +134,10 @@ public class Tokenizer {
                     System.out.println(input.substring(1, input.length()-1));
                     
                 } else {
-                	
+                	// prints out the location of the unexpected character
                 	int errorIndex = 0;
                 	
+                	// loop through each character to make sure the error message will point at the right offset.
                 	for (int i = 0; i < input.length(); i++){
                 		String temp = String.valueOf(input.charAt(i));
                 		if (isInt(temp)){
