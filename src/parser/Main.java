@@ -1,3 +1,14 @@
+/**
+ * CPSC 449 - Winter 2017
+ * Prof: Rob Kremar
+ * Assignment: Java
+ * Group #: 32
+ * Members: Saurabh, Kaylee, Kowther, Matthew, Tsz (Alan)
+ * Description:
+ * 		This class is used to start the program (i.e. load the parser).
+ * 
+ */
+
 package parser;
 
 import java.io.*;
@@ -6,9 +17,6 @@ import java.lang.*;
 import java.text.*;
 import java.net.*;
 
-/**
- * Attempts to start the program (i.e. load the parser)
- */
 public class Main {    
     
 	public static void main (String[] args) {
