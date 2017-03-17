@@ -1,3 +1,18 @@
+/************************************************************************************
+ * CPSC 449 - Winter 2017															*
+ * Prof: Rob Kremar																	*
+ * Assignment: Java																	*
+ * Group #: 32																		*
+ * Members: Saurabh Tomar, Kaylee Stelter, Kowther Hassan, Matthew Mullins, Tsz Lam	*
+ * Description:																		*
+ * 		Contains various methods which parse the command-line input.				*
+ * 																					*
+ * Methods:																			*			
+ * 		RunParser(JarFileLoader) <- Constructor										*
+ * 		printStartup():void															*
+ * 																					*
+ ************************************************************************************/
+
 package parser;
 
 import java.io.*;
@@ -7,9 +22,6 @@ import java.text.*;
 
 import static parser.Utilities.*;
 
-/**
- * Contains various methods which parse the command-line input.
- */
 public class RunParser {
 
 	private boolean quit = false;
