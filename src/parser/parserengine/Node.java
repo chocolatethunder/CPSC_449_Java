@@ -31,14 +31,14 @@ public class Node<T> {
 	}
 	
 	/**
-	 * @return - ArrayList<Node<T>> representing all the children node's for the node of interest
+	 * @return - ArrayList representing all the children node's for the node of interest
 	 */
 	public ArrayList<Node<T>> getChildren() {
 		return this.myChildren;
 	}
 	
 	/**
-	 * @return - Returns the Node<T> object which is the parent node of the node of interest
+	 * @return - Returns the Node object which is the parent node of the node of interest
 	 */
 	public Node<T> getParent(){
 		return this.myParent;

@@ -23,9 +23,9 @@ public class LoadParser {
 	private String loadFile = "";
 	private String loadClass = "Commands"; // Default
 	
-	
 	/**
 	 * @param args - represents command-line arguments
+	 * @throws Exception - throws exceptions related to fatal errors
 	 */
 	public LoadParser(String[] args) throws Exception {
 		
@@ -78,9 +78,7 @@ public class LoadParser {
 					// Invalid FAT qualifier entered
 					throw new UnrecognizedQualifier(this.arg);
 				}				
-				
 			}
-			
 			// Deal with BABY flags here. What kind of a man sends babies to fight me?
 			else if (this.arg.startsWith("-")) {
 				
@@ -113,32 +111,24 @@ public class LoadParser {
 						// unidentified foreign flag. Call in the Vexillologist!
 						default:
 						throw new UnrecognizedQualifier(this.flag, this.arg);
-						
 					}					
-					
 				}
-				
 			}			
 			// user has only entered arguments: 
 			// java -jar methods.jar commands.jar
 			else {
-				
 				if (!hflag) {
 					if (i <= cmdLnArgS.length) {
 						i = fileAndClassSetter(cmdLnArgS, i);
 					}
 				} else {
 					throw new UnexpectedHelpQualifier();
-				}
-				
+				}	
 			}			
 			// move to the next token
 			i++;
 			
 		}
-		
-		// DEAL WITH THE LOGIC
-		
 		if (this.vflag) {
 			ExceptionHandler.toggleVerbose();
 		}
@@ -165,14 +155,14 @@ public class LoadParser {
 				}
 			} catch (Exception e) { /* empty catch */ }
 		}	
-		
 	}
 	
 	/**
 	 * @param args - represents the command-line arguments provided by the user
+	 * @throws MoreThanTwoCommandsGiven - throws exception related to fatal error of having more
+	 * than two commands given at the command-line input
 	 */
-	public void checkNumArguments(String[] args) throws MoreThanTwoCommandsGiven {
-		
+	public void checkNumArguments(String[] args) throws MoreThanTwoCommandsGiven {	
 		// Error checking		
 		int numArguments = 0;
 
@@ -181,13 +171,20 @@ public class LoadParser {
 				numArguments++;
 		   }
 		}
-		
 		// Too many arguments
 		if (numArguments > 2) {
 		   throw new MoreThanTwoCommandsGiven();
 		}
 	}
 	
+	/**
+	 * 
+	 * @param cmdLnArgS - Represents the command-line arguments
+	 * @param i - Represents the index of the last input read from command-line
+	 * @return - Integer representing the index of the last input read
+	 * @throws MoreThanTwoCommandsGiven - throws exception related to fatal error of having more
+	 * than two commands given at the command-line input
+	 */
 	private int fileAndClassSetter(String[] cmdLnArgS, int i) throws MoreThanTwoCommandsGiven {
 		
 		// check if there are atmost 2 arguments
@@ -203,13 +200,8 @@ public class LoadParser {
 			} else {
 				i--;
 			}
-		}
-		
+		}	
 		// return the current index of the command line token loop
 		return i;
-
 	}
-	
-	
-
 }

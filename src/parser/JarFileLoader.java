@@ -20,6 +20,8 @@ public class JarFileLoader {
 	 * 
 	 * @param fileName - represents the jar file being loaded
 	 * @param className - represents the class being loaded
+	 * @throws ErrorLoadingJarFile - Fatal error thrown when the jar file could not be loaded
+	 * @throws ErrorFindingClass - Fatal error thrown when the class could not be found
 	 * 
 	 */
 	public JarFileLoader(String fileName, String className) throws ErrorLoadingJarFile, ErrorFindingClass {

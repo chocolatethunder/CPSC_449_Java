@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import static parser.Utilities.*;
 
 /**
- * Creates an ArrayList<Token> list from a string. Each token contains the name and
+ * Creates an ArrayList list from a string. Each token contains the name and
  * type. They type consists of int, float, string, identifier, openBracket, closedBracket,
  * unidentified.
  */
@@ -86,7 +86,7 @@ public class Tokenizer {
 	}
 	
 	/**
-	 * @return - ArrayList<Token> representing the list of tokens created from the command-line input
+	 * @return - ArrayList representing the list of tokens created from the command-line input
 	 */
 	public ArrayList<Token> getTokens() {
 		return this.tokens;		
@@ -96,6 +96,7 @@ public class Tokenizer {
      * Checks the command-line input for various syntax errors.
      * @param input - String representing the command-line input
      * @return - Boolean representing if the input checks passed
+     * @throws Exception - handles all thrown exception
      */
 	public boolean runPrelimChecks(String input) throws Exception {		
 		

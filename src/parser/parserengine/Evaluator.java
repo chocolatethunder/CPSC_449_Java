@@ -27,7 +27,7 @@ public class Evaluator {
 	}
 	
 	/**
-	 * @return - Node<Token> representing the root of the parse tree
+	 * @return - Node representing the root of the parse tree
 	 */
 	public Node<Token> getParseTree() {
 		return this.parseTree;
@@ -38,10 +38,11 @@ public class Evaluator {
 	 *  
 	 * @param rootNode - Represents the root node of the parse tree
 	 * @param jarLoad - Represents the class under consideration
-	 * @throws InvocationTargetException 
-	 * @throws IllegalArgumentException 
-	 * @throws IllegalAccessException 
-	 * @return - Node<Token> representing the root node of the parse tree
+	 * @throws InvocationTargetException - wrapped Exception
+	 * @throws IllegalArgumentException - Exception caused by break of naming convention
+	 * @throws IllegalAccessException - Exception caused by entity being inaccessible
+	 * @throws ParserException - Exceptions thrown for invalid parameter types and invalid methods
+	 * @return - Node representing the root node of the parse tree
 	 */
 	public Node<Token> parse( Node<Token> rootNode, Class jarLoad ) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, ParserException{
 		
@@ -166,7 +167,7 @@ public class Evaluator {
      * Returns a list of indices of the methods in the class
      * @param obj - Represents the class under consideration
      * @param rootNode - Represents the root node of the parse tree
-     * @return - ArrayList<Integer> representing the indices of the methods
+     * @return - ArrayList representing the indices of the methods
      */
 	public ArrayList<Integer> getMethodIndices (Class obj, Node<Token> rootNode) {
 		ArrayList<Integer> index = new ArrayList<Integer>();

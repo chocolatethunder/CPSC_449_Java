@@ -26,7 +26,8 @@ public class ParseTreeConstructor {
     
 	/**
 	 * Sorts the tokens derived from the command-line input into the parse tree
-	 * @return - Node<Token> representing the root node of the parse tree
+	 * @return - Node representing the root node of the parse tree
+	 * @throws Exception - handles all thrown exceptions
 	 */
 	// If a node has children, it is a method call, and those children are its parameters (which may be additional method calls).
     public Node<Token> createParseTree () throws Exception{
