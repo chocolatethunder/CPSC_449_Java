@@ -90,7 +90,7 @@ public class RunParser {
 					Tokenizer tokenizer = new Tokenizer(input, jarLoad);
 					
 					// Check if the order of tokens is correct
-					if (checkOrderOfTokens(tokenizer.getTokens()) == -1) {
+					if (checkOrderOfTokens(tokenizer.getTokens()) == -1 && tokenizer.isOkayToParse()) {
 				
 						// Construct Parse Trees. We must construct additional parsetrees!!
 						ParseTreeConstructor parseTree = new ParseTreeConstructor(tokenizer);

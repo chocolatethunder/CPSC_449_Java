@@ -16,6 +16,7 @@ public class Tokenizer {
 	ArrayList<Token> tokens = new ArrayList<Token>();
 	int tokenPosition = 0;
 	Class jarLoad;
+    private boolean okayToParse = true;
     
 	/**
 	 * @param input - String representing the command line input
@@ -72,24 +73,25 @@ public class Tokenizer {
 				case '"':
                     int savedStartingIndex = i;
 					do {
+                       
 						subExpression += (j + "");								// add chacacter to expression
 						j = input.charAt( ++i );							// increment character
                         if (i == input.length()-1) {
+                            this.okayToParse = false;
                             String message = "Encountered end-of-input while reading string beginning at offset " + savedStartingIndex;
                             throw new ParserException(message, input.length()-1, input);
-                        }
+                        } 
 					} while (j != '"'); 									// keep adding until second " is seen
-					if (input.charAt( i+1 ) != ' ') {
-                        String message = "Encountered end-of-input while reading string beginning at offset " + savedStartingIndex;
-                        throw new ParserException(message, i, input);
-                    }
-                    
 					subExpression += (j + "");								// add closing "" to expression
 					j = input.charAt( i );							// increment character
-					break;
+					
+                    
+                    break;
 				default:
-					subExpression += (j + "");								// add character to expression
-					break;
+                    
+                    subExpression += (j + "");								// add character to expression
+                    break;
+					
 			}	
 		}
 	}
@@ -101,6 +103,10 @@ public class Tokenizer {
 		return this.tokens;		
 	}
 	
+    
+    public boolean isOkayToParse () {
+        return this.okayToParse;
+    }
     /**
      * Checks the command-line input for various syntax errors.
      * @param input - String representing the command-line input
