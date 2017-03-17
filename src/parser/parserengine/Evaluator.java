@@ -132,7 +132,7 @@ public class Evaluator {
     // The following method will return the index of the method with the correct param types.
     // Or return -1 if no params match
     public int validParamType(Method[] methods, ArrayList<Node<Token>> children, ArrayList<Integer> methodIndex)
-    {	int validParam = -1;
+    {	int validParam = 0;
     	
     	for (Integer i : methodIndex) {
     		
@@ -159,14 +159,15 @@ public class Evaluator {
 				
 				// compare params to children
 				if (paramTypes[j].equals(children.get(j).getData().getType())) {
-					validParam = i;		
-				} else {
-					validParam = -1;
+					validParam++;
+					System.out.println(true);
 				}
 			}
     		
-			if (validParam != -1) return validParam;	// returns the valid param
+			if (validParam == paramTypes.length) { return validParam; }	// returns the valid param
+			else { validParam = 0; }
     	}
+    	validParam = -1;
     	return validParam;
     
     }
