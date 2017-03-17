@@ -41,13 +41,84 @@ public class Tokenizer {
 	 */
 	public void makeTokenList() throws Exception {
 		tokens = new ArrayList<Token>();
-		
-		String subExpression = "";
-		
+		int savedStartingIndex;
+		String subExpression;
+		//TODO: Added by Matt=====================================================
+		for (int i = 0; i < input.length(); i++){
+			char j = input.charAt(i);		//Initial character
+			subExpression = "";				//Blank subExpression
+			switch(j){
+			case '(':						//Creates openBracket token and following Identifier token
+				savedStartingIndex = i;
+				tokens.add(new Token((j + ""), char.class, "openBracket", i-1));		//Create openBracket token
+				j = input.charAt(++i);
+				while (j != ' ' && i < input.length()){		//Proceeds to parse, until ' ' or end of input
+					if (i == input.length() - 1 && j != ')'){		//If the end of input is reached and the last character isnt a closedBracket
+	                    this.okayToParse = false;			//Throw an error
+	                    String message = "Encountered end-of-input while reading string beginning at offset " + savedStartingIndex;
+	                    throw new ParserException(message, input.length()-1, input);
+					}
+					subExpression += (j + "");		//Otherwise add the character to the subExpression
+					j = input.charAt(++i);			//Get the next character
+				}
+				tokens.add(new Token((subExpression), String.class, "identifier", i-1));		//Once a space is reached, or the end of input is reached, create a token of type identifier
+				break;
+			case ')':
+				tokens.add(new Token((j + ""), char.class, "closedBracket", i-1));		//Create closedBracket token
+				break;
+			case '"':						//Creates String token
+				savedStartingIndex = i;
+				subExpression += (j + "");		//Starts subExpression with '"'
+				j = input.charAt(++i);			//Gets the next character
+				while (j != '"'){				//While current character isnt a '"'
+					if (i == input.length() - 1){		//Check if end of input
+						this.okayToParse = false;		//If end of input, throw error
+	                    String message = "Encountered end-of-input while reading string beginning at offset " + savedStartingIndex;
+	                    throw new ParserException(message, input.length()-1, input);
+					}
+					subExpression += (j + "");		//If not end of input add character to subExpression
+					j = input.charAt(++i);			//Get next character
+				}
+				tokens.add(new Token((subExpression), String.class, "string", i-1));		//Once a '"' has been reached, create a token
+				break;
+			case ' ':	//Ignore spaces, just break.		//Spaces are ignored in this switch
+				break;
+			default:	//Check if argument is a number, else throw error
+				savedStartingIndex = i;
+				subExpression += (j + "");
+				j = input.charAt(++i);
+				while (j != ' '){		//Parse until a space is reached
+					if (i == input.length() - 1 && j != ')'){		//Unless we reach the end of file which is not a ')', then we throw an error
+						this.okayToParse = false;		//If end of input, throw error
+	                    String message = "Encountered end-of-input while reading string beginning at offset " + savedStartingIndex;
+	                    throw new ParserException(message, input.length()-1, input);
+					} else if (j == ')'){		//If we encounter a closedBracket then we create a token for it and also create a subExpression token,
+						//j = input.charAt(++i);
+						break;
+					}
+					subExpression += (j + "");
+					j = input.charAt(++i);
+				}
+				if (isInt(subExpression)){
+					tokens.add(new Token((subExpression), int.class, "int", i-1));
+					tokens.add(new Token((')' + ""), char.class, "closedBracket", i-1));
+				} else if (isFloat(subExpression)){
+					tokens.add(new Token((subExpression), float.class, "float", i-1));
+					tokens.add(new Token((')' + ""), char.class, "closedBracket", i-1));
+				} else {
+					this.okayToParse = false;		//If end of input, throw error
+                    String message = "Encountered improper formatting error while reading string beginning at offset " + savedStartingIndex;
+                    throw new ParserException(message, input.length()-1, input);
+				}
+				break;
+			}
+		}
+		//TODO: Until here ==============================================================
+		/*
 		for (int i = 0; i < input.length(); i++) {
 			
 			char j = input.charAt( i );
-			
+
 			switch ( j ) {
 				case '(':
 					tokens.add(new Token((j + ""), char.class, "openBracket", i-1));	// converted into string
@@ -88,12 +159,11 @@ public class Tokenizer {
                     
                     break;
 				default:
-                    
                     subExpression += (j + "");								// add character to expression
                     break;
 					
-			}	
-		}
+			}
+		}*/
 	}
 	
 	/**
