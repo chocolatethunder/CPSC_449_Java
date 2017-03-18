@@ -1,3 +1,26 @@
+/************************************************************************************
+ * CPSC 449 - Winter 2017															*
+ * Prof: Rob Kremer																	*
+ * Assignment: Java																	*
+ * Group #: 32																		*
+ * Members: Saurabh Tomar, Kaylee Stelter, Kowther Hassan, Matthew Mullins, Tsz Lam	*
+ * Description:																		*
+ * 		-Contains a generic class that represents a node.                 			*
+ * 																					*
+ * Methods:																			*			
+ * 		+ Node(T)						        	                        		*
+ * 		+ Node(T, Node<T>)                                                          *
+ *      + getChildren():ArrayList<Node<T>>                                          *
+ *      + getParent():Node<T>                                                       *
+ *      + setParent(Node<T>):void                                                   * 
+ *      + addChild(Node<T>):void                                                    *
+ *      + getData():T                                                               *   
+ *      + setData(T)                                                                *
+ *      + IsRoot():boolean                                                          *
+ * 		+ IsLeaf():boolean                                                          *
+ *      + removeParent():void                                                       *
+ *      + deleteNode():void                                                         *
+ ************************************************************************************/
 package parser;
 
 import java.util.ArrayList;
