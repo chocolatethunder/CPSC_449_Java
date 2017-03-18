@@ -84,8 +84,7 @@ public class LoadParser {
 					// If there are tokens after verbose then ingest
 					if (i < cmdLnArgS.length) {
 						i = fileAndClassSetter(cmdLnArgS, i);
-					}
-					
+					}					
 				} else {
 					// Invalid FAT qualifier entered
 					throw new UnrecognizedQualifier(this.arg);
@@ -130,20 +129,24 @@ public class LoadParser {
 			// java -jar methods.jar commands.jar
 			else {
 				if (!hflag) {
+					
 					if (i <= cmdLnArgS.length) {
 						i = fileAndClassSetter(cmdLnArgS, i);
-					}
+					}	
+					
 				} else {
 					throw new UnexpectedHelpQualifier();
-				}	
+				}
+
 			}			
 			// move to the next token
 			i++;
 			
 		}
 		
-		if (this.vflag) {
-			ExceptionHandler.toggleVerbose();
+		// check if the v flag as a jar file after it
+		if (this.vflag) {			
+			ExceptionHandler.toggleVerbose();			
 		}
 		
 		// if help flag is active then there cannot be a input file		
@@ -155,18 +158,23 @@ public class LoadParser {
 			}
 		
 		// if the help flag is INactive then jar loading can begine
-		} else {			
-			// pass it to the file loader and throw an error if it failed (ErrorLoadingJarFile or ErrorFindingClass)
-			try {
-				// Try loading the jar file
-				JarFileLoader jarLoad = new JarFileLoader(this.loadFile, this.loadClass);				
-				
-				// If we have gotten this far then we load the program
-				// Need to pass the loaded class as an object
-				if (jarLoad.isFileLoaded()) {
-					RunParser newProgramInstance = new RunParser(jarLoad);
-				}
-			} catch (Exception e) { /* empty catch */ }
+		} else {
+			// check if a file is provided. 
+			if (this.loadFile != "") {
+				// pass it to the file loader and throw an error if it failed (ErrorLoadingJarFile or ErrorFindingClass)
+				try {
+					// Try loading the jar file
+					JarFileLoader jarLoad = new JarFileLoader(this.loadFile, this.loadClass);				
+					
+					// If we have gotten this far then we load the program
+					// Need to pass the loaded class as an object
+					if (jarLoad.isFileLoaded()) {
+						RunParser newProgramInstance = new RunParser(jarLoad);
+					}
+				} catch (Exception e) { /* empty catch */ }
+			} else {
+				throw new NoJarFileGiven();
+			}
 		}	
 	}
 	
@@ -213,7 +221,7 @@ public class LoadParser {
 			} else {
 				i--;
 			}
-		}	
+		}
 		// return the current index of the command line token loop
 		return i;
 	}
