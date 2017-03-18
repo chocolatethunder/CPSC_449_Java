@@ -1,7 +1,30 @@
+/************************************************************************************
+ * CPSC 449 - Winter 2017															*
+ * Prof: Rob Kremer																	*
+ * Assignment: Java																	*
+ * Group #: 32																		*
+ * Members: Saurabh Tomar, Kaylee Stelter, Kowther Hassan, Matthew Mullins, Tsz Lam	*
+ * Description:																		*
+ * 		-Contains th class that represents a token.                 				*
+ * 																					*
+ * Methods:																			*			
+ * 		+ Token(String,Class,String,int)						        			*
+ * 		+ getName():String                                                          *
+ *      + setName(String)                                                           *
+ *      + getType():Class                                                           *
+ *      + setType(Class)                                                            * 
+ *      + getStringType():String                                                    *
+ *      + setStringType(String)                                                     *   
+ *      + getIndex():int                                                            *
+ *      + setIndex(int)                                                             *
+ * 																					*
+ ************************************************************************************/
+
 package parser;
 
 /**
- * Separates the command-line input into token components.
+ * Represents a token. Each toking is a string with a name, datatype, string type 
+ * and index.
  */
 public class Token {
 	
