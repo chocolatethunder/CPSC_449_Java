@@ -38,6 +38,7 @@ public class Tokenizer {
      
     /**
 	 * Makes a list of tokens that encodes the name and type of each character. 
+	 * @throws Exception - exception handling for reading string errors (mis-matched quotation marks)
 	 */
 	public void makeTokenList() throws Exception {
 		tokens = new ArrayList<Token>();

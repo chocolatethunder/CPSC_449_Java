@@ -34,7 +34,6 @@ public class Utilities {
 	/**
 	 * Prints out each function (with its parameters' types and return type) for the specified class
 	 * @param cls - Represents the class under consideration for printing functions
-	 * @param functionList - is the string that holds each function from the jar file that is being load
 	 */
     public static void printFunctionList(Class cls) {
     	String functionList = "";
