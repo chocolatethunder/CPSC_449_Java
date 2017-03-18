@@ -88,7 +88,7 @@ public class Evaluator {
 				// creating string of subexpression
                 String expression = "'(" +  rootNode.getData().getName();
                 for (int i = 0; i < rootNode.getChildren().size(); i ++ ) {
-                    expression += " " + rootNode.getChildren().get(i).getData().getName();
+                    expression += " " + rootNode.getChildren().get(i).getData().getStringType();
                 }
                 expression += ")'";
                 int correctIndex = rootNode.getData().getIndex() - rootNode.getData().getName().length()+1; // subexpression starting index
