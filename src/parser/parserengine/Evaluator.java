@@ -267,7 +267,7 @@ public class Evaluator {
         		result = (int) Integer.parseInt(s); 
         		return result;
             }catch (NumberFormatException e)
-        	{System.out.println("Int out of range!");}
+        	{System.out.println("int is out of range.");}
         }
         
         // Convert s to float
@@ -278,7 +278,7 @@ public class Evaluator {
         		result = (float)Float.parseFloat(s); 
         		return result;
         	}catch (NumberFormatException e) {
-        		System.out.println("Float out of range!");}
+        		System.out.println("float out of range.");}
         }
         
         // If s doesnt match any of the acceptable types, return null to notify caller
