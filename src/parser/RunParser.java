@@ -1,6 +1,6 @@
 /************************************************************************************
  * CPSC 449 - Winter 2017															*
- * Prof: Rob Kremar																	*
+ * Prof: Rob Kremer																	*
  * Assignment: Java																	*
  * Group #: 32																		*
  * Members: Saurabh Tomar, Kaylee Stelter, Kowther Hassan, Matthew Mullins, Tsz Lam	*

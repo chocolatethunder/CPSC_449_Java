@@ -1,3 +1,21 @@
+/************************************************************************************
+ * CPSC 449 - Winter 2017															*
+ * Prof: Rob Kremer																	*
+ * Assignment: Java																	*
+ * Group #: 32																		*
+ * Members: Saurabh Tomar, Kaylee Stelter, Kowther Hassan, Matthew Mullins, Tsz Lam	*
+ * Description:																		*
+ * 		- Creates an ArrayList list of Tokens from a string.                        *
+ *  																				*
+ * Contain methods:																	*
+ *      + Tokenizer(String, JarFileLoader)                                          *
+ *      + makeTokenList():void                                                      *
+ *      + ArrayList<Token> getTokens():ArrayList<Token>                             *
+ *      + isOkayToParse ():boolean                                                  *
+ *      + runPrelimChecks(String):boolean                                           *
+ *      + getInput():String                                                         *
+ ************************************************************************************/
+
 package parser;
 
 import java.lang.reflect.Method;
@@ -104,7 +122,9 @@ public class Tokenizer {
 		return this.tokens;		
 	}
 	
-    
+    /**
+    *@return - boolean that represents whether an input is okay to parse. 
+    */
     public boolean isOkayToParse () {
         return this.okayToParse;
     }

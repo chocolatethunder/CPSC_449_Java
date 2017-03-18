@@ -1,3 +1,26 @@
+/************************************************************************************
+ * CPSC 449 - Winter 2017															*
+ * Prof: Rob Kremer																	*
+ * Assignment: Java																	*
+ * Group #: 32																		*
+ * Members: Saurabh Tomar, Kaylee Stelter, Kowther Hassan, Matthew Mullins, Tsz Lam	*
+ * Description:																		*
+ * 		- Class takes a parse tree of type Node<Token and evaluates it. The result  *
+ *        is stored as an object.                                                   *
+ *  																				*
+ * Contain methods:																	*
+ *      + Evaluator(Tokenizer)                                                      *
+ *      + getParseTree():Node<Token>                                                *
+ *      + parse( Node<Token> rootNode, Class jarLoad ):Node<Token>                  *
+ *      + validParamType(Method[],ArrayList<Node<Token>>,ArrayList<Integer>): int   *
+ *      + hasParameters(Method[], ArrayList<Integer>):int                           *
+ *      + getMethodIndices(Class,Node<Token>):ArrayList<Integer>                    *
+ *      + convert(String,Class):Object                                              *
+ *      + setRootNodeData(Node<Token>,Object):Node<Token>                           * 
+ *      + toString(): String                                                        *
+ * 																					*
+ ************************************************************************************/
+ 
 package parser;
 
 import java.io.*;
