@@ -46,7 +46,7 @@ public class LoadParser {
 		
 		// Print full help message if there are no arguments
 		if (cmdLnArgS.length == 0) {
-			ExceptionHandler.printSynopsis(true);
+			ExceptionHandler.printSynopsis(false);
 		}
 		
 		// Indexing helpers
@@ -141,6 +141,7 @@ public class LoadParser {
 			i++;
 			
 		}
+		
 		if (this.vflag) {
 			ExceptionHandler.toggleVerbose();
 		}

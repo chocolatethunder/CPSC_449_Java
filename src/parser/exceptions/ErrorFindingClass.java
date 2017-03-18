@@ -12,6 +12,7 @@ public class ErrorFindingClass extends ExceptionHandler {
 	 */
     public ErrorFindingClass(String classname) {
         System.err.println("Could not find class: " + classname);
+		ExceptionHandler.printSynopsis(false);
         System.exit(-6);
     }
 
