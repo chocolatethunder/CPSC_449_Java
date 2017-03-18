@@ -1,3 +1,19 @@
+/************************************************************************************
+ * CPSC 449 - Winter 2017															*
+ * Prof: Rob Kremar																	*
+ * Assignment: Java																	*
+ * Group #: 32																		*
+ * Members: Saurabh Tomar, Kaylee Stelter, Kowther Hassan, Matthew Mullins, Tsz Lam	*
+ * Description:																		*
+ * 		-Class creates a parse tree from a list of Tokens. 				            *
+ *  																				*
+ * Contain methods:																	*
+ *      + ParseTreeConstructor(Tokenizer)                                           *
+ *      + createParseTree():Node<Token>                                             *
+ *      + getInput():String                                                         *
+ * 																					*
+ ************************************************************************************/
+
 package parser;
 
 import java.io.*;
