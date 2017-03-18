@@ -51,14 +51,19 @@ public class Evaluator {
 			// list of methods
 			Method[] methods = jarLoad.getMethods(); 
 			// index for methods
-			ArrayList<Integer> indices = getMethodIndices ( jarLoad,  rootNode);	
-			
+			ArrayList<Integer> indices = getMethodIndices ( jarLoad,  rootNode);
+            
+            // checking if rootNode method should have children, if doesn't returns -1
+            int hasParams = hasParameters(methods, indices);
+            			
 			// root node does not match any method in the class
-			if (indices.size() == 0)	
+			if (indices.size() == 0 || hasParams == -1)	
 			{
                 int correctIndex = rootNode.getData().getIndex() - rootNode.getData().getName().length()+1; // subexpression starting index
 				throw new ParserException(String.valueOf("Matching function for '(" + rootNode.getData().getName() + ")' not found"), correctIndex, parseTreeConstructor.getInput());
 			}
+            
+            
 			
 			// Invoke the method, and store the result
 			// Will only have one index if it has no children
@@ -92,7 +97,7 @@ public class Evaluator {
                 }
                 expression += ")'";
                 int correctIndex = rootNode.getData().getIndex() - rootNode.getData().getName().length()+1; // subexpression starting index
-				throw new ParserException(String.valueOf("Matching function for " + expression + " not found"), correctIndex, parseTreeConstructor.getInput());
+                    throw new ParserException(String.valueOf("Matching function for " + expression + " not found"), correctIndex, parseTreeConstructor.getInput());
 			}
 			
 			// Get all children of root node, and store them in a arraylist
@@ -185,6 +190,31 @@ public class Evaluator {
 			else { validParam = 0; }
     	}
     	return -1;
+    }
+    
+    
+    	/**
+	 * Checks a whether a method should have paramaters.
+	 * @param methods - Represents the list of methods for the class
+	 * @param methodIndex - Represents the indices of the methods
+	 * @return - Integer representing the index of a list of methods with parameters
+	 */
+    public int hasParameters(Method[] methods, ArrayList<Integer> methodIndex) {
+        
+        int validParamLengthMatch = -1;
+        for (Integer i : methodIndex) {
+            // store types of parameters into an array
+    		Class<?>[] paramTypes = methods[i].getParameterTypes(); 
+    		// store the count of required parameters
+			int leng = methods[i].getParameterCount();
+		
+            // if length of paramaters for the method == zero (i.e. does have no children), return index 
+			if (leng == 0) {
+				validParamLengthMatch = i;
+            }
+        }
+        
+        return validParamLengthMatch;
     }
     
     /**
