@@ -1,3 +1,8 @@
+There is a UML diagram provided which will help navigate the classes better. 
+
+There is an issue with the (rand) command. It comes and goes. Sometimes a reload or two are 
+required for it to function properly. 
+
 This README is split into 2 sections so choose your own adventure:
 
 	A: Automated 
@@ -28,7 +33,7 @@ A2: From this directory in Terminal/Command Prompt you may run these commands:
 *          HOW TO RUN THE PROGRAM          *
 ********************************************
 
-Unfortunately, this is not automated so run the following function:
+Unfortunately, this is not automated so run the following command:
 
 java -jar methods.jar commands.jar
 
@@ -37,8 +42,12 @@ java -jar methods.jar commands.jar
 ********************************************************
 
 You may:
-Place only one (1) .java file in the /ref folder. This java file contains all the methods that will compile into commands.jar and will be imported into methods.jar at RUNTIME.
-- or -
+
+Place only one (1) .java file in the /ref folder and run "ant main". This java file contains all the methods that will 
+compile into commands.jar which can be then imported into methods.jar at RUNTIME.
+
+- OR -
+
 You may place as many "command" jar files in the root folder and import them into method.jar at RUNTIME one at a time. 
 
 
