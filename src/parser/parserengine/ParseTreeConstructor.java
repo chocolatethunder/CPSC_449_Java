@@ -100,6 +100,20 @@ public class ParseTreeConstructor {
 					break;
 				// Token is not of the datatype Integer, Float, String, or method
 				case "unidentified":
+					
+					if (isLong(token.getName())) {
+						if (!inIntRange(token.getName())) {
+							throw new ParserException("Integer out of range", token.getIndex() - (token.getName().length()-1), tokenizer.getInput());
+						}
+					}
+					
+					if (isDouble(token.getName())) {
+						if (!inFloatRange(token.getName())) {
+							throw new ParserException("Float out of range", token.getIndex() - (token.getName().length()-1), tokenizer.getInput());
+						}
+					}
+					
+					
                     if (currentTree.getData() == null)  {  // 
                         // treat the unidentified as a method, add to tree, will be dealt with when parse tree is evaluated
                         currentTree.setData( token );		// adds data to parent node

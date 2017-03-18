@@ -314,7 +314,7 @@ public class Evaluator {
 				}
 				
         	}catch (Exception e) {
-        		System.out.println("float out of range.");}
+        		//System.out.println("float out of range.");}
         }
         
         // If s doesnt match any of the acceptable types, return null to notify caller

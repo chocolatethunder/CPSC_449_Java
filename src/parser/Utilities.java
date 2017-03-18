@@ -224,6 +224,31 @@ public class Utilities {
 		
 	}
 	
+	public static boolean isLong(String s) {
+		
+		try {
+			long result = (long)Long.parseLong(s);	
+			return true;
+		}
+		catch (NumberFormatException e) {
+			return false; 
+		}
+		
+	}
+	
+	
+	public static boolean isDouble(String s) {
+		
+		try {
+			double result = (double)Double.parseDouble(s); 
+			return true;
+		}
+		catch (NumberFormatException e) {
+			return false; 
+		}
+		
+	}
+	
 	/**
      * Checks if the argument is a within the Java float range.
      * @param s - Represents the value under consideration
@@ -265,6 +290,7 @@ public class Utilities {
         if (valid_start && valid_end) { return true; }
         else { return false; }
     }
+
     
 	/**
 	* Checks if the argument is a valid method.
