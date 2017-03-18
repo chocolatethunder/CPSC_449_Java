@@ -1,3 +1,19 @@
+/************************************************************************************
+ * CPSC 449 - Winter 2017															*
+ * Prof: Rob Kremer																	*
+ * Assignment: Java																	*
+ * Group #: 32																		*
+ * Members: Saurabh Tomar, Kaylee Stelter, Kowther Hassan, Matthew Mullins, Tsz Lam	*
+ * Description:																		*
+ * 		- Handles the fatal error where an unrecognized qualifier is found			*
+ * 																					*
+ * Contain methods:																	*
+ * 		+UnrecognizedQualifier(String) <- Constructor								*
+ * 		+UnrecognizedQualifier(char, String) <- Constructor							*			
+ *																					*
+ * 																					*
+ ************************************************************************************/
+
 package parser;
 
 import java.util.*;

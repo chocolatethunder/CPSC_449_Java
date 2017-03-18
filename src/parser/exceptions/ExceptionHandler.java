@@ -1,3 +1,21 @@
+/************************************************************************************
+ * CPSC 449 - Winter 2017															*
+ * Prof: Rob Kremer																	*
+ * Assignment: Java																	*
+ * Group #: 32																		*
+ * Members: Saurabh Tomar, Kaylee Stelter, Kowther Hassan, Matthew Mullins, Tsz Lam	*
+ * Description:																		*
+ * 		- Parent exception handler for all fatal and non-fatal program errors		*
+ *  	  																			*
+ * Contain methods:																	*
+ * 		+ExceptionHandler() <- Constructor											*
+ * 		+ExceptionHandler(String) <- Constructor									*			
+ *		+toggleVerbose()															*
+ * 		+isVerbose():boolean														*
+ * 		+printSynopsis(boolean)														*
+ * 																					*
+ ************************************************************************************/
+
 package parser;
 
 import java.util.*;

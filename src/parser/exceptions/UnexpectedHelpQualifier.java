@@ -1,3 +1,18 @@
+/************************************************************************************
+ * CPSC 449 - Winter 2017															*
+ * Prof: Rob Kremer																	*
+ * Assignment: Java																	*
+ * Group #: 32																		*
+ * Members: Saurabh Tomar, Kaylee Stelter, Kowther Hassan, Matthew Mullins, Tsz Lam	*
+ * Description:																		*
+ * 		- Handles the fatal error where a help qualifier appears with any			*
+ * 		other command-line arguments												*
+ * Contain methods:																	*
+ * 		+UnexpectedHelpQualifier() <- Constructor									*			
+ *																					*
+ * 																					*
+ ************************************************************************************/
+
 package parser;
 
 import java.util.*;

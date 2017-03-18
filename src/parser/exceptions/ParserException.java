@@ -1,3 +1,17 @@
+/************************************************************************************
+ * CPSC 449 - Winter 2017															*
+ * Prof: Rob Kremer																	*
+ * Assignment: Java																	*
+ * Group #: 32																		*
+ * Members: Saurabh Tomar, Kaylee Stelter, Kowther Hassan, Matthew Mullins, Tsz Lam	*
+ * Description:																		*
+ * 		- Handles the non-fatal errors of the program								*
+ * Contain methods:																	*
+ * 		+ParserException(String, int, String) <- Constructor						*
+ * 																					*
+ * 																					*
+ ************************************************************************************/
+
 package parser;
 
 import java.util.*;
