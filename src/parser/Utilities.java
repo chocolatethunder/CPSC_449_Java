@@ -181,6 +181,32 @@ public class Utilities {
         catch (NumberFormatException e) { 
             return false; }
     }
+	
+	public static boolean inIntRange(String s) {
+
+		long result;
+		result = (long)Long.parseLong(s);	
+		
+		if (Integer.MIN_VALUE  < result && result < Integer.MAX_VALUE) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+	
+	public static boolean inFloatRange(String s) {
+
+		double result;
+		result = (double)Double.parseDouble(s); 
+		
+		if (Float.MIN_VALUE  < result && result < Float.MAX_VALUE) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
     
     /**
      * Checks if the argument is a valid float.
@@ -193,7 +219,7 @@ public class Utilities {
         if (s.charAt(0) == '-' || s.charAt(0) == '+')
         { start = 1; }
         
-        if (!isInt(s) && s.charAt(start) != '.')
+        if (!isInt(s) && s.charAt(start) != '.' && s.contains("."))
         {
 	        try{
 	        	float temp = Float.parseFloat(s.substring(start, s.length()));

@@ -15,6 +15,7 @@ public class Evaluator {
     ParseTreeConstructor parseTreeConstructor;
     Node<Token> parseTree;
     Object result = null;   // holds the result of the parse
+	int correctIndex;
 
     /**
      * @param parseTreeConstructor - Represents the parse tree created from the command-line input
@@ -59,7 +60,7 @@ public class Evaluator {
 			// root node does not match any method in the class
 			if (indices.size() == 0 || hasParams == -1)	
 			{
-                int correctIndex = rootNode.getData().getIndex() - rootNode.getData().getName().length()+1; // subexpression starting index
+                correctIndex = rootNode.getData().getIndex() - rootNode.getData().getName().length()+1; // subexpression starting index
 				throw new ParserException(String.valueOf("Matching function for '(" + rootNode.getData().getName() + ")' not found"), correctIndex, parseTreeConstructor.getInput());
 			}
             
@@ -96,7 +97,7 @@ public class Evaluator {
                     expression += " " + rootNode.getChildren().get(i).getData().getStringType();
                 }
                 expression += ")'";
-                int correctIndex = rootNode.getData().getIndex() - rootNode.getData().getName().length()+1; // subexpression starting index
+                correctIndex = rootNode.getData().getIndex() - rootNode.getData().getName().length()+1; // subexpression starting index
                     throw new ParserException(String.valueOf("Matching function for " + expression + " not found"), correctIndex, parseTreeConstructor.getInput());
 			}
 			
@@ -108,7 +109,7 @@ public class Evaluator {
 			
 			if (methodIndex == -1) {
 				// node children does not match any method parameters.
-				int correctIndex = rootNode.getData().getIndex() - rootNode.getData().getName().length()+1; // subexpression starting index
+				correctIndex = rootNode.getData().getIndex() - rootNode.getData().getName().length()+1; // subexpression starting index
 				
 				Type temp;
 				String paramTypeList = "";
@@ -263,21 +264,33 @@ public class Evaluator {
         if (valueType == int.class || valueType == Integer.class )
         {
         	try{
-        		int result;
-        		result = (int) Integer.parseInt(s); 
-        		return result;
-            }catch (NumberFormatException e)
-        	{System.out.println("int is out of range.");}
+        		long result;
+        		result = (long)Long.parseLong(s);	
+				
+				if (Integer.MIN_VALUE  < result && result < Integer.MAX_VALUE) {
+					return (int)result;
+				} else {
+					throw new ParserException("Integer is out of range", this.correctIndex, parseTreeConstructor.getInput());
+				}
+            }catch (Exception e)
+        	{//System.out.println("int is out of range.");
+			}
         }
         
         // Convert s to float
         if (valueType == float.class || valueType == Float.class)
         {
         	try {
-        		float result;
-        		result = (float)Float.parseFloat(s); 
-        		return result;
-        	}catch (NumberFormatException e) {
+        		double result;
+        		result = (double)Double.parseDouble(s); 
+        		
+				if (Float.MIN_VALUE  < result && result < Float.MAX_VALUE) {
+					return (float)result;
+				} else {
+					throw new ParserException("Float is out of range", this.correctIndex, parseTreeConstructor.getInput());
+				}
+				
+        	}catch (Exception e) {
         		System.out.println("float out of range.");}
         }
         
