@@ -11,6 +11,7 @@
 - Use Git/Github as version control and collaboration tool
 - Automate using Apache Ant as a build automation tool
 - Make use of Java Reflection API
+- Use UML semantics to help communicate, plan, and design the software
 
 **Overview**
 
